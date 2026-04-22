@@ -19,8 +19,11 @@ A SSO account at University of Oxford
 - MAc-OS: In the Finder, select Go. Click Connect to server :
   <img width="560" height="263" alt="image" src="https://github.com/user-attachments/assets/5affccbb-3f29-462e-b559-72958dd3babf" />
 
+### Getting a key for link a participant data on OneDrive and RFS
 
-
+<!--
 ## Verification
 ## Troubleshooting
 ## References
+
+-->
