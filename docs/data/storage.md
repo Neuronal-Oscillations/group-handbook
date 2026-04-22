@@ -16,6 +16,8 @@ A SSO account at University of Oxford
 - ensure you are on VPN
 - Windows: In the File Explorer, click on This PC in the left hand panel. Press Map network drive, found in the ribbon.  In the Folder text box, enter  \\connect.ox.ac.uk\<MY-RFS>. <MY-RFS> should be mapped to the R: drive if possibl
   <img width="742" height="513" alt="image" src="https://github.com/user-attachments/assets/73315c93-52c5-47ef-945c-4969df71b8d3" />
+- MAc-OS: In the Finder, select Go. Click Connect to server :
+  <img width="560" height="263" alt="image" src="https://github.com/user-attachments/assets/5affccbb-3f29-462e-b559-72958dd3babf" />
 
 
 
