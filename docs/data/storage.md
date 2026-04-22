@@ -14,7 +14,9 @@ A SSO account at University of Oxford
 
 ### Mounting RFS storage
 - ensure you are on VPN
-- Windows: In the File Explorer, click on This PC in the left hand panel. Press Map network drive, found in the ribbon.  In the Folder text box, enter  \\connect.ox.ac.uk\<MY-RFS>. <MY-RFS> should be mapped to the R: drive if possible
+- Windows: In the File Explorer, click on This PC in the left hand panel. Press Map network drive, found in the ribbon.  In the Folder text box, enter  \\connect.ox.ac.uk\<MY-RFS>. <MY-RFS> should be mapped to the R: drive if possibl
+  <img width="742" height="513" alt="image" src="https://github.com/user-attachments/assets/73315c93-52c5-47ef-945c-4969df71b8d3" />
+
 
 
 ## Verification
