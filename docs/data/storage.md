@@ -10,6 +10,11 @@ A SSO account at University of Oxford
 
 ### Requestions a RFS storage 
 - Follow steps on https://www.it.ox.ac.uk/article/oxford-research-file-service-rfs-available-for-storing-your-live-research-data
+  (this will take you to the Service Catalogue where RFS can be requestes)
+
+### Mounting RFS storage
+- ensure you are on VPN
+- Windows: In the File Explorer, click on This PC in the left hand panel. Press Map network drive, found in the ribbon.  In the Folder text box, enter  \\connect.ox.ac.uk\<MY-RFS>. <MY-RFS> should be mapped to the R: drive if possible
 
 
 ## Verification
