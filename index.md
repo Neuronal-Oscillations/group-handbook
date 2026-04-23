@@ -1,3 +1,0 @@
-# Welcome to My Site
-
-Some intro text here...
