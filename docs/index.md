@@ -4,3 +4,4 @@ This the handbook of the Neuronal Oscillations group addressing technical implem
 
 If you have ideas for improvements or new sections lets us know. The best approach for forwarding ideas is to use 'Issues' in the task bar of GitHub. 
 
+
