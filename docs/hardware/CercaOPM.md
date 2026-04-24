@@ -5,9 +5,9 @@ We will here explain the details required for setting up a study on the OPM syst
 ## Triggers
 We recommend using the the [Pixel Mode](https://docs.vpixx.com/vocal/sending-triggers-with-pixel-mode) on the VPixx hardware. This allows for driving 5 binary lines on the DataPixx parallel port which is connected to the parallel port of the Cerca system.
 
-[DataPixx   | Cerca system]
-|-----|----|
-|Pin   |Colour Pin | Bit Value | Line | Trigger label |  Code |
+
+
+|Pin   |Colour Pin | Bit Value || Line | Trigger label |  Code |
 |-----|-----|-----|------|-----|-----|
 |DOUT8 | G0 | 256  | D3  | TRig8  |  |
 |DOUT10 | G2 | 1024  | D4  | TRig9  |  |
