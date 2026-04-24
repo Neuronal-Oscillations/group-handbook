@@ -17,6 +17,10 @@ We recommend using the the [Pixel Mode](https://docs.vpixx.com/vocal/sending-tri
 |DOUT16 | B0 | 65536  | D7  | BNC3  |  |
 
 
+<img width="679" height="665" alt="image" src="https://github.com/user-attachments/assets/6cefbef5-9131-4a85-8e59-b4a6bf44b107" />
+
+
+
 
 ### Steps
 
