@@ -10,9 +10,9 @@ We recommend using the the [Pixel Mode](https://docs.vpixx.com/vocal/sending-tri
 |DataPixx|DataPixx|DataPixx|Cerca|Cerca|Cerca|
 |-----|-----|-----|------|-----|-----|
 |Pin   |Colour Pin | Bit Value | Line | Trigger label |  Code |
-|DOUT8 | G0 | 256  | D3  | TRig8  |  |
-|DOUT10 | G2 | 1024  | D4  | TRig9  |  |
-|DOUT12 | G4 | 4096  | D5  | TRig10  |  |
+|DOUT8 | G0 | 256  | D3  | Trig8  |  |
+|DOUT10 | G2 | 1024  | D4  | Trig9  |  |
+|DOUT12 | G4 | 4096  | D5  | Trig10  |  |
 |DOUT14 | G6 | 16384  | D6  | BNC2  |  |
 |DOUT16 | B0 | 65536  | D7  | BNC3  |  |
 
