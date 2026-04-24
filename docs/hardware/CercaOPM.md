@@ -8,6 +8,12 @@ We recommend using the the [Pixel Mode](https://docs.vpixx.com/vocal/sending-tri
 
 |Pin   |Colour Pin | Bit Value | Line | Trigger label |  Code |
 |-----|-----|-----|------|-----|-----|
+|DOUT8 | G0 | 256  | D3  | TRig8  |  |
+|-----|-----|-----|------|-----|-----|
+|DOUT10 | G2 | 1024  | D4  | TRig9  |  |
+|-----|-----|-----|------|-----|-----|
+
+
 
 ### Steps
 
