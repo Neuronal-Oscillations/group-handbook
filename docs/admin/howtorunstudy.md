@@ -4,7 +4,7 @@ We will here explain the essentials for setting up a study at OHBA
 
 ## Steps
 1. Hi
-2. 
+2. Bye
 3. 
 
 ### Project proposal slides
