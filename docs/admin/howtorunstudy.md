@@ -3,6 +3,9 @@
 We will here explain the essentials for setting up a study at OHBA
 
 ## Steps
+1. 
+2. 
+3. 
 
 ### Project proposal slides
 ### Ethics application
