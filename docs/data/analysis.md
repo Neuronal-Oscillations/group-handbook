@@ -20,8 +20,8 @@ The Neuronal Oscillations project on the ARC infrastructure called is "psyc-neuo
 
 ### Data folders on ARc explain
 - The RFS (warm data) is not mounted automatically
-- The $HOME folder is 15 GB  [to show write 'echo $HO<E')
-- the $DATA folder is 5TB [to show write 'echo $DATA')
+- The $HOME folder is 15 GB  [to show write 'echo $HOME']
+- the $DATA folder is 5TB [to show write 'echo $DATA']
 - Typically you will copy data from RDS (or elsewere) to the $DATA for analysis
 - After end analysis cope data back to RFS (or warm data repository)
 
