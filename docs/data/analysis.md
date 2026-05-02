@@ -8,9 +8,16 @@ A SSO account at University of Oxford
 ## Steps
 
 ### Requesting access to the ARC 
-The Neuronal Oscillations project on the ARC infrastructure called is "psyc-neuosc".Users can now apply for their individual accounts on the ARC systems by visiting our OxIntranet page [Request user account](https://unioxfordnexus.sharepoint.com/sites/OxIntranet-research-innovation/SitePages/ARC-accessing-ARC.aspx?Mode=Edit#requesting-a-user-account) and selecting that project.
+The Neuronal Oscillations project on the ARC infrastructure called is "psyc-neuosc".Users can now apply for their individual accounts on the ARC systems by visiting our OxIntranet page: [request user account](https://unioxfordnexus.sharepoint.com/sites/OxIntranet-research-innovation/SitePages/ARC-accessing-ARC.aspx?Mode=Edit#requesting-a-user-account) and selecting that project.
 
-### Accessing the ARC
+### Accessing the ARC from Windows
+
+- Connect directly via web browser to [nx.arc.ox.ac.uk](https://nx.arc.ox.ac.uk/)
+- Login using you SSO username and password
+- Press "<Create a new desktop or custom session>"
+- Press "Create a new virtual desktop"
+- 
+
 - ISNT 
 - Testing
 
@@ -21,6 +28,10 @@ The Neuronal Oscillations project on the ARC infrastructure called is "psyc-neuo
 ### Mounting the RFS drive
 
 ### Editing scripts
+
+###
+[The ARC user guide](https://arc-user-guide.readthedocs.io/en/latest/introduction.html)
+
 
 <!--
 ## Verification
