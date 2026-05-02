@@ -14,7 +14,7 @@ The Neuronal Oscillations project on the ARC infrastructure called is "psyc-neuo
 
 - Connect directly via web browser to [nx.arc.ox.ac.uk](https://nx.arc.ox.ac.uk/)
 - Login using you SSO username and password
-- Press "<Create a new desktop or custom session>"
+- Press "Create a new desktop or custom session"
 - Press "Create a new virtual desktop"
 - 
 
