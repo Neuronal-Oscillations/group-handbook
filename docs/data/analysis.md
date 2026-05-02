@@ -16,11 +16,29 @@ The Neuronal Oscillations project on the ARC infrastructure called is "psyc-neuo
 - Login using you SSO username and password
 - Press "Create a new desktop or custom session"
 - Press "Create a new virtual desktop"
-- 
+- After the Desktop is open launch application from lower left corner (>)
 
-- ISNT 
-- Testing
+### Data folders on ARc explain
+- The RFS (warm data) is not mounted automatically
+- The $HOME folder is 15 GB
+- the $DATA folder is 5TB (hot data)
+- Typically you will copy data from RDS (or elsewere) to the $DATA for analysis
+- After end analysis cope data back to RFS (or warm data repository)
 
+### Coyping files to and from ARC
+
+#### Windows
+- Use [WinSCP](https://winscp.net/eng/docs/installation)
+- <img width="813" height="549" alt="image" src="https://github.com/user-attachments/assets/eb9b564f-71c4-4c21-920d-032798bc9bdf" />
+- Now you can transfer between the drives your Window machine has access to and your ARC account
+- To transfer from RFS navigate to the mapped drive (e.g. R:)
+
+#### MacOS
+
+- TO BE DEVELOPED
+
+
+  
 ### Starting Python
 
 ### Starting MNE Python
