@@ -13,7 +13,7 @@ A SSO account at University of Oxford
   (this will take you to the Service Catalogue where RFS can be requestes)
 
 ### Mounting RFS storage
-- ensure you are on VPN
+- ensure you are on Oxford VPN (e.g. via Cisco Secure on MSD IT)
 - Windows: In the File Explorer, click on This PC in the left hand panel. Press Map network drive, found in the ribbon.  In the Folder text box, enter  \\connect.ox.ac.uk\<MY-RFS>. <MY-RFS> should be mapped to the R: drive if possibl
   <img width="742" height="513" alt="image" src="https://github.com/user-attachments/assets/73315c93-52c5-47ef-945c-4969df71b8d3" />
 - MAC-OS: In the Finder, select Go. Click Connect to server :
