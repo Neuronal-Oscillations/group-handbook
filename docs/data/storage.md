@@ -22,7 +22,6 @@ This document provides recommendations for storing OHBA imaging data, including 
 4. In the **Folder** text box, enter: `\\connect.ox.ac.uk\RFS`
 5. RFS should be mapped to the R: drive if possible. If you have multiple RFS folders, they will be visible under this mapped drive
 
-![Windows File Explorer network drive mapping](https://github.com/user-attachments/assets/73315c93-52c5-47ef-945c-4969df71b8d3)
   <img width="742" height="513" alt="image" src="https://github.com/user-attachments/assets/73315c93-52c5-47ef-945c-4969df71b8d3" />
 
 #### macOS
@@ -33,7 +32,6 @@ This document provides recommendations for storing OHBA imaging data, including 
 4. Enter the server address: `smb://connect.ox.ac.uk/RFS`
 
   <img width="560" height="263" alt="image" src="https://github.com/user-attachments/assets/5affccbb-3f29-462e-b559-72958dd3babf" />
-![macOS Finder server connection](https://github.com/user-attachments/assets/5affccbb-3f29-462e-b559-72958dd3babf)
 
 
 <!--
