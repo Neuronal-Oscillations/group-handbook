@@ -53,7 +53,23 @@ Use the `-r` option to copy recursively (all sub-folders)
 
 #### MacOS
 
-- TO BE DEVELOPED
+BELOW TO BE TESTED
+
+-Start the application terminal (xterm)
+
+From ARC to Windows
+
+`scp psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/text.txt \Users\bobhanson\`
+
+The above will copy the file 'test.txt' from data directory ($DATA) on ARC to the users C: drive 
+
+From Window to ARC
+
+`scp \Users\ojensen\test.txt psyc999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/`
+
+The above will copy the file 'test.txt' from the users C: drive to the data directory ($DATA) on ARC 
+
+Use the `-r` option to copy recursively (all sub-folders) 
 
 
   
