@@ -1,6 +1,8 @@
 # Analysis of OHBA imaging data. 
 ## Purpose
-Recommendation for the analysis imaging data incluyding MEG, OPM and MRI data. We advise to use the Oxford Advanced Research Computing for data analysis. We assume try primary data to be stored on the OXford RFS.                                        .
+Recommendation for the analysis imaging data incluyding MEG, OPM and MRI data. We advise to use the Oxford Advanced Research Computing for data analysis. We assume try primary data to be stored on the OXford RFS.   
+
+A typical workflow will involve copying raw data (typically RFS) to the data directory on ARC. After analysis is done copy output data back to core store (typically RFS) 
 
 ## Prerequisites
 A SSO account at University of Oxford
@@ -18,7 +20,7 @@ The Neuronal Oscillations project on the ARC infrastructure called is "psyc-neuo
 - Press "Create a new virtual desktop"
 - After the Desktop is open launch application from lower left corner (>)
 
-### Data folders on ARc explain
+### Data folders on ARC explained
 - The RFS (warm data) is not mounted automatically
 - The $HOME folder is 15 GB  [to show write `echo $HOME`]
 - the $DATA folder is 5TB [to show write `echo $DATA`]
