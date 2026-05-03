@@ -28,6 +28,14 @@ The Neuronal Oscillations project on the ARC infrastructure called is "psyc-neuo
 ### Coyping files to and from ARC
 
 #### Windows
+
+- start the application Terminal
+- From ARC to Windows
+-- scp psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/text.txt C:\Users\ojensen\
+
+The above will copy the file 'test.txt' 
+
+#### Graphical interface in Windows
 - Use [WinSCP](https://winscp.net/eng/docs/installation)
 - <img width="813" height="549" alt="image" src="https://github.com/user-attachments/assets/eb9b564f-71c4-4c21-920d-032798bc9bdf" />
 - Now you can transfer between the drives your Window machine has access to and your ARC account
