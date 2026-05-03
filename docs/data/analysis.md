@@ -20,8 +20,8 @@ The Neuronal Oscillations project on the ARC infrastructure called is "psyc-neuo
 
 ### Data folders on ARc explain
 - The RFS (warm data) is not mounted automatically
-- The $HOME folder is 15 GB  [to show write 'echo $HOME']
-- the $DATA folder is 5TB [to show write 'echo $DATA']
+- The $HOME folder is 15 GB  [to show write `echo $HOME`]
+- the $DATA folder is 5TB [to show write `echo $DATA`]
 - Typically you will copy data from RDS (or elsewere) to the $DATA for analysis
 - After end analysis cope data back to RFS (or warm data repository)
 
@@ -32,11 +32,13 @@ The Neuronal Oscillations project on the ARC infrastructure called is "psyc-neuo
 -Start the application Terminal
 
 From ARC to Windows
+
 `scp psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/text.txt C:\Users\bobhanson\`
 
 The above will copy the file 'test.txt' from data directory ($DATA) on ARC to the users C: drive 
 
 From Window to ARC
+
 `scp C:\Users\ojensen\test.txt psyc999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/`
 
 The above will copy the file 'test.txt' from the users C: drive to the data directory ($DATA) on ARC 
