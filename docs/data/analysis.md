@@ -29,11 +29,19 @@ The Neuronal Oscillations project on the ARC infrastructure called is "psyc-neuo
 
 #### Windows
 
-- start the application Terminal
-- From ARC to Windows
--- scp psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/text.txt C:\Users\ojensen\
+-Start the application Terminal
 
-The above will copy the file 'test.txt' 
+From ARC to Windows
+- 'scp psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/text.txt C:\Users\bobhanson\'
+
+The above will copy the file 'test.txt' from data directory ($DATA) on ARC to the users C: drive 
+
+From Window to ARC
+- 'scp C:\Users\ojensen\test.txt psyc999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/'
+
+The above will copy the file 'test.txt' from data directory ($DATA) on ARC to the users C: drive 
+
+Use the '-r' option to copy recursively (all sub-folders) 
 
 #### Graphical interface in Windows
 - Use [WinSCP](https://winscp.net/eng/docs/installation)
