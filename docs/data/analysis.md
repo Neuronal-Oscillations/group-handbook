@@ -90,8 +90,8 @@ Start a terminal in ARC under  [nx.arc.ox.ac.uk](https://nx.arc.ox.ac.uk/):
 Make a directory under $HOME that for where you want the local repository and move there. 
 
 ```bash
-mkdir ~/Python/FLUX
-cd ~/Python/FLUX
+mkdir $DATA/Python/FLUX
+cd $DATA/Python/FLUX
 ```
 
 Log into your github.com account and find the repository do clone; e.g.
@@ -118,12 +118,21 @@ git push origin main
 
 
 ### Running MNE Python in Jupyter Notebook on ARC
+Before you can instal or run the environment you must switch to a compute node:
+```bash
+srun --mem=16G --time=02:00:00 --pty bash
+```
+
+If you are on a gateway node (via remote desktop or VPN) you first need to log in to a login node before you can submit the interactive job:
+```bash
+ssh htc-login
+```
 
 #### Installation of MNE PYthon and MNE BIDS
 First time:
 ```bash
 module load Anaconda3/2024.02-1 
-conda create -n mne_env python=3.11 mne jupyter jupyterlab -c conda-forge 
+conda create -p $DATA/mne_env python=3.11 mne jupyter jupyterlab -c conda-forge 
 ```
 
 After installation activate
@@ -139,7 +148,7 @@ conda install --channel conda-forge mne-bids
 
 And activate again
 ```bash
-conda activate mne_env
+source activate mne_env
 ```
 The final step is link the MNE environtment to Jupyter:
 ```bash
