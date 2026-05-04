@@ -91,18 +91,19 @@ Terminal in ARC
 git clone https://github.come/FLUX-pipeline/Cerca
 ```
 
-To later pull latest changes to local repository 
+Clone only needs to be done once. To later pull latest changes from central to local repository 
 ```bash
 git pull https://github.come/FLUX-pipeline/Cerca
 ```
 
-To later add latest changes from local to central repository 
+Changes can now be made to e.g. FILE.py
+
+To  add latest changes from local to central repository 
 ```bash
-git add CHANGEFILE.py
+git add FILE.py
 git commit -m "DESCRIPTION OF CHANGES"
 git push origin main
 ```
-
 
 
 
