@@ -118,12 +118,12 @@ git push origin main
 
 
 ### Running MNE Python in Jupyter Notebook on ARC
-Before you can instal or run the environment you must switch to a compute node:
+Before you can install or run the environment you must switch to a compute node:
 ```bash
 srun --mem=16G --time=02:00:00 --pty bash
 ```
 
-If you are on a gateway node (via remote desktop or VPN) you first need to log in to a login node before you can submit the interactive job:
+If you are on a gateway node (via remote desktop or VPN) you first need to log in to a login node before you can submit the interactive job above:
 ```bash
 ssh htc-login
 ```
