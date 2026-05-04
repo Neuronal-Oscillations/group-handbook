@@ -138,7 +138,7 @@ conda create -p $DATA/mne_env python=3.11 mne jupyter jupyterlab -c conda-forge
 After installation activate
 
 ```bash
-conda activate mne_env
+source activate mne_env
 ```
 
 First time you need to nstall mne-bids:
