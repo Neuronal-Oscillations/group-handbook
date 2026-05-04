@@ -123,16 +123,35 @@ After installation activate
 ```bash
 conda activate mne_env
 ```
+
+Install mne-bids
+```bash
+conda install --channel conda-forge --no-deps mne-bids
+```
+
+And activate again
+```bash
+conda activate mne_env
+```
+
 and run jupyter:
 
 ```bash
 jupyter notebook
-
-
 ```
-### Mounting the RFS drive
 
-### Editing scripts
+The final step is link the MNE environtment to Jupyter:
+```bash
+python -m ipykernel install --user --name=mne --display-name "Python (MNE)"
+```
+
+Now start Jupyher and change to the MNE KerneL: 
+
+1. Launch Jupyter Notebook (go to '>' in lower left corner pf the NoMachine interface and find Jupyter under applications.
+2. Open your desired notebook.
+3. Go to the top menu and select Kernel 
+4.Change kernel.Choose "Python (MNE)" from the list.
+
 
 ###
 [The ARC user guide](https://arc-user-guide.readthedocs.io/en/latest/introduction.html)
