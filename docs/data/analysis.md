@@ -4,13 +4,15 @@
 Recommendations for analyzing imaging data including MEG, OPM, and MRI data. We recommend using the Oxford Advanced Research Computing (ARC) for data analysis. We assume raw primary data to be stored on the Oxford RFS.
 
 A typical workflow involves:
-1. Copying raw data (typically from RFS) to the data directory on ARC
+1. Copying raw data (typically from RFS; warm data) to the data directory on ARC (hot data)
 2. Performing analysis on ARC
 3. Copying output data back to the core store (typically RFS)
 
 ## Prerequisites
 - A SSO (Single Sign-On) account at the University of Oxford
 - VPN access to the University of Oxford network (required for off-site access)
+- An account on the project psyc-neuosc at ARC
+- A project on RFS drive 
   
 ## Steps
 
