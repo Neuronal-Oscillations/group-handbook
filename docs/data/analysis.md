@@ -84,9 +84,17 @@ This copies the `mydata` folder (and subfolders) from your local folder to the A
   
 ### Cloning github
 
-Terminal in ARC
+Starr terminal in ARC under nx.arc.ox.ac.uk: 
 
-Log into your github.com account and find repository do clone; e.g.
+Make a directory under $HOME that for where you want the local repository and move there. 
+
+```bash
+mkdir ~/Python/FLUX
+cd ~/Python/FLUX
+```
+
+Log into your github.com account and find the repository do clone; e.g.
+
 ```bash
 git clone https://github.come/FLUX-pipeline/Cerca
 ```
@@ -96,11 +104,11 @@ Clone only needs to be done once. To later pull latest changes from central to l
 git pull https://github.come/FLUX-pipeline/Cerca
 ```
 
-Changes can now be made to e.g. FILE.py
+Changes can now be made to e.g. FILE.PY
 
 To  add latest changes from local to central repository 
 ```bash
-git add FILE.py
+git add FILE.PY
 git commit -m "DESCRIPTION OF CHANGES"
 git push origin main
 ```
@@ -108,10 +116,10 @@ git push origin main
 
 
 
-
-
 ### Running MNE Python in Jupyter Notebook
 
+
+#### Installation of MNE PYthon and MNE BIDS
 First time:
 ```bash
 module load Anaconda3/2024.02-1 
@@ -124,7 +132,7 @@ After installation activate
 conda activate mne_env
 ```
 
-Install mne-bids
+First time you need to nstall mne-bids:
 ```bash
 conda install --channel conda-forge mne-bids
 ```
@@ -133,24 +141,20 @@ And activate again
 ```bash
 conda activate mne_env
 ```
-
-and run jupyter:
-
-```bash
-jupyter notebook
-```
-
 The final step is link the MNE environtment to Jupyter:
 ```bash
 python -m ipykernel install --user --name=mne --display-name "Python (MNE)"
 ```
+#### Jupyter
 
 Now start Jupyher and change to the MNE KerneL: 
 
 1. Launch Jupyter Notebook (go to '>' in lower left corner pf the NoMachine interface and find Jupyter under applications.
-2. Open your desired notebook.
+2. Open your desired notebook (e.g. the .
 3. Go to the top menu and select Kernel 
 4.Change kernel.Choose "Python (MNE)" from the list.
+
+This will allow you to run the FLUX pipeline
 
 
 ###
