@@ -11,7 +11,7 @@ A typical workflow involves:
 ## Prerequisites
 - A SSO (Single Sign-On) account at the University of Oxford
 - VPN access to the University of Oxford network (required for off-site access)
-- 
+  
 ## Steps
 
 ### Requesting access to the ARC 
@@ -27,17 +27,18 @@ The Neuronal Oscillations project on the ARC infrastructure is called "psyc-neuo
 4. Select "Create a new virtual desktop"
 5. Once the desktop opens, launch applications from the menu (bottom left corner)
    
+### Coyping files to and from ARC
 
 #### Data folders on ARC explained
 
 - **RFS (warm data)**: Not mounted automatically
-- **$HOME folder**: 15 GB (view with `echo $HOME`)
-- **$DATA folder**: 5 TB (view with `echo $DATA`)
+- **$HOME folder (no for data)**: 5 GB (view with `echo $HOME`)
+- **$DATA folder (hot data)**: 15 TB (view with `echo $DATA`)
+  
 Typically, you will copy data from RDS or other sources to the `$DATA` folder for analysis, then copy processed data back to RFS after completion.
 
-### Coyping files to and from ARC
 
-#### Windows (Command Line)
+#### Windows (Command Line - recommended)
 
 Start Terminal in Windows
 
@@ -54,7 +55,7 @@ scp -r C:\Users\bobhanson\mydata\* psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuo
 This copies the `mydata` folder (and subfolders) from your C: drive to the ARC data directory (`$DATA`). The `-r` flag enables recursive copying of all subfolders.
 
 
-#### Windows (Graphical Interface Alternative)
+#### Windows (Graphical Interface Alternative - not recommended)
 
 1. Download and install [WinSCP](https://winscp.net/eng/docs/installation)
 2. Connect to `gateway.arc.ox.ac.uk` using your credentials
@@ -66,8 +67,6 @@ This copies the `mydata` folder (and subfolders) from your C: drive to the ARC d
 #### macOS (Command Line)
 
 Start Terminal in MacOS 
-
-
 
 **From ARC to macOS:**
 ```bash
@@ -82,9 +81,9 @@ This copies the `mydata` folder (and subfolders) from ARC to your local drive.
 This copies the `mydata` folder (and subfolders) from your local folder to the ARC data directory. The `-r` flag enables recursive copying.
 
   
-### Cloning github
+### Cloning github to ARC $HOME directory
 
-Starr terminal in ARC under nx.arc.ox.ac.uk: 
+Start a terminal in ARC under  [nx.arc.ox.ac.uk](https://nx.arc.ox.ac.uk/):
 
 Make a directory under $HOME that for where you want the local repository and move there. 
 
@@ -116,8 +115,7 @@ git push origin main
 
 
 
-### Running MNE Python in Jupyter Notebook
-
+### Running MNE Python in Jupyter Notebook on ARC
 
 #### Installation of MNE PYthon and MNE BIDS
 First time:
@@ -149,8 +147,8 @@ python -m ipykernel install --user --name=mne --display-name "Python (MNE)"
 
 Now start Jupyher and change to the MNE KerneL: 
 
-1. Launch Jupyter Notebook (go to '>' in lower left corner pf the NoMachine interface and find Jupyter under applications.
-2. Open your desired notebook (e.g. the .
+1. Launch Jupyter Notebook (go to '>' in lower left corner of the NoMachine interface and find Jupyter under applications (use the command `/apps/common/arc-app-startup/jupyter/Anaconda3-2022.05`).
+2. Open your desired notebook (e.g. the FLUX scripts).
 3. Go to the top menu and select Kernel 
 4.Change kernel.Choose "Python (MNE)" from the list.
 
