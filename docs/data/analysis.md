@@ -110,8 +110,26 @@ git push origin main
 
 
 
-### Starting MNE Python
+### Running MNE Python in Jupyter Notebook
 
+First time:
+```bash
+module load Anaconda3/2024.02-1 && \
+conda create -n mne_env python=3.11 mne jupyter jupyterlab -c conda-forge 
+```
+
+After installation activate
+
+```bash
+conda activate mne_env
+```
+and run jupyter:
+
+```bash
+jupyter notebook
+
+
+```
 ### Mounting the RFS drive
 
 ### Editing scripts
