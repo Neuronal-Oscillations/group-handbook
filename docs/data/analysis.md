@@ -86,7 +86,7 @@ This copies the `mydata` folder (and subfolders) from your local folder to the A
 
 Terminal in ARC
 
-- Log into your github.com account and find repository do clone; e.g.
+Log into your github.com account and find repository do clone; e.g.
 ```bash
 git clone https://github.come/FLUX-pipeline/Cerca
 ```
@@ -114,7 +114,7 @@ git push origin main
 
 First time:
 ```bash
-module load Anaconda3/2024.02-1 && \
+module load Anaconda3/2024.02-1 
 conda create -n mne_env python=3.11 mne jupyter jupyterlab -c conda-forge 
 ```
 
