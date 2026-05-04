@@ -126,7 +126,7 @@ conda activate mne_env
 
 Install mne-bids
 ```bash
-conda install --channel conda-forge --no-deps mne-bids
+conda install --channel conda-forge mne-bids
 ```
 
 And activate again
