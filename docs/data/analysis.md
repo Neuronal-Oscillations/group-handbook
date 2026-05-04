@@ -122,6 +122,8 @@ Before you can install or run the environment you must switch to a compute node:
 ```bash
 srun --mem=16G --time=02:00:00 --pty bash
 ```
+Note: Using `srun` you submit an interactive job to the compute node. This is equivalent to `sbatch`, which you use to submit jobs to the compute 
+node that you cannot interact with.
 
 If you are on a gateway node (via remote desktop or VPN) you first need to log in to a login node before you can submit the interactive job above:
 ```bash
