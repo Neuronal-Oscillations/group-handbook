@@ -1,76 +1,85 @@
 # Analysis of OHBA imaging data. 
 ## Purpose
-Recommendation for the analysis imaging data incluyding MEG, OPM and MRI data. We advise to use the Oxford Advanced Research Computing for data analysis. We assume try primary data to be stored on the OXford RFS.   
 
-A typical workflow will involve copying raw data (typically RFS) to the data directory on ARC. After analysis is done copy output data back to core store (typically RFS) 
+Recommendations for analyzing imaging data including MEG, OPM, and MRI data. We recommend using the Oxford Advanced Research Computing (ARC) for data analysis. We assume raw primary data to be stored on the Oxford RFS.
+
+A typical workflow involves:
+1. Copying raw data (typically from RFS) to the data directory on ARC
+2. Performing analysis on ARC
+3. Copying output data back to the core store (typically RFS)
 
 ## Prerequisites
-A SSO account at University of Oxford
-
+- A SSO (Single Sign-On) account at the University of Oxford
+- VPN access to the University of Oxford network (required for off-site access)
+- 
 ## Steps
 
 ### Requesting access to the ARC 
-The Neuronal Oscillations project on the ARC infrastructure called is "psyc-neuosc".Users can now apply for their individual accounts on the ARC systems by visiting our OxIntranet page: [request user account](https://unioxfordnexus.sharepoint.com/sites/OxIntranet-research-innovation/SitePages/ARC-accessing-ARC.aspx?Mode=Edit#requesting-a-user-account) and selecting that project.
 
-### Accessing the ARC from Windows
+The Neuronal Oscillations project on the ARC infrastructure is called "psyc-neuosc". Users can apply for individual accounts on the ARC systems by visiting the [OxIntranet page](https://unioxfordnexus.sharepoint.com/sites/OxIntranet-research-innovation/SitePages/ARC-accessing-ARC.aspx?Mode=Edit#requesting-a-user-account) and selecting the psyc-neuosc project.The Neuronal Oscillations project on the ARC infrastructure is called "psyc-neuosc". Users can apply for individual accounts on the ARC systems by visiting the [OxIntranet page](https://unioxfordnexus.sharepoint.com/sites/OxIntranet-research-innovation/SitePages/ARC-accessing-ARC.aspx?Mode=Edit#requesting-a-user-account) and selecting the psyc-neuosc project.
 
-- Connect directly via web browser to [nx.arc.ox.ac.uk](https://nx.arc.ox.ac.uk/)
-- Login using you SSO username and password
-- Press "Create a new desktop or custom session"
-- Press "Create a new virtual desktop"
-- After the Desktop is open launch application from lower left corner (>)
+
+### Accessing the ARC from webinterface (from Windows or MacOS) 
+
+1. Connect via web browser to [nx.arc.ox.ac.uk](https://nx.arc.ox.ac.uk/)
+2. Login using your SSO username and password
+3. Select "Create a new desktop or custom session"
+4. Select "Create a new virtual desktop"
+5. Once the desktop opens, launch applications from the menu (bottom left corner)
+   
 
 #### Data folders on ARC explained
-- The RFS (warm data) is not mounted automatically
-- The $HOME folder is 15 GB  [to show write `echo $HOME`]
-- the $DATA folder is 5TB [to show write `echo $DATA`]
-- Typically you will copy data from RDS (or elsewere) to the $DATA for analysis
-- After end analysis cope data back to RFS (or warm data repository)
+
+- **RFS (warm data)**: Not mounted automatically
+- **$HOME folder**: 15 GB (view with `echo $HOME`)
+- **$DATA folder**: 5 TB (view with `echo $DATA`)
+Typically, you will copy data from RDS or other sources to the `$DATA` folder for analysis, then copy processed data back to RFS after completion.
 
 ### Coyping files to and from ARC
 
-#### Windows
+#### Windows (Command Line)
 
--Start the application Terminal
+Start Terminal in Windows
 
-From ARC to Windos
+**From ARC to Windows:**
+```bash
+scp psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/mydata/* C:\Users\bobhanson\
+```
+This copies the `mydata` folder (and subfolders) from the ARC data directory (`$DATA`) to your C: drive.
+ 
+**From Windows to ARC:**
+```bash
+scp -r C:\Users\bobhanson\mydata\* psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/
+```
+This copies the `mydata` folder (and subfolders) from your C: drive to the ARC data directory (`$DATA`). The `-r` flag enables recursive copying of all subfolders.
 
-`scp psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/mydata/* C:\Users\bobhanson\`
 
-The above will copy the file `mydata` (and sub-folders) from data directory ($DATA) on ARC to the users C: drive 
+#### Windows (Graphical Interface Alternative)
 
-From Windows to ARC
-
-`scp -r C:\Users\bobhanson\mydata\* psyc999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/`
-
-The above will copy the folder `mydata` (and sub-folders) from the users C: drive to the data directory ($DATA) on ARC 
-
-The `-r` option will copy recursively (all sub-folders) 
-
-#### Graphical interface in Windows (alternative to scp)
-- Use [WinSCP](https://winscp.net/eng/docs/installation)
+1. Download and install [WinSCP](https://winscp.net/eng/docs/installation)
+2. Connect to `gateway.arc.ox.ac.uk` using your credentials
+3. Navigate to your ARC data directory
+4. Drag and drop files between your Windows machine and ARC
+5. To access RFS, navigate to the mapped network drive (e.g., R:)
 - <img width="813" height="549" alt="image" src="https://github.com/user-attachments/assets/eb9b564f-71c4-4c21-920d-032798bc9bdf" />
-- Now you can transfer between the drives your Window machine has access to and your ARC account
-- To transfer from RFS navigate to the mapped drive (e.g. R:)
 
-#### MacOS
+#### macOS (Command Line)
+
+Start Terminal in MacOS 
 
 
--Start the application terminal xterm)
 
-From ARC to MacOS
-
+**From ARC to macOS:**
+```bash
 `scp psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/mydata/* \Users\bobhanson\`
-
-The above will copy the file `mydata` (and sub-folders) from data directory ($DATA) on ARC to the users local drive 
-
-From MacOS to ARC
-
+```
+This copies the `mydata` folder (and subfolders) from ARC to your local drive.
+ 
+**From macOS to ARC:**
+```bash
 `scp \Users\bobhanson\maydata\* psyc999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/`
-
-The above will copy the folder `mydata` (and sub-folders) from the users local folder to the data directory ($DATA) on ARC 
-
-The `-r` option will copy recursively (all sub-folders) 
+```
+This copies the `mydata` folder (and subfolders) from your local folder to the ARC data directory. The `-r` flag enables recursive copying.
 
 
   
