@@ -71,13 +71,13 @@ Start Terminal in MacOS
 
 **From ARC to macOS:**
 ```bash
-`scp psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/mydata/* \Users\bobhanson\`
+`scp psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/mydata/* /Users/bobhanson/`
 ```
 This copies the `mydata` folder (and subfolders) from ARC to your local drive.
  
 **From macOS to ARC:**
 ```bash
-`scp \Users\bobhanson\maydata\* psyc999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/`
+`scp /Users/bobhanson/maydata/* psyc999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/`
 ```
 This copies the `mydata` folder (and subfolders) from your local folder to the ARC data directory. The `-r` flag enables recursive copying.
 
