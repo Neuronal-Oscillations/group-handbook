@@ -81,9 +81,33 @@ This copies the `mydata` folder (and subfolders) from ARC to your local drive.
 ```
 This copies the `mydata` folder (and subfolders) from your local folder to the ARC data directory. The `-r` flag enables recursive copying.
 
-
   
-### Starting Python
+### Cloning github
+
+Terminal in ARC
+
+- Log into your github.com account and find repository do clone; e.g.
+```bash
+git clone https://github.come/FLUX-pipeline/Cerca
+```
+
+To later pull latest changes to local repository 
+```bash
+git pull https://github.come/FLUX-pipeline/Cerca
+```
+
+To later add latest changes from local to central repository 
+```bash
+git add CHANGEFILE.py
+git commit -m "DESCRIPTION OF CHANGES"
+git push origin main
+```
+
+
+
+
+
+
 
 ### Starting MNE Python
 
