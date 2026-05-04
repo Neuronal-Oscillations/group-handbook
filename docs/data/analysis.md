@@ -130,7 +130,33 @@ If you are on a gateway node (via remote desktop or VPN) you first need to log i
 ssh htc-login
 ```
 
-#### Installation of MNE PYthon and MNE BIDS
+#### Installation of MNE Python and MNE BIDS
+Note, that you MUST store everything (including environments or cache files) on the data storage (`$DATA`) and not your home folder. `$HOME` has only 5GB of storage.
+In order to make conda store everything in the data folder and not home, we need to make some modifications to the current environment.
+
+First, create and specify the new conda cache directories outside `$HOME`:
+
+```bash
+rm -f ~/.condarc # Yes, this one still lives in $HOME
+
+# Create directories (change to your liking)
+ENV_DIR="${DATA}/environments"
+mkdir -p "${ENV_DIR}"
+
+mkdir -p "${ENV_DIR}/.conda"
+mkdir -p "${ENV_DIR}/.conda/pkgs"
+mkdir -p "${ENV_DIR}/.conda/envs"
+
+cat >> ~/.condarc <<EOF
+pkgs_dirs:
+  - $ENV_DIR/.conda/pkgs
+
+envs_dirs:
+  - $ENV_DIR/.conda/envs
+EOF
+```
+Now you are set for createing a new environment.
+
 First time:
 ```bash
 module load Anaconda3/2024.02-1 
