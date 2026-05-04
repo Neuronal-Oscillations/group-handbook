@@ -20,7 +20,7 @@ The Neuronal Oscillations project on the ARC infrastructure called is "psyc-neuo
 - Press "Create a new virtual desktop"
 - After the Desktop is open launch application from lower left corner (>)
 
-### Data folders on ARC explained
+#### Data folders on ARC explained
 - The RFS (warm data) is not mounted automatically
 - The $HOME folder is 15 GB  [to show write `echo $HOME`]
 - the $DATA folder is 5TB [to show write `echo $DATA`]
@@ -33,21 +33,21 @@ The Neuronal Oscillations project on the ARC infrastructure called is "psyc-neuo
 
 -Start the application Terminal
 
-From ARC to Windows
+From ARC to Windos
 
-`scp psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/text.txt C:\Users\bobhanson\`
+`scp psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/mydata/* C:\Users\bobhanson\`
 
-The above will copy the file 'test.txt' from data directory ($DATA) on ARC to the users C: drive 
+The above will copy the file `mydata` (and sub-folders) from data directory ($DATA) on ARC to the users C: drive 
 
-From Window to ARC
+From Windows to ARC
 
-`scp C:\Users\ojensen\test.txt psyc999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/`
+`scp -r C:\Users\bobhanson\mydata\* psyc999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/`
 
-The above will copy the file 'test.txt' from the users C: drive to the data directory ($DATA) on ARC 
+The above will copy the folder `mydata` (and sub-folders) from the users C: drive to the data directory ($DATA) on ARC 
 
-Use the `-r` option to copy recursively (all sub-folders) 
+The `-r` option will copy recursively (all sub-folders) 
 
-#### Graphical interface in Windows
+#### Graphical interface in Windows (alternative to scp)
 - Use [WinSCP](https://winscp.net/eng/docs/installation)
 - <img width="813" height="549" alt="image" src="https://github.com/user-attachments/assets/eb9b564f-71c4-4c21-920d-032798bc9bdf" />
 - Now you can transfer between the drives your Window machine has access to and your ARC account
@@ -55,23 +55,22 @@ Use the `-r` option to copy recursively (all sub-folders)
 
 #### MacOS
 
-BELOW TO BE TESTED
 
--Start the application terminal (xterm)
+-Start the application terminal xterm)
 
-From ARC to Windows
+From ARC to MacOS
 
-`scp psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/text.txt \Users\bobhanson\`
+`scp psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/mydata/* \Users\bobhanson\`
 
-The above will copy the file 'test.txt' from data directory ($DATA) on ARC to the users C: drive 
+The above will copy the file `mydata` (and sub-folders) from data directory ($DATA) on ARC to the users local drive 
 
-From Window to ARC
+From MacOS to ARC
 
-`scp \Users\ojensen\test.txt psyc999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/`
+`scp \Users\bobhanson\maydata\* psyc999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/`
 
-The above will copy the file 'test.txt' from the users C: drive to the data directory ($DATA) on ARC 
+The above will copy the folder `mydata` (and sub-folders) from the users local folder to the data directory ($DATA) on ARC 
 
-Use the `-r` option to copy recursively (all sub-folders) 
+The `-r` option will copy recursively (all sub-folders) 
 
 
   
