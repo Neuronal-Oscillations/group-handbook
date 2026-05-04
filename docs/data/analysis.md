@@ -145,7 +145,7 @@ python -m ipykernel install --user --name=mne --display-name "Python (MNE)"
 ```
 #### Jupyter
 
-Now start Jupyher and change to the MNE KerneL: 
+Now start Jupyher and change to the MNE Kernel: 
 
 1. Launch Jupyter Notebook (go to '>' in lower left corner of the NoMachine interface and find Jupyter under applications (use the command `/apps/common/arc-app-startup/jupyter/Anaconda3-2022.05`).
 2. Open your desired notebook (e.g. the FLUX scripts).
