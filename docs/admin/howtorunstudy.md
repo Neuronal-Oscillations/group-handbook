@@ -1,21 +1,242 @@
 # How to set up a study 
 ## Purpose
-We will here explain the essentials for setting up a study at OHBA
+Here, you can find information for setting up a study at OxCIN. 
 
 ## Steps
-1. Hi
-2. Bye
-3. 
+1. Secure funding
+2. Contact experimental support
+3. Apply for ethics
+4. Work-in-progress (WIP) talk
+5. Obtain experimental equipment and training 
+6. Obtain Calpendo project code 
 
-### Project proposal slides
-### Ethics application
-- OHBA approval
-- OxCIN approval
-- CUREC
+## Funding 
+#### Project Proposal
 
-### OxCIN presentation
+New projects should be associated with a proposal to document the core of a given study. A project proposal should be succinct and composed of a set of slides (~6–8) with the following content:
 
-### Training on OPM/MEG system 
+##### Proposal Contents
+
+- **Title**
+  - Project title  
+  - Collaborators  
+
+- **Introduction**
+
+- **Project Significance**
+
+- **Research Question**
+
+- **Project Objectives**
+
+- **Specific Aims and/or Hypotheses**
+
+- **Methodology**
+  - Paradigm  
+  - Timing information  
+  - Conditions  
+  - Number of trials  
+
+- **Participants and Sample Size**
+
+- **Data Collection**
+
+- **Data Analysis**
+  - ERF / TRFs / MVPA  
+  - Source modelling  
+  - Statistics  
+
+- **Timeline**
+  - e.g., Gantt chart  
+
+- **Expected Outcomes**
+
+- **Scientific Contribution**
+
+- **Impact on Brain Health**
+
+---
+
+#### Grant and Fellowship Submissions
+
+- First point of contact when informing the department of planned applications: **Valerie West, Research Manager**
+- For developing costings: **Andrew Galloway** can provide guidance.
+- It is also required to apply for permission at **OxCIN** when using the OHBA equipment.
+
+---
+
+#### Funding Opportunities
+
+- Central site for funding opportunities  
+- **The John Fell Fund**  
+- Click here for more funding opportunities  
+
+---
+
+#### Departmental Guidelines
+
+Please note the departmental guidelines to follow when applying for any funding (including small applications; anything that implies funds coming in).
+
+---
+
+## Contact experimental support
+For any type of study you run at OxCIN, you must make contact with the appropriate experimental support team at this stage. This is required so that they can help you ensure that the study is feasible. They can help you set up the lab (including manufactiring additional equipment) and plan your experiment. Depending on the equipment you want to use, approach the relevant people:
+
+- **For MEG / OPM-MEG / EEG**  
+  Dr Patricia Cambalova — [oxcin-meg-help@psych.ox.ac.uk](mailto:oxcin-meg-help@psych.ox.ac.uk)
+
+- **For MRI / fMRI / MRS**  
+  Dr Sebastian Rieger — [seb.rieger@psych.ox.ac.uk](mailto:seb.rieger@psych.ox.ac.uk)  
+  Radiographer team — [radiographers@oxcin.ox.ac.uk](mailto:radiographers@oxcin.ox.ac.uk)
+
+- **For NIBS**  
+  Dr Melanie Fleming — [melanie.fleming@ndcn.ox.ac.uk](mailto:melanie.fleming@ndcn.ox.ac.uk)
+
+---
+
+
+## Standard ethics application
+### Creating and Shaping Your Ethics Application
+
+Create an application on [Worktribe](https://ox.worktribe.com). Add the people you want to be able to see and edit your application as editors. Make sure the ethics committee and ethics officer are auto-selected correctly (**MS IDREC**).
+
+Ethics applications are a balance of detail and generality. Explain the methodology of your proposed research in as much detail as possible, always stating how long each procedure would take and what participants will be doing. However, keep in mind that submitting amendments to existing ethics approvals is much easier than submitting a new application—be broad enough to allow flexibility for future projects.
+
+Be generous with the sample size (N) and project duration. Justify all types of data collected, including demographics (especially if collecting or excluding based on protected characteristics). Justify participant age ranges, as age is a protected characteristic in the UK.
+
+---
+
+### Approved Procedures (APs)
+
+Approved Procedures (APs) are protocol documents for common techniques approved by the ethics committee. If your study is mostly covered by an AP, cite it in your Worktribe application (this typically results in a medium-risk classification).
+
+### Best Practice Guidance (BPG)
+
+Consult relevant Best Practice Guidance documents and indicate which ones you used:
+- **BPG 05** — participant payments  
+- **BPG 09** — data management  
+
+OxCIN also provides [its own guidelines on participant payments](https://unioxfordnexus.sharepoint.com/:w:/r/sites/OXIN-HUB/_layouts/15/Doc.aspx?sourcedoc=%7B02F3C1F7-FAAD-45F8-9E50-C94D6313DB69%7D&file=Paying_Research_Particiapnts.docx&action=default&mobileredirect=true).
+
+[**Click here**](https://unioxfordnexus.sharepoint.com/sites/OxIntranet-research-innovation/SitePages/research-governance-resources.aspx) to find APs, BPGs and template participant-facing documents.
+
+---
+
+### Research-Specific Ethical Considerations
+
+If you are working with children, ensure that all the researchers involved have an enhanced DBS check in place. Make sure (and state in the application) that all researchers who interact with families will have completed the OSCP Introduction to Safeguarding online course (see [New Starters](https://www.neuosc.com/internal) page). In the case of any concerns over a child’s wellbeing or safety, contact the research group’s Designated Safety Lead (Evgeniya Anisimova) and the PI.
+ 
+If you are working with MRI, consult the [SOP OHBA_014_V1](https://unioxfordnexus.sharepoint.com/:w:/r/sites/OXIN-HUB/_layouts/15/Doc.aspx?sourcedoc=%7B081B0D6C-B198-403F-96D3-6F9E90B8C8D1%7D&file=SOP_Neuro_Incidental_Findings.docx&action=default&mobileredirect=true) for guidance on incidental findings and documentation.
+​
+The SOP for MEG incidental findings is outdated and not applicable. State that incidental findings are highly unlikely. Do not mention any procedure should incidental findings arise. 
+
+---
+
+### Risk Assessment
+
+Consult and cite all relevant risk assessment documents (e.g., OPM-MEG risk assessment).
+
+---
+
+### Data Management
+
+Most of the information can be accessed in **BPG 09**.
+ 
+OPM-MEG data is pseudonymised and housed in a password-protected folder on a high-performance computer cluster at OHBA. It is only accessible to authorised scanning personnel and the research team. The **3D head scan data** are stored on a password-protected computer in the OPM-MEG lab in a password-protected folder that is only accessible to the researchers and the OPM-MEG lab key personnel.​
+​
+In the ethics body on Worktribe, provide an explicit deadline for data destruction (the end of the project as per the application - month and year). In the Participant Information Sheet, refrain from providing a deadline for withdrawing data - simply put "the data will be destroyed at the end of data analysis process" or "it will not be possible to withdraw your data after the data analysis has been concluded". 
+
+---
+
+### Participant-Facing Documents
+
+Use templates corresponding to the cited Approved Procedure (e.g., AP08 for adult MEG studies). Templates are available via [OxIntranet](https://unioxfordnexus.sharepoint.com/sites/OxIntranet-research-innovation/SitePages/research-governance-resources.aspx).
+
+Guidelines:
+- Use lay language (avoid jargon, explain abbreviations)  
+- Include at least one image of the experimental setup  
+- Ensure exclusion criteria match the Worktribe application  
+
+### Formatting
+- Header: research team, contact details, Oxford logo, Department of Psychiatry logo  
+- Footer must include:
+  - Lay title (consistent across documents)  
+  - Document name  
+  - Version number  
+  - Date  
+  - Page numbering (“Page x of y”)  
+
+**Example footer:**  
+`MyFirstStudy. Participant Information Sheet. v1.0. 11/12/2025. Page 1 of 7`
+
+---
+
+### Advertisement
+
+If using recruitment materials (email, posters, Meta Ads, etc.), include them in your ethics application.
+
+Must include:
+1. Brief study description  
+2. Exclusion criteria  
+3. Time commitment  
+4. Location (even if online)  
+5. No payment amounts (only mention reimbursement)  
+6. Space for ethics reference  
+
+Additional requirements:
+- Include full email text if recruiting via email  
+- Include advert text for SONA/OPR recruitment  
+- For school recruitment: include a letter to the headteacher (template available via OxIntranet)  
+
+---
+
+## Internal ethics approval
+Before submitting your Worktribe application to CUREC, you must get internal OxCIN approval. The person to ask for the review depends on the equipment used in the proposed research: 
+
+#### MEG (SQUID)
+- Add Patricia Cambalova and Sven Braeutigam as editors on Worktribe  
+- Email: oxcin-meg-help@psych.ox.ac.uk  
+
+#### OPM-MEG
+- Add Rob Seymour as editor  
+- Email: rob.seymour@psych.ox.ac.uk  
+
+#### NIBS
+- Complete OxCIN NIBS Pre-CUREC Form  
+- Send to: admin@oxcin.ox.ac.uk  
+
+#### MRI
+- Add Nancy Rawlings and Iske Bakker as editors  
+- Email: admin@oxcin.ox.ac.uk  
+
+After internal approval is gained, submit the application via Worktribe.
+
+### Important Links
+
+- [OxCIN Ethics Guidance and Protocols](https://www.oxcin.ox.ac.uk/research/ethics)  
+- [OxCIN Worktribe Guidance](https://www.oxcin.ox.ac.uk/faqs/how-do-i-submit-an-ethics-application-using-the-new-worktribe-system)
+- [OxIntranet](https://unioxfordnexus.sharepoint.com/sites/OxIntranet)  
+- [Worktribe General Guidance and Information](https://unioxfordnexus.sharepoint.com/sites/OxIntranet-research-innovation/SitePages/ethics-worktribe.aspx) 
+
+For questions, contact the relevant support [email](mailto:ethics@medsci.ox.ac.uk). 
+
+
+## NHS Ethics
+NHS ethics applications are more complicated. Use [this decision tool](https://www.hra-decisiontools.org.uk/ethics/index.html) to determine if NHS Research Ethics Approval (REC) approval is required.
+
+Here are some useful links for your reference:  
+- [Clinical research process | Research Support](https://unioxfordnexus.sharepoint.com/sites/OxIntranet-research-innovation/SitePages/research-governance-conduct.aspx)  
+- [Sponsorship & approvals | Research Support](https://unioxfordnexus.sharepoint.com/sites/OxIntranet-research-innovation/SitePages/research-governance.aspx)
+- [Review process | Research Support](https://unioxfordnexus.sharepoint.com/sites/OxIntranet-research-innovation/SitePages/research-governance-research-process.aspx)
+
+Guidance can also be provided by the Clinical Research Governance Co-ordinator from the Department of Psychiatry, Tasneem Ritchie.
+
+---
+
+## WIP presentation @ OxCIN United 
+As we are part of OxCIN, in order to get access to the scanning equipment, we have to each do a presentation at [OxCIN United’s Work in Progress (WIP) meeting](https://www.oxcin.ox.ac.uk/about/communications/wips/a-guide-to-preparing-for-your-wip). This can be done before or after ethics approval is in place - doesn’t matter as long as it is done before any testing commences. It is a good idea to email [oxcin-admin@ndcn.ox.ac.uk](mailto:oxcin-admin@ndcn.ox.ac.uk) to ask whether specialist audience could be present at your WIP talk (e.g., OPM-MEG experts) to ensure most useful feedback. 
+
+## Obtaining access to experimental equipment 
 
 <!--
 ## Verification
