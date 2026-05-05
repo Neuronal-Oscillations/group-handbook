@@ -8,7 +8,8 @@ Here, you can find information for setting up a study at OxCIN.
 3. Apply for ethics
 4. Work-in-progress (WIP) talk
 5. Obtain experimental equipment and training 
-6. Obtain Calpendo project code 
+6. Obtain Calpendo project code
+7. Pilot
 
 ## Funding 
 #### Project Proposal
@@ -18,8 +19,8 @@ New projects should be associated with a proposal to document the core of a give
 ##### Proposal Contents
 
 - **Title**
-  - Project title  
-  - Collaborators  
+    - Project title  
+      - Collaborators  
 
 - **Introduction**
 
@@ -32,22 +33,22 @@ New projects should be associated with a proposal to document the core of a give
 - **Specific Aims and/or Hypotheses**
 
 - **Methodology**
-  - Paradigm  
-  - Timing information  
-  - Conditions  
-  - Number of trials  
+    - Paradigm  
+      - Timing information  
+      - Conditions  
+      - Number of trials  
 
 - **Participants and Sample Size**
 
 - **Data Collection**
 
 - **Data Analysis**
-  - ERF / TRFs / MVPA  
-  - Source modelling  
-  - Statistics  
+    - ERF / TRFs / MVPA  
+      - Source modelling  
+      - Statistics  
 
 - **Timeline**
-  - e.g., Gantt chart  
+    - e.g., Gantt chart  
 
 - **Expected Outcomes**
 
@@ -61,15 +62,15 @@ New projects should be associated with a proposal to document the core of a give
 
 - First point of contact when informing the department of planned applications: **Valerie West, Research Manager**
 - For developing costings: **Andrew Galloway** can provide guidance.
-- It is also required to apply for permission at **OxCIN** when using the OHBA equipment.
+- It is also required to apply for permission at [**OxCIN**](https://www.oxcin.ox.ac.uk/about/governance/hosting-grants-and-fellowships-at-win) when using the OHBA equipment.
 
 ---
 
 #### Funding Opportunities
 
-- Central site for funding opportunities  
-- **The John Fell Fund**  
-- Click here for more funding opportunities  
+- [Central site for funding opportunities](https://unioxfordnexus.sharepoint.com/sites/OxIntranet-research-innovation/SitePages/finding-funding.aspx)  
+- [The John Fell Fund](https://www.medsci.ox.ac.uk/research/internal-research-funding/funding-directory/managed-by-msd/john-fell-fund)
+- [**Click here for more funding opportunities**](https://unioxfordnexus-my.sharepoint.com/:x:/g/personal/psyc0293_ox_ac_uk/EcoLJo6Xx8NOtucnNnfrMdMBSoRztV3FRjrYrmrJabu6zw?e=lX26CS)  
 
 ---
 
