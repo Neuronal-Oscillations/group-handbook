@@ -237,6 +237,40 @@ Guidance can also be provided by the Clinical Research Governance Co-ordinator f
 As we are part of OxCIN, in order to get access to the scanning equipment, we have to each do a presentation at [OxCIN United’s Work in Progress (WIP) meeting](https://www.oxcin.ox.ac.uk/about/communications/wips/a-guide-to-preparing-for-your-wip). This can be done before or after ethics approval is in place - doesn’t matter as long as it is done before any testing commences. It is a good idea to email [oxcin-admin@ndcn.ox.ac.uk](mailto:oxcin-admin@ndcn.ox.ac.uk) to ask whether specialist audience could be present at your WIP talk (e.g., OPM-MEG experts) to ensure most useful feedback. 
 
 ## Obtaining access to experimental equipment 
+At this point in your project's journey, hopefully you have 1) submitted ethics, 2) done a WIP talk, 3) made contact with the experimental support and (if applicable) radiographers. If that is correct, you can proceed to get access to, and training for, the experimental equipment. 
+
+### MRI
+For projects involving MRI, you need to complete a [Project Code Request Form](https://unioxfordnexus.sharepoint.com/:w:/r/sites/OXIN-HUB/_layouts/15/Doc.aspx?sourcedoc=%7B24C1FB33-0D69-4264-B9A9-FB903CCE1230%7D&file=MRI_Project_Code_Request_Form.docx&action=default&mobileredirect=true) and sign the [MRI Service Agreement](https://unioxfordnexus.sharepoint.com/:w:/r/sites/OXIN-HUB/_layouts/15/Doc.aspx?sourcedoc=%7B32983906-5D76-4680-BBBC-F7FC9C194343%7D&file=MRI_Scanning_Service_Agreement.docx&action=default&mobileredirect=true). This can be done **after ethics are in place** and the WIP talk has been done. One this is submitted, a meeting with the radiographer team will be scheduled to discuss the project and scanning costs.
+If you are not MRI trained, please complete both parts of the magnet safety training and contact Juliet Semple for researcher training. Note that you will need experienced researcher training if you are planning to perform fMRI or any scanning with sensitive populations.
+ 
+**Useful links**: 
+[A detailed guide on arranging MRI studies](https://unioxfordnexus.sharepoint.com/:w:/r/sites/OXIN-HUB/_layouts/15/Doc.aspx?sourcedoc=%7B8E1DCF35-BE97-4350-8256-073794604B51%7D&file=MRI_Scanning_Guide.docx&action=default&mobileredirect=true&wdLOR=c070A60D2-398E-4644-9C32-3D2F0A2F7FBC)
+[Sample MRI protocols](https://open.oxcin.ox.ac.uk/protocols/)
+[The OxCIN website](https://www.oxcin.ox.ac.uk/research/research-facilities) is the main resource for finding out about gaining access to equipment
+ 
+### MEG/OPM-MEG 
+Follow the [OxCIN protocol](https://unioxfordnexus.sharepoint.com/:w:/r/sites/OXIN-HUB/_layouts/15/Doc.aspx?sourcedoc=%7B8A5BA7CB-667B-4319-8D4D-D6D5FEAF9A27%7D&file=Starting_MEG_projects.docx&action=default&mobileredirect=true) for setting up a MEG study. Contact [oxcin-meg-help@psych.ox.ac.uk](mailto:oxcin-meg-help@psych.ox.ac.uk) to arrange some (OPM-)MEG pilot sessions, including an initial paradigm testing session.
+
+For MEG, you do not need to be trained as an operator to conduct a study: only short researcher training in necessary. 
+
+Currently, [Rob Seymour](mailto:rob.seymour@psych.ox.ac.uk) trains everyone looking to use OPM-MEG as an operator. Please contact him for training. 
+​​
+### EEG 
+OHBA does not have EEG facilities anymore, except if EEG is to be used in conjunction with MEG or MRI. If the latter is your case, contact Patricia on [oxcin-meg-help@psych.ox.ac.uk](mailto:oxcin-meg-help@psych.ox.ac.uk). If you are planning a standalone EEG study, contact Experimental Psychology. 
+​
+### NIBS
+For all non-invasive brain stimulation projects (TMS, TCS), contact [Melanie Fleming](mailto:melanie.fleming@ndcn.ox.ac.uk). 
+
+---
+
+## Obtain Calpendo project code and book labs 
+Now, follow the [procedure](https://unioxfordnexus.sharepoint.com/:w:/r/sites/OXIN-HUB/_layouts/15/Doc.aspx?sourcedoc=%7B8A5BA7CB-667B-4319-8D4D-D6D5FEAF9A27%7D&file=Starting_MEG_projects.docx&action=default&mobileredirect=true) to obtain a project code for booking the labs. Please note that this is not the procedure for MRI projects: your project code will be given to you by the radiographers after your scanner induction. Do not attempt to request it on Calpendo by yourself. 
+
+## Piloting 
+At this point, your project code on Calpendo will most likely be set to "restricted" (unless this is a structural MRI scan). This is due to the need to pilot the project with the experimental support officer before recruiting participants. Speak to the experimental support team to arrange piloting. 
+
+Once that is done and the experiment runs smoothly, you can recruit participants and collect data! 
+
 
 <!--
 ## Verification
