@@ -30,7 +30,8 @@ The Neuronal Oscillations project on the ARC infrastructure is called "psyc-neuo
 5. Once the desktop opens, launch applications from the menu (bottom left corner)
 
 The abobe steps bring you to an entry node. The next step is to nagivate to an htc node write
-`ssh -X nht-login`
+
+`ssh -X htc-login`
 
 <img width="1132" height="608" alt="image" src="https://github.com/user-attachments/assets/252fa44f-49cc-4556-a747-4bcbb9ccaf06" />
 
