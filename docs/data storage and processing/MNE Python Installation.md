@@ -1,12 +1,7 @@
 # Installaton of MNE Python
 ## Purpose
 
-Recommendations for analyzing imaging data including MEG, OPM, and MRI data. We recommend using the Oxford Advanced Research Computing (ARC) for data analysis. We assume raw primary data to be stored on the Oxford RFS.
-
-A typical workflow involves:
-1. Copying raw data (typically from RFS; warm data) to the data directory on ARC (hot data)
-2. Performing analysis on ARC
-3. Copying output data back to the core store (typically RFS)
+Demonstrating the steps for installing and running MNE Python on ARC 
 
 ## Prerequisites
 - A SSO (Single Sign-On) account at the University of Oxford
@@ -16,9 +11,6 @@ A typical workflow involves:
   
 ## Steps
 
-### Requesting access to the ARC 
-
-The Neuronal Oscillations project on the ARC infrastructure is called "psyc-neuosc". Users can apply for individual accounts on the ARC systems by visiting the [OxIntranet page](https://unioxfordnexus.sharepoint.com/sites/OxIntranet-research-innovation/SitePages/ARC-accessing-ARC.aspx?Mode=Edit#requesting-a-user-account) and selecting the psyc-neuosc project.The Neuronal Oscillations project on the ARC infrastructure is called "psyc-neuosc". Users can apply for individual accounts on the ARC systems by visiting the [OxIntranet page](https://unioxfordnexus.sharepoint.com/sites/OxIntranet-research-innovation/SitePages/ARC-accessing-ARC.aspx?Mode=Edit#requesting-a-user-account) and selecting the psyc-neuosc project.
 
   
 ### Cloning github to ARC $HOME directory
