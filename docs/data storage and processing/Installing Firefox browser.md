@@ -20,11 +20,12 @@ Demonstrating the steps for installing the Firefox web-browser. It will be insta
 5. Once the desktop opens, launch applications from the menu (bottom left corner)
 
 Nagivate to an login htc node 
+
 `ssh -X htc-login`
 
 Navigate to htc node write
 
-srun -p interactive --x11 --pty /bin/bash`
+`srun -p interactive --x11 --pty /bin/bash`
 
 Remove old stuff. 
 `rm -f ~/.condarc'
