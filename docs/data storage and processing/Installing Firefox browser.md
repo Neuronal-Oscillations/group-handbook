@@ -51,7 +51,7 @@ Now you are set for createing a new environment.
 First time:
 ```bash
 module load Anaconda3/2024.02-1
-conda create -p $DATA/mne_env -c conda-forge firefox
+conda create -p $DATA/firefox -c conda-forge firefox
 ```
 
 After installation activate
