@@ -24,7 +24,8 @@ Nagivate to an login htc node
 
 Navigate to htc node write
 
-`srun -p interactive --x11 --pty /bin/bash`
+```
+srun -p interactive --x11 --pty /bin/bash`
 
 Remove old stuff. 
 `rm -f ~/.condarc'
@@ -44,7 +45,8 @@ pkgs_dirs:
 
 envs_dirs:
   - $ENV_DIR/.conda/envs
-`
+```
+
 Now you are set for createing a new environment.
 
 First time:
