@@ -44,33 +44,26 @@ mkdir -p "${ENV_DIR}/.conda"
 mkdir -p "${ENV_DIR}/.conda/pkgs"
 mkdir -p "${ENV_DIR}/.conda/envs"
 
-cat >> ~/.condarc <<EOF
-
-
-pkgs_dirs:
-  - $ENV_DIR/.conda/pkgs
-
-envs_dirs:
-  - $ENV_DIR/.conda/envs
 ```
 
 Now you are set for createing a new environment.
 
 First time:
 ```bash
-module load Anaconda3/2024.02-1 
-conda create -p $DATA/mne_env python=3.11 mne jupyter jupyterlab -c conda-forge 
+module load Anaconda3/2024.02-1
+conda create -p $DATA/mne_env -c conda-forge firefox
 ```
 
 After installation activate
 
 ```bash
-source activate mne_env
+source activate firefox
 ```
 
 First time you need to nstall mne-bids:
 ```bash
 conda install --channel conda-forge mne-bids
+env -u LD_LIBRARY_PATH firefox
 ```
 
 And activate again
@@ -79,19 +72,8 @@ source activate mne_env
 ```
 The final step is link the MNE environtment to Jupyter:
 ```bash
-python -m ipykernel install --user --name=mne --display-name "Python (MNE)"
+firefox
 ```
-#### Jupyter
-
-Now start Jupyher and change to the MNE Kernel: 
-
-1. Launch Jupyter Notebook (go to '>' in lower left corner of the NoMachine interface and find Jupyter under applications (use the command `/apps/common/arc-app-startup/jupyter/Anaconda3-2022.05`).
-2. Open your desired notebook (e.g. the FLUX scripts).
-3. Go to the top menu and select Kernel 
-4.Change kernel.Choose "Python (MNE)" from the list.
-
-This will allow you to run the FLUX pipeline
-
 
 ###
 [The ARC user guide](https://arc-user-guide.readthedocs.io/en/latest/introduction.html)
