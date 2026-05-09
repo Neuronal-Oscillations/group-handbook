@@ -45,6 +45,8 @@ mkdir -p "${ENV_DIR}/.conda/pkgs"
 mkdir -p "${ENV_DIR}/.conda/envs"
 
 cat >> ~/.condarc <<EOF
+
+
 pkgs_dirs:
   - $ENV_DIR/.conda/pkgs
 
