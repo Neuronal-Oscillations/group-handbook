@@ -24,14 +24,14 @@ Nagivate to an login htc node
 
 Navigate to htc node write
 
-```
 srun -p interactive --x11 --pty /bin/bash`
 
 Remove old stuff. 
 `rm -f ~/.condarc'
 
+
 If they dont exist, create directories
-`
+```
 ENV_DIR="${DATA}/environments"
 mkdir -p "${ENV_DIR}"
 
