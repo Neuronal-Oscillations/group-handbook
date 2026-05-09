@@ -9,7 +9,7 @@ Demonstrating the steps for installing the Firefox web-browser. It will be insta
 - VPN access to the University of Oxford network (required for off-site access)
 - An account on the project psyc-neuosc at ARC
   
-## Steps
+## Installation
 
 1. Connect via web browser to [NoMachine](https://www.nomachine.com/)
 2. Ensure you are on the VPN network
@@ -55,15 +55,22 @@ conda create -p $DATA/firefox -c conda-forge firefox
 After installation activate
 
 ```bash
-env -u LD_LIBRARY_PATH firefox
 conda activate /data/psyc-neuosc/psyc1854/firefox
+env -u LD_LIBRARY_PATH firefox
 ```
 
+## To run Firefox
+
+
+Activate firefox: 
 ```
-The final step is link the MNE environtment to Jupyter:
+conda activate /data/psyc-neuosc/psyc1854/firefox
+```
 ```bash
 firefox
 ```
+
+
 
 ###
 [The ARC user guide](https://arc-user-guide.readthedocs.io/en/latest/introduction.html)
