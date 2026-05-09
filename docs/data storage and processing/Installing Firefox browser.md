@@ -43,32 +43,22 @@ mkdir -p "${ENV_DIR}"
 mkdir -p "${ENV_DIR}/.conda"
 mkdir -p "${ENV_DIR}/.conda/pkgs"
 mkdir -p "${ENV_DIR}/.conda/envs"
-
 ```
 
 Now you are set for createing a new environment.
 
 First time:
 ```bash
-module load Anaconda3/2024.02-1
 conda create -p $DATA/firefox -c conda-forge firefox
 ```
 
 After installation activate
 
 ```bash
-source activate firefox
-```
-
-First time you need to nstall mne-bids:
-```bash
-conda install --channel conda-forge mne-bids
 env -u LD_LIBRARY_PATH firefox
+conda activate /data/psyc-neuosc/psyc1854/firefox
 ```
 
-And activate again
-```bash
-source activate mne_env
 ```
 The final step is link the MNE environtment to Jupyter:
 ```bash
