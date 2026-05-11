@@ -36,6 +36,7 @@ JOBID=$(sbatch --parsable <<EOF
 #SBATCH --time=$TIME
 #SBATCH --output=$DATA/logs/jupyter-%j.log
 
+# MNE_ENV_PATH must be set in ~/.bashrc (e.g. via setup_mne.sh or manually)
 source \$HOME/.bashrc
 source activate \$MNE_ENV_PATH
 
