@@ -37,7 +37,7 @@ JOBID=$(sbatch --parsable <<EOF
 #SBATCH --output=$DATA/logs/jupyter-%j.log
 
 source \$HOME/.bashrc
-source activate $MNE_ENV_PATH
+source activate \$MNE_ENV_PATH
 
 # Find port and hostname on the compute node
 PORT=\$(python -c "import socket; s=socket.socket(); s.bind(('',0)); print(s.getsockname()[1]); s.close()")
@@ -55,7 +55,7 @@ echo "URL: http://localhost:8888/tree?token=$USER"
 echo "--------------------------------------------------------"
 
 # Execute Jupyter
-$MNE_ENV_PATH/bin/jupyter notebook \
+\$MNE_ENV_PATH/bin/jupyter notebook \
     --no-browser \
     --port=\$PORT \
     --ip=\$HOSTNAME \
