@@ -1,4 +1,5 @@
 # Prerequisite
+- you are on a login node (not gateway, use `ssh htc-login`)
 - System Environment set up (see `first_steps`)
 - MNE set up for `nog_jupyter_server` (see `setup_mne`)
 - some mamba environment to be used with vscode set up for `nog_vscode_server` (see `setup_mamba_environment`)
