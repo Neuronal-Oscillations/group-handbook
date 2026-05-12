@@ -1,0 +1,271 @@
+#!/bin/bash
+
+if ! command -v rclone &> /dev/null; then
+    module load rclone
+fi
+
+THIS_SCRIPT=$(basename $0)
+
+DEBUG=0
+ACTION="help"
+DOMAIN="AD-OAK"
+SERVER="connect.ox.ac.uk" # RFS-CFILESVR03.connect.ox.ac.uk
+MOUNT_POINT="$DATA/RFS_DATA"
+
+RFS="${SERVER}/RFS" # RFS01-J
+SHARE_URL="smb://${DOMAIN};$USER@${RFS}"
+
+function help {
+echo ""
+echo "Usage: ${THIS_SCRIPT} (ls|mkdir|push|pull|rm) REMOTE_FILE [LOCAL_FILE]..."
+echo "OR"
+echo "Usage: ${THIS_SCRIPT} (mount|unmount|remount)"
+echo ""
+echo "'ls' can take one argument - remote subdirectory to list (e.g. ${THIS_SCRIPT} ls \"MYDIR/MYSUBDIR\")"
+echo ""
+echo "'mkdir' can take two arguments - a directory tree to create, and a remote directory to create it in"
+echo "        (e.g. ${THIS_SCRIPT} mkdir \"NEWDIR/NEWSUBDIR\" \"MYDIR/MYSUBDIR\")"
+echo "        if only one is given, remote directory is assumed to be the RFS root directory"
+echo ""
+echo "'push' can take two arguments - local file or directory to push, and remote directory to put it into"
+echo "       (e.g. ${THIS_SCRIPT} push \"NEWDATA\" \"MYDIR/MYSUBDIR\")"
+echo "       if only one is given, remote directory is assumed to be the RFS root directory"
+echo ""
+echo "'pull' [-d] can take two arguments - remote directory to fetch, and local directory to put it into"
+echo "       -d for pulling directories. Ommit -d for single files"
+echo "       (e.g. ${THIS_SCRIPT} pull -d \"MYDIR/MYSUBDIR\" \"/scratch/\")"
+echo "       if only one is given, local directory is assumed to be the current working directory"
+echo ""
+echo "'rm' [-d] takes one argument - remote file or folder to delete"
+echo "     -d for deleting directories. Ommit -d for single files"
+echo "     (e.g. ${THIS_SCRIPT} rm -d \"MYDIR/MYSUBDIR\")"
+echo ""
+echo "'mount' mount RFS to \$HOME/rfs"
+echo "        (e.g. ${THIS_SCRIPT} mount)"
+echo ""
+echo "'unmount' unmount previously mounted RFS"
+echo "          (e.g. ${THIS_SCRIPT} unmount)"
+echo ""
+echo ""
+}
+
+# ── Mount helpers ────────────────────────────────────────────────────────────
+
+function get_pass {
+    if [[ -z "$CREDFILE" ]]; then
+        CREDFILE="${RFS_KEY}"
+    fi
+    if [[ -f "$CREDFILE" ]]; then
+        # Extract password. Only for use with mount_rfs. smbclient uses CREDFILE instead
+        PASSWORD=$(grep -i "^password" "$CREDFILE" | sed -E 's/^password[[:space:]]*=[[:space:]]*//')
+        if [[ -z "$PASSWORD" ]]; then
+            echo "ERROR: variable 'password' not found in $CREDFILE" >&2
+            exit 1
+        fi
+    fi
+}
+
+function unmount_rfs {
+    fusermount -uz /tmp/$(basename $MOUNT_POINT)
+    rm -f $MOUNT_POINT
+    rm -rf /tmp/.rclone-cache
+    rm -f /tmp/logs/rclone.log
+}
+
+function mount_rfs {
+    get_pass
+    unmount_rfs
+    mkdir -p /tmp/.rclone-cache
+    mkdir -p /tmp/logs
+
+    rclone mount :smb,host=$SERVER,user=$USER,domain=$DOMAIN,pass=$(rclone obscure $PASSWORD):RFS /tmp/$(basename $MOUNT_POINT) \
+        --daemon \
+        --cache-dir /tmp/.rclone-cache \
+        --log-file /tmp/logs/rclone.log \
+        --log-level DEBUG \
+        --vfs-cache-mode writes \
+        --attr-timeout 1s \
+        --dir-cache-time 2s \
+        --timeout 30s \
+        --daemon-timeout 5m \
+        --no-modtime
+
+    ln -s /tmp/$(basename $MOUNT_POINT) $MOUNT_POINT
+    echo "RFS now available at $MOUNT_POINT"
+}
+
+# ── smbclient command builders ───────────────────────────────────────────────
+
+function rfs_ls {
+    #ls the remote directory
+    local REMOTE=$1
+    local cmd="${REMOTE:+cd ${REMOTE}; }ls"
+    echo "${cmd}"
+}
+
+function rfs_mkdir {
+    local target=$1
+    local remotepath=$2
+
+    IFS='/' read -ra folders <<< "$target"
+
+    local cmd="prompt OFF; "
+
+    # If a starting remote path was provided, move there first
+    if [[ -n "${remotepath}" ]]; then
+        cmd+="cd ${remotepath}; "
+    fi
+
+    # Build the chain of mkdir/cd commands
+    for folder in "${folders[@]}"; do
+        if [[ -n "${folder}" ]]; then
+            cmd+="mkdir ${folder}; cd ${folder}; "
+        fi
+    done
+    echo "Creating Directories..." >&2
+    echo "${cmd}"
+}
+
+function rfs_push {
+    local LOCAL=$1
+    local REMOTE="${2:-.}"
+
+    echo "pushing to RFS (${LOCAL} to ${REMOTE})" >&2
+    #push data into RFS
+    if [[ -z "${LOCAL}" ]] ; then
+        echo "ERROR script requires at least one file/directory - local file/directory to push to RFS" >&2
+        return 0
+    fi
+
+    if [[ ! -r "${LOCAL}" ]] ; then
+        echo "${LOCAL} does not seem to exist (or no read access), aborting" >&2
+        return 1
+    fi
+
+    local LOCAL_DIR=$(dirname "${LOCAL}")
+    local LOCAL_NAME=$(basename "${LOCAL}")
+
+    echo "pushing ${LOCAL} to ${REMOTE}" >&2
+
+    #if ${LOCAL} is a dir or file...
+    if [[ -d "${LOCAL}" ]] ; then
+        local cmd="prompt OFF; recurse ON; lcd ${LOCAL}; mkdir ${REMOTE}; cd ${REMOTE}; mkdir ${LOCAL_NAME}; cd ${LOCAL_NAME}; mput *"
+    elif [[ -f "${LOCAL}" ]]; then
+        local cmd="prompt OFF; recurse ON; lcd ${LOCAL_DIR}; mkdir ${REMOTE}; cd ${REMOTE}; put ${LOCAL_NAME}"
+    else
+        echo "ERROR: File or Folder does not exist." >&2
+    fi
+    echo "${cmd}"
+}
+
+function rfs_pull {
+    local IS_DIR=$1
+    local REMOTE=$2
+    local DEST="${3:-.}"
+
+    echo "fetching data from RFS (${REMOTE} to ${DEST})" >&2
+    if [[ -z "${REMOTE}" ]] ; then
+        echo "ERROR: script requires at least one file/directory - local file/directory to pull from RFS" >&2
+        return 0
+    fi
+
+    local REMOTE_DIR=$(dirname "${REMOTE}")
+    local REMOTE_NAME=$(basename "${REMOTE}")
+
+    if [[ ! -d "${DEST}" ]] ; then
+        echo "ERROR: ${DEST} does not appear to exist or is not a directory." >&2
+        return 1
+    fi
+
+    if [[ "${IS_DIR}" == false ]]; then
+        local cmd="prompt OFF; recurse ON; lcd ${DEST}; cd ${REMOTE_DIR}; get ${REMOTE_NAME}"
+    else
+        local cmd="prompt OFF; recurse ON; lcd ${DEST}; cd ${REMOTE}; mget *"
+    fi
+    echo "${cmd}"
+}
+
+function rfs_rm {
+    local IS_DIR=$1
+    local TARGET=$2
+
+    if [[ -z "${TARGET}" ]]; then
+        echo "ERROR: Usage rfs_rm <remote_path>" >&2
+        return 1
+    fi
+
+    echo "Deleting $TARGET from RFS..." >&2
+    if [[ "${IS_DIR}" == false ]]; then
+        local cmd="prompt OFF; del ${TARGET}"
+    else
+        local cmd="prompt OFF; deltree ${TARGET}"
+    fi
+    echo "${cmd}"
+
+}
+
+# ── Argument parsing ─────────────────────────────────────────────────────────
+
+while getopts "hvc:" opts ; do
+    case $opts in
+        h) help; exit 0 ;;
+        v) DEBUG=1;;
+        c) CREDFILE="$OPTARG" ;;
+        *) echo "illegal option" >&2; help; exit 62 ;;
+    esac
+done
+shift $((OPTIND-1))
+
+case "${1:-help}" in
+  help) ACTION="help";;
+  ls) ACTION="ls"; echo "listing files in RFS";;
+  push) ACTION="push"; echo "pushing files to RFS";;
+  mkdir) ACTION="mkdir";echo "creating a directory in RFS";;
+  pull) ACTION="pull"; echo "pulling files from RFS";;
+  rm) ACTION="rm"; echo "deleting file from RFS";;
+  mount) ACTION="mount"; echo "mounting RFS" ;;
+  unmount) ACTION="unmount"; echo "unmounting RFS" ;;
+  *) echo "Unknown action $1 - action can be ls, push, pull, mkdir, rm, help"
+     help
+     exit 63
+     ;;
+esac
+shift
+
+# check for pull|rm
+IS_DIR=false
+if [[ "$1" == "-d" ]]; then
+    IS_DIR=true
+    shift
+fi
+case $ACTION in
+    help) help; exit 0;;
+    ls) CMD=$(rfs_ls "$1");;
+    push) CMD=$(rfs_push "$1" "$2");;
+    mkdir) CMD=$(rfs_mkdir "$1" "$2");;
+    pull) CMD=$(rfs_pull "$IS_DIR" "$1" "$2");;
+    rm) CMD=$(rfs_rm "$IS_DIR" "$1");;
+    mount)   mount_rfs; exit 0 ;;
+    unmount) unmount_rfs; exit 0 ;;
+esac
+
+get_pass
+if [[ -z "$CREDFILE" ]]; then
+    SMB_BASE_CMD="-t 60000"
+else
+    SMB_BASE_CMD="-A ${CREDFILE} -t 60000"
+fi
+
+if [[ -z "$CMD" ]]; then
+    echo "ERROR: No command generated." >&2
+    exit 1
+fi
+
+if [[ $DEBUG -eq 1 ]]; then
+    echo "DEBUG command:"
+    echo "smbclient \"${RFS}\" $SMB_BASE_CMD -c \"${CMD}\""
+    exit 0
+else
+    smbclient "//${RFS}" ${SMB_BASE_CMD} -c "${CMD}" 2>/dev/null && exit 0
+fi
+exit 1

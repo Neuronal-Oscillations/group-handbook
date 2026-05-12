@@ -1,0 +1,98 @@
+#!/bin/bash
+
+GPU=false
+MEM=16G
+CPUs=4
+TIME="08:00:00"
+PARTITION="long"
+SCRIPT_PATH=$(realpath "$0")
+
+function help {
+    echo "Usage: $0 [-h] [-b] [-g] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION]"
+    echo "  -h  help"
+    echo "  -b  batch mode (default: interactive)"
+    echo "  -g  request GPU"
+    echo "  -m  memory (default: $MEM)"
+    echo "  -c  CPUs (default: $CPUs)"
+    echo "  -t  walltime (default: $TIME)"
+    echo "  -p  partition (default: $PARTITION)"
+}
+
+function setup_tunnel {
+    mkdir -p $DATA/environments
+    mkdir -p $DATA/environments/vscode
+    local VSCODE_DIR=$DATA/environments/vscode
+
+    if [[ ! -f $VSCODE_DIR/code ]];then
+        curl -Lk 'https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64' --output $VSCODE_DIR/vscode_cli.tar.gz
+        tar -xf $VSCODE_DIR/vscode_cli.tar.gz -C $VSCODE_DIR
+        rm $VSCODE_DIR/vscode_cli.tar.gz
+    fi
+
+    export VSCODE_BASE="$VSCODE_DIR"
+    export VSCODE_EXTENSIONS="$VSCODE_DIR/.vscode-extensions"
+    export VSCODE_CLI_DATA_DIR="$VSCODE_DIR/.vscode-cli"
+    export VSCODE_AGENT_FOLDER="$VSCODE_DIR/.vscode-server"
+
+    $VSCODE_DIR/code tunnel user login --provider microsoft && $VSCODE_DIR/code tunnel --accept-server-license-terms
+}
+
+function int_session {
+    GRES=""
+    [[ "$GPU" == true ]] && GRES="--gres=gpu:1"
+      srun \
+      --partition="$PARTITION" \
+      $GRES \
+      --cpus-per-task="$CPUs" \
+      --mem="$MEM" \
+      --time="$TIME" \
+      --job-name=vscode \
+      --pty bash -c "source $SCRIPT_PATH; setup_tunnel"
+}
+
+function bat_session {
+    GRES=""
+    [[ "$GPU" == true ]] && GRES="#SBATCH --gres=gpu:1"
+    mkdir -p $DATA/logs
+    JOBID=$(sbatch --parsable <<EOF
+#!/bin/bash
+#SBATCH --partition=$PARTITION
+$GRES
+#SBATCH --cpus-per-task=$CPUs
+#SBATCH --mem=$MEM
+#SBATCH --time=$TIME
+#SBATCH --job-name=vscode
+#SBATCH --output=$DATA/logs/vscode-%j.log
+
+source $HOME/.bashrc && source $SCRIPT_PATH && setup_tunnel
+EOF
+)
+    echo "Submitted job $JOBID — waiting for tunnel URL..."
+    LOGFILE=$DATA/logs/vscode-${JOBID}.log
+    until [[ -f $LOGFILE ]]; do sleep 2; done
+    tail -f $LOGFILE
+}
+
+function main {
+    ACTION="interactive"
+
+    while getopts "hbgm:c:t:p:" opts ; do
+        case $opts in
+            h) help; exit 0 ;;
+            b) ACTION="batch";;
+            g) GPU=true;;
+            m) MEM="$OPTARG";;
+            c) CPUs="$OPTARG";;
+            t) TIME="$OPTARG";;
+            p) PARTITION="$OPTARG";;
+            *) echo "illegal option" >&2; help; exit 62 ;;
+        esac
+    done
+
+    case $ACTION in
+        interactive) int_session;;
+        batch)  bat_session;;
+    esac
+}
+
+[[ "${BASH_SOURCE[0]}" == "$0" ]] && main "$@"

@@ -3,7 +3,7 @@
 ENV_DIR="${DATA}/environments"
 MNE_ENV_DIR="${ENV_DIR}/mne_env"
 FLUX_DIR="${DATA}/FLUX"
-JUPYTER_DIR="${ENV_DIR}/.jupyter"
+JUPYTER_DIR="${ENV_DIR}/jupyter"
 
 mkdir -p "${FLUX_DIR}"
 mkdir -p "${ENV_DIR}"
