@@ -25,6 +25,8 @@ source activate "${NOG_ENV_DIR}/env_name" # DO NOT USE mamba activate or conda a
 mamba install -c conda-forge matplotlib numpy pandas # you name it
 conda deactivate
 ```
+Often times conda is not 100% up to date with packages. So if installing packages via mamba fails, consider using `pip`. Or use pip for everything Python
+and mamba for non-Python things (e.g. ffmpeg).
 
 We can check that everything works by activating the environment. Check that the Python version is correct and also attempt loading a package you've installed:
 
