@@ -66,11 +66,11 @@ function get_pass {
 }
 
 function unmount_rfs {
-    fusermount -uz /tmp/$(basename $MOUNT_POINT)
+    fusermount -uz /tmp/$(basename $MOUNT_POINT)-$USER
     rm -f $MOUNT_POINT
     rm -rf /tmp/.rclone-cache
     rm -f /tmp/logs/rclone.log
-    rm -rf /tmp/$(basename $MOUNT_POINT)
+    rm -rf /tmp/$(basename $MOUNT_POINT)-$USER
 }
 
 function mount_rfs {
@@ -78,9 +78,9 @@ function mount_rfs {
     unmount_rfs
     mkdir -p /tmp/.rclone-cache
     mkdir -p /tmp/logs
-    mkdir -p /tmp/$(basename $MOUNT_POINT)
+    mkdir -p /tmp/$(basename $MOUNT_POINT)-$USER
 
-    rclone mount :smb,host=$SERVER,user=$USER,domain=$DOMAIN,pass=$(rclone obscure $PASSWORD):RFS /tmp/$(basename $MOUNT_POINT) \
+    rclone mount :smb,host=$SERVER,user=$USER,domain=$DOMAIN,pass=$(rclone obscure $PASSWORD):RFS /tmp/$(basename $MOUNT_POINT)-$USER \
         --daemon \
         --cache-dir /tmp/.rclone-cache \
         --log-file /tmp/logs/rclone.log \
@@ -92,7 +92,7 @@ function mount_rfs {
         --daemon-timeout 5m \
         --no-modtime
 
-    ln -s /tmp/$(basename $MOUNT_POINT) $MOUNT_POINT
+    ln -s /tmp/$(basename $MOUNT_POINT)-$USER $MOUNT_POINT
     echo "RFS now available at $MOUNT_POINT"
 }
 
