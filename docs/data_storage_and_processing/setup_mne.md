@@ -1,6 +1,6 @@
-# First things first
-
-Follow the instructions in group-handbook/docs/data_storage_and_processing/first_steps.md to set up your environment correctly.
+# Prerequisite
+- you are on a login node
+- System Environment set up (see `first_steps`)
 
 # Install MNE
 
