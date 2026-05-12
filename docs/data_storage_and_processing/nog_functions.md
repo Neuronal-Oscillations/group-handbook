@@ -73,7 +73,7 @@ A server will start in the background and shortly after, instructions on how to 
 
 # nog_rfs
 
-This functions allows the user to interact with the RFS file storage.
+This functions allows the user to interact with the RFS file storage. Requires that the RFS credentials file is set up (see `first_steps`).
 
 ```bash
 nog_rfs (ls|mkdir|push|pull|rm) REMOTE_FILE [LOCAL_FILE]...
