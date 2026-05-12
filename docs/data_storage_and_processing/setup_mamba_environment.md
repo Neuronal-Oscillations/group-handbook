@@ -3,6 +3,8 @@
 
 # Setup new environment
 
+You don't need to follow this instructions for setting up the MNE environment. For this you can see `setup_mne`.
+
 You have to use a compute node to setup new environments or install new packages in an existing environment. ALWAYS !.
 
 ```bash
