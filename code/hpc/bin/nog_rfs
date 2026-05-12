@@ -10,7 +10,7 @@ DEBUG=0
 ACTION="help"
 DOMAIN="AD-OAK"
 SERVER="connect.ox.ac.uk" # RFS-CFILESVR03.connect.ox.ac.uk
-MOUNT_POINT="$DATA/RFS_DATA"
+MOUNT_POINT="$DATA/rfs"
 
 RFS="${SERVER}/RFS" # RFS01-J
 SHARE_URL="smb://${DOMAIN};$USER@${RFS}"
@@ -70,6 +70,7 @@ function unmount_rfs {
     rm -f $MOUNT_POINT
     rm -rf /tmp/.rclone-cache
     rm -f /tmp/logs/rclone.log
+    rm -rf /tmp/$(basename $MOUNT_POINT)
 }
 
 function mount_rfs {
@@ -77,6 +78,7 @@ function mount_rfs {
     unmount_rfs
     mkdir -p /tmp/.rclone-cache
     mkdir -p /tmp/logs
+    mkdir -p /tmp/$(basename $MOUNT_POINT)
 
     rclone mount :smb,host=$SERVER,user=$USER,domain=$DOMAIN,pass=$(rclone obscure $PASSWORD):RFS /tmp/$(basename $MOUNT_POINT) \
         --daemon \
