@@ -2,7 +2,7 @@
 
 ENV_DIR="${DATA}/environments"
 MNE_ENV_DIR="${ENV_DIR}/mne_env"
-FLUX_DIR="${DATA}/FLUX"
+FLUX_DIR="${DATA}/git-repos/FLUX"
 JUPYTER_DIR="${ENV_DIR}/jupyter"
 
 mkdir -p "${FLUX_DIR}"
