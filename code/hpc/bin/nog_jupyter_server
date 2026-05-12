@@ -1,0 +1,104 @@
+#!/bin/bash
+MEM=16G
+CPUs=8
+TIME="08:00:00"
+PARTITION="medium"
+SCRIPT_PATH=$(realpath "$0")
+
+function help {
+    echo "Usage: $0 [-h] [-b] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION]"
+    echo "  -h  help"
+    echo "  -m  memory (default: $MEM)"
+    echo "  -c  CPUs (default: $CPUs)"
+    echo "  -t  walltime (default: $TIME)"
+    echo "  -p  partition (default: $PARTITION)"
+}
+
+function check_env {
+    local ok=true
+
+    # Check required environment variables
+    for var in MNE_ENV_PATH; do
+        if [[ -z "${!var}" ]]; then
+            echo "Error: \$$var is not set. Use bash setup_sysenv.sh" >&2
+            ok=false
+        fi
+    done
+
+    # Check required files/dirs (only if vars were set)
+    if [[ -n "$MNE_ENV_PATH" ]]; then
+        [[ ! -d "$MNE_ENV_PATH" ]] && \
+            echo "Error: MNE environment not found in $MNE_ENV_PATH. Use bash setup_mne.sh" >&2 && ok=false
+    fi
+
+    [[ "$ok" == false ]] && exit 1
+}
+
+
+function bat_session {
+    mkdir -p "$DATA/logs"
+JOBID=$(sbatch --parsable <<EOF
+#!/bin/bash
+#SBATCH --partition=$PARTITION
+#SBATCH --job-name=jupyter
+#SBATCH --cpus-per-task=$CPUs
+#SBATCH --mem=$MEM
+#SBATCH --time=$TIME
+#SBATCH --output=$DATA/logs/jupyter-%j.log
+
+# MNE_ENV_PATH must be set in ~/.bashrc (e.g. via setup_mne.sh or manually)
+source \$HOME/.bashrc
+source activate \$MNE_ENV_PATH
+
+# Find port and hostname on the compute node
+PORT=\$(python -c "import socket; s=socket.socket(); s.bind(('',0)); print(s.getsockname()[1]); s.close()")
+HOSTNAME=\$(hostname)
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "JUPYTER IS STARTING"
+echo "NODE: \$HOSTNAME"
+echo "PORT: \$PORT"
+echo ""
+echo "Requested resources: MEM=$MEM, CPUs=$CPUs, TIME=$TIME"
+echo ""
+echo "SSH TUNNEL COMMAND:"
+echo "ssh -L 8888:\$HOSTNAME:\$PORT -J $USER@gateway.arc.ox.ac.uk $USER@htc-login"
+echo ""
+echo "URL: http://localhost:8888/tree?token=$USER"
+echo ""
+echo "Note that it can take some seconds up to minutes until the server is available."
+echo "-------------------------------------------------------------------"
+
+# Execute Jupyter
+\$MNE_ENV_PATH/bin/jupyter notebook \
+    --no-browser \
+    --port=\$PORT \
+    --ip=\$HOSTNAME \
+    --notebook-dir=$DATA \
+    --NotebookApp.token=$USER \
+    --NotebookApp.password=''
+EOF
+)
+echo "Submitted job $JOBID — waiting for jupyter..."
+LOGFILE=$DATA/logs/jupyter-${JOBID}.log
+until [[ -f $LOGFILE ]]; do sleep 2; done
+tail -f $LOGFILE
+}
+
+function main {
+    while getopts "hm:c:t:p:" opts; do
+        case $opts in
+            h) help; exit 0 ;;
+            m) MEM="$OPTARG" ;;
+            c) CPUs="$OPTARG" ;;
+            t) TIME="$OPTARG" ;;
+            p) PARTITION="$OPTARG" ;;
+            *) echo "Illegal option" >&2; help; exit 62 ;;
+        esac
+    done
+    check_env
+    bat_session
+}
+
+[[ "${BASH_SOURCE[0]}" == "$0" ]] && main "$@"
