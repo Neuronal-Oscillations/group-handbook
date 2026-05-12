@@ -6,7 +6,7 @@ The idea is to submit a job at ARC and later connect to that job via a VSCode in
 
 Follow `first_steps` to set up the system environment correctly.
 
-Follw `setup_mamba_environment` to see how you set up a new mamba environment.
+Follow `setup_mamba_environment` to see how you set up a new mamba environment.
 
 ### 2. Submit VSCode job
 
