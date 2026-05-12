@@ -19,7 +19,7 @@ git clone https://github.com/Neuronal-Oscillations/group-handbook
 cd group-handbook
 
 
-bash docs/data/setup_mne.sh
+bash code/hpc/setup_mne.sh
 ```
 
 # Start Jupyter job on cluster
@@ -27,20 +27,20 @@ bash docs/data/setup_mne.sh
 You can use the script `start_jupyter.sh`
 
 ```bash
-bash docs/data/start_jupyter.sh
+bash code/hpc/start_jupyter.sh
 ```
 
 There are 4 optional arguments for requesting resources:
 
 ```bash
-bash docs/data/start_jupyter.sh \
+bash code/hpc/start_jupyter.sh \
 -m 16G \
 -c 8 \
 -t 08:00:00 \
 -p "long"
 ```
 
-The values chosen above are the default values that get passed if nothing else is specified. Type `bash docs/data/start_jupyter.sh -h` to see the help.
+The values chosen above are the default values that get passed if nothing else is specified. Type `bash code/hpc/start_jupyter.sh -h` to see the help.
 
 The job is submitted as a batch job (but with live output). To see your current jobs use `squeue -u $USER` and to kill a job use `scancel <JOBID>`. Note that `ctrl + c` will **not** terminate the job (only the output).
 
@@ -65,7 +65,7 @@ After opening your Notebook of choice, set the kernel to `Python (MNE)`
 once everything is set up, you log in as before and run from the login node (not the gateway node):
 
 ```bash
-bash $DATA/group-handbook/docs/data/start_jupyter.sh
+bash $DATA/group-handbook/code/hpc/start_jupyter.sh
 ```
 
 and then connect to the job via ssh and open the notebook in your browser.
