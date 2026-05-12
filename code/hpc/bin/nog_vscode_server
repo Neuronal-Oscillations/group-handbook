@@ -23,11 +23,9 @@ function setup_tunnel {
     mkdir -p $DATA/environments/vscode
     local VSCODE_DIR=$DATA/environments/vscode
 
-    if [[ ! -f $VSCODE_DIR/code ]];then
-        curl -Lk 'https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64' --output $VSCODE_DIR/vscode_cli.tar.gz
-        tar -xf $VSCODE_DIR/vscode_cli.tar.gz -C $VSCODE_DIR
-        rm $VSCODE_DIR/vscode_cli.tar.gz
-    fi
+    curl -Lk 'https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64' --output $VSCODE_DIR/vscode_cli.tar.gz
+    tar -xf $VSCODE_DIR/vscode_cli.tar.gz -C $VSCODE_DIR
+    rm $VSCODE_DIR/vscode_cli.tar.gz
 
     export VSCODE_BASE="$VSCODE_DIR"
     export VSCODE_EXTENSIONS="$VSCODE_DIR/.vscode-extensions"
