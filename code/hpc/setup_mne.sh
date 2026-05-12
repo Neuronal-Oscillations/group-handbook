@@ -16,13 +16,13 @@ srun \
 bash <<EOF
 set -e
 
-rm -rf "${MNE_ENV_DIR}"
+rm -rf "\${MNE_ENV_PATH}"
 source ~/.bashrc
-mamba create -y -p "${MNE_ENV_DIR}" python=3.11 mne jupyter jupyterlab mne-bids -c conda-forge
+mamba create -y -p "\${MNE_ENV_PATH}" python=3.11 mne jupyter jupyterlab mne-bids -c conda-forge
 
 echo "Installing ipykernel..."
-"${MNE_ENV_DIR}/bin/python" -m ipykernel install \
---prefix="${JUPYTER_PATH}/../.." \
+"\${MNE_ENV_PATH}/bin/python" -m ipykernel install \
+--prefix="\${JUPYTER_PATH}/../.." \
 --name=mne \
 --display-name "Python (MNE)"
 
@@ -32,7 +32,7 @@ echo ""
 echo "IGNORE what mamba said. Do NOT USE 'conda activate' or 'mamba activate'"
 echo ""
 echo "You can now activate the environment using:"
-echo "    source activate ${MNE_ENV_DIR}"
+echo "    source activate \${MNE_ENV_PATH}"
 echo ""
 echo "Deactivate using:"
 echo "    conda deactivate"
