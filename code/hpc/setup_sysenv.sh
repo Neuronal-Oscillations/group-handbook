@@ -25,6 +25,7 @@ lines=(
   "module load Mamba/23.11.0-0"
   "export PATH=\"${SCRIPT_DIR}/bin:\$PATH\""
   "export RFS_KEY=\"${HOME}/.config/private/rfs_cred\""
+  "export NOG_ENV_DIR=\"${DATA}/environments\""
   "export VSCODE_BASE=\"${DATA}/environments/vscode\""
   "export VSCODE_EXTENSIONS=\"${DATA}/environments/vscode/.vscode-extensions\""
   "export VSCODE_CLI_DATA_DIR=\"${DATA}/environments/vscode/.vscode-cli\""
