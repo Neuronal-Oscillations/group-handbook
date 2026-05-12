@@ -1,5 +1,3 @@
-After following the instructions below, you should have a downloaded version of FLUX, a working MNE environment and jupyter installed with a MNE kernel. You should be able to connect to a jupyter server that is running on an ARC compute node from your local machine's browser.
-
 # First things first
 
 - connect to VPN
@@ -9,44 +7,56 @@ After following the instructions below, you should have a downloaded version of 
 - ssh into login node (`ssh htc-login`)
   
 
-# Install MNE
+# Using Neuronal Oscillations Group code
 
-You can use the script `setup_mne.sh` to download FLUX and install MNE:
+Download the repository into `$DATA/git-repos`. Later scripts and functions expect `group-handbook` in `$DATA/git-repos`.
 
 ```bash
 cd $DATA
+mkdir -p git-repos
+cd git-repos
+
 git clone https://github.com/Neuronal-Oscillations/group-handbook
-cd group-handbook
-
-
-bash code/hpc/setup_mne.sh
 ```
+
+# Setup System Environment
+
+```bash
+bash group-handbook/code/hpc/setup_sysenv.sh
+source ~/.bashrc
+```
+
+This will write a couple of paths to your `~/.bashrc` that are necessary to use group functions and ensures everything is set up correctly.
+
+# Install MNE
+
+```bash
+bash group-handbook/code/hpc/setup_mne.sh
+```
+
+This will download FLUX, install a new MNE environment in `$DATA/environments`and also install a jupyter kernel.
 
 # Start Jupyter job on cluster
 
-You can use the script `start_jupyter.sh`
+After following the previous steps, you should be able to use the Neuronal Oscillations Group functions (nog functions). To start a jupyter server that you can connect to from your local machine's browser, use:
 
 ```bash
-bash code/hpc/start_jupyter.sh
+nog_jupyter_server
 ```
 
-There are 4 optional arguments for requesting resources:
+This will take a few seconds to minutes. It will submit a job to ARC telling it to run a jupyter server. You will then be able to connect to the server and interact with the notebook from your local machine's browser.
+
+You can also specify options (e.g. requesting a certain amount of memory). Check out the help function:
 
 ```bash
-bash code/hpc/start_jupyter.sh \
--m 16G \
--c 8 \
--t 08:00:00 \
--p "long"
+nog_jupyter_server -h
 ```
-
-The values chosen above are the default values that get passed if nothing else is specified. Type `bash code/hpc/start_jupyter.sh -h` to see the help.
 
 The job is submitted as a batch job (but with live output). To see your current jobs use `squeue -u $USER` and to kill a job use `scancel <JOBID>`. Note that `ctrl + c` will **not** terminate the job (only the output).
 
 # Connect your local machine to Jupyter
 
-In your local machine's Terminal (or MobaXTerm on Windows), copy and paste the `ssh` command that `start_jupyter.sh` prints. It should look something like this:
+In your local machine's Terminal (or MobaXTerm on Windows), copy and paste the `ssh` command that `nog_jupyter_server` prints. It should look something like this:
 
 ```bash
 ssh -L 8888:htc-cXXX:XXXXX -J psycXXXX@gateway.arc.ox.ac.uk psycXXXX@htc-login
@@ -59,13 +69,3 @@ After that, open your browser on your local machine and navigate to [http://loca
 You might have to enter your username in the top field "Password or Token". E.g. `psycXXXX`
 
 After opening your Notebook of choice, set the kernel to `Python (MNE)`
-
-# After first setup
-
-once everything is set up, you log in as before and run from the login node (not the gateway node):
-
-```bash
-bash $DATA/group-handbook/code/hpc/start_jupyter.sh
-```
-
-and then connect to the job via ssh and open the notebook in your browser.
