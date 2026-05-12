@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+
 # setup path structure
 mkdir -p "${HOME}/.config"
 mkdir -p "${HOME}/.config/private"
@@ -21,7 +23,7 @@ mkdir -p "${DATA}/environments/jupyter/share/jupyter"
 # setup ~/.bashrc
 lines=(
   "module load Mamba/23.11.0-0"
-  "export PATH=\"${DATA}/git-repos/group-handbook/code/hpc/bin:\$PATH\""
+  "export PATH=\"${SCRIPT_DIR}/bin:\$PATH\""
   "export RFS_KEY=\"${HOME}/.config/private/rfs_cred\""
   "export VSCODE_BASE=\"${DATA}/environments/vscode\""
   "export VSCODE_EXTENSIONS=\"${DATA}/environments/vscode/.vscode-extensions\""
