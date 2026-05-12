@@ -5,6 +5,7 @@ Follow the instructions in group-handbook/docs/data_storage_and_processing/first
 # Install MNE
 
 ```bash
+cd $DATA/git-repos
 bash group-handbook/code/hpc/setup_mne.sh
 ```
 
