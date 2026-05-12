@@ -77,8 +77,6 @@ This functions allows the user to interact with the RFS file storage. Requires t
 
 ```bash
 nog_rfs (ls|mkdir|push|pull|rm) REMOTE_FILE [LOCAL_FILE]...
-OR
-Usage: nog_rfs (mount|unmount|remount)
 
 'ls' can take one argument - remote subdirectory to list (e.g. nog_rfs ls "RFS_DIR/RFS_SUBDIR")
 
@@ -98,12 +96,6 @@ Usage: nog_rfs (mount|unmount|remount)
 'rm' [-d] takes one argument - remote file or folder to delete
      -d for deleting directories. Ommit -d for single files
      (e.g. nog_rfs rm -d "RFS_DIR/RFS_SUBDIR")
-
-'mount' mount RFS to /data/psyc-neuosc/psyc1908/rfs
-        (e.g. nog_rfs mount)
-
-'unmount' unmount previously mounted RFS
-          (e.g. nog_rfs unmount)
 ```
 
 ## 1. List RFS files and folders
@@ -172,22 +164,4 @@ nog_rfs rm RFS_DIR/RFS_SUBDIR/rfs_file
 
 # Remove directory
 nog_rfs rm -d RFS_DIR/RFS_SUBDIR
-```
-
-## 6. Mount RFS to ARC
-
-The implementation is a bit hacky. Might stop working at some point. Mounts RFS to `$DATA/rfs`
-
-```bash
-# mount RFS
-nog_rfs mount
-
-# list files (should give the same result as nog_rfs ls)
-ls $DATA/rfs
-```
-
-Remember to unmount the drive cleanly (not sure what happens if you forget).
-
-```bash
-nog_rfs unmount
 ```
