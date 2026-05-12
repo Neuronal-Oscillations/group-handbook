@@ -4,7 +4,7 @@ GPU=false
 MEM=16G
 CPUs=4
 TIME="08:00:00"
-PARTITION="long"
+PARTITION="medium"
 SCRIPT_PATH=$(realpath "$0")
 
 function help {
