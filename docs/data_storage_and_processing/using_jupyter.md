@@ -1,3 +1,7 @@
+# Prerequisite
+- System Environment set up (see `first_steps`)
+- MNE set up (see `setup_mne`)
+
 # Start Jupyter job on cluster
 
 You should be able to use the Neuronal Oscillations Group functions (nog functions) if you followed the "first steps" instructions. To start a jupyter server that you can connect to from your local machine's browser, use:
