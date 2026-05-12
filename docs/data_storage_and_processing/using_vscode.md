@@ -1,4 +1,5 @@
 # Prerequisite
+- you are on a login node (not gateway, use `ssh htc-login`)
 - System Environment set up (see `first_steps`)
 - some mamba environment set up set up (see `setup_mamba_environment`)
 
