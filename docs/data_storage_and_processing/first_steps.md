@@ -27,3 +27,18 @@ source ~/.bashrc
 ```
 
 This will write a couple of paths to your `~/.bashrc` that are necessary to use group functions and ensures everything is set up correctly.
+
+# RFS credentials
+After setting up the system environment you might have been prompted to create an RFS credentials file.
+This is useful, because it allows you to interact with RFS using `nog_rfs` without being prompted for your username and password.
+
+The security risk is minimal, because the credentials file is placed in your ARC `$HOME` directory, which only you can access.
+
+`nog_rfs` expects the redentials file in `$HOME/.config/private` and it should be called `rfs_cred` (no file extension).
+
+The file should look like this:
+```bash
+username=AD-OAK\psycXXXX
+password=your_pass
+domain=ox.ac.uk
+```
