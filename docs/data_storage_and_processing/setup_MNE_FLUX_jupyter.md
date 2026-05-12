@@ -12,7 +12,7 @@ This will download FLUX, install a new MNE environment in `$DATA/environments`an
 
 # Start Jupyter job on cluster
 
-After following the previous steps, you should be able to use the Neuronal Oscillations Group functions (nog functions). To start a jupyter server that you can connect to from your local machine's browser, use:
+You should be able to use the Neuronal Oscillations Group functions (nog functions) if you followed the "first steps" instructions. To start a jupyter server that you can connect to from your local machine's browser, use:
 
 ```bash
 nog_jupyter_server
