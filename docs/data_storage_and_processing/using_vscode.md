@@ -1,14 +1,12 @@
+# Prerequisite
+- System Environment set up (see `first_steps`)
+- some mamba environment set up set up (see `setup_mamba_environment`)
+
 # Using Cluster Node as VSCode backend
 
 The idea is to submit a job at ARC and later connect to that job via a VSCode instance running in the browser of your local computer.
 
-### 1. Setup System Environment and Mamba Environment
-
-Follow `first_steps` to set up the system environment correctly.
-
-Follow `setup_mamba_environment` to see how you set up a new mamba environment.
-
-### 2. Submit VSCode job
+### 1. Submit VSCode job
 
 Once we have that, we want to submit an interactive job that VSCode later connects to. We can use `nog_vscode_server` for this:
 
@@ -22,7 +20,7 @@ Enter the link in your browser, followed by the code and authenticate using your
 
 The VSCode server is now running.
 
-### 3. Configuring VSCode
+### 2. Configuring VSCode
 
 First, we need to install the Python extension. Install it.
 
@@ -52,7 +50,7 @@ Copy / Paste the following into there (and adjust if required - replace psycXXXX
 
 And now you should see the mamba environment enabled. It could be that you have to also specify the interpreter. To do so, go back to the Command Palette and search for `Python: Select Interpreter`.
 
-### 4. From then on
+### 3. From then on
 
 If you've set everything up correctly, you only need to call `nog_vscode_server`. See:
 
