@@ -23,7 +23,7 @@ source activate "${NOG_ENV_DIR}/env_name" # DO NOT USE mamba activate or conda a
 
 
 mamba install -c conda-forge matplotlib numpy pandas # you name it
-mamba deactivate # here you can (and should) use mamba / conda deactivate
+conda deactivate
 ```
 
 We can check that everything works by activating the environment. Check that the Python version is correct and also attempt loading a package you've installed:
@@ -40,4 +40,4 @@ import numpy as np
 # exit()
 ```
 
-If none of the above throw an error and the Python version is correct you're good to go. Also don't forget to `mamba deactivate`.
+If none of the above throw an error and the Python version is correct you're good to go. Also don't forget to `conda deactivate`.
