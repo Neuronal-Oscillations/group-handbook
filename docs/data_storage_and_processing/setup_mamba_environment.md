@@ -1,3 +1,6 @@
+# Prerequisite
+- System Environment set up (see `first_steps`)
+
 # Setup new environment
 
 You have to use a compute node to setup new environments or install new packages in an existing environment. ALWAYS !.
