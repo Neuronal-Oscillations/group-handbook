@@ -2,44 +2,10 @@
 
 The idea is to submit a job at ARC and later connect to that job via a VSCode instance running in the browser of your local computer.
 
-### 1. Setup System Environment
+### 1. Setup System Environment and Mamba Environment
 
 Follow `first_steps` to set up the system environment correctly.
-
-Submit an interactive job, because you have to be on a compute node to setup an environment to use with VSCode:
-
-```bash
- # change time or memory to your liking 
- srun --mem=16G --time="04:00:00" --pty bash
-```
-
-In the next step, we actually create the environment and install some packages:
-
-```bash
-module load Mamba/23.11.0-0
-mamba create -p "${ENV_DIR}/env_name" python=3.12 -y # choose whatever name / python version. The -y tells the command to skip asking for confirmation
-source activate "${ENV_DIR}/env_name" # DO NOT USE mamba activate or conda activate !!!
-
-
-mamba install -c conda-forge matplotlib numpy pandas # you name it
-mamba deactivate # here you can (and should) use mamba / conda deactivate
-```
-
-We can check that everything works by activating the environment. Check that the Python version is correct and also attempt loading a package you've installed:
-
-```bash
-source activate "${ENV_DIR}/env_name"
-python
-```
-
-and in the python shell:
-
-```python
-import numpy as np
-# exit()
-```
-
-If none of the above throw an error and the Python version is correct you're good to go. Also don't forget to `mamba deactivate`.
+Follw `setup_environment` to see how you set up a new environment.
 
 ### 2. Submit VSCode job
 
