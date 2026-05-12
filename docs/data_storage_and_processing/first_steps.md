@@ -34,7 +34,7 @@ This is useful, because it allows you to interact with RFS using `nog_rfs` witho
 
 The security risk is minimal, because the credentials file is placed in your ARC `$HOME` directory, which only you can access.
 
-`nog_rfs` expects the redentials file in `$HOME/.config/private` and it should be called `rfs_cred` (no file extension).
+`nog_rfs` expects the credentials file in `$HOME/.config/private` and it should be called `rfs_cred` (no file extension).
 
 The file should look like this:
 ```bash
