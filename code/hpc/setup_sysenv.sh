@@ -38,7 +38,7 @@ for line in "${lines[@]}"; do
   grep -qxF "$line" ~/.bashrc || echo "$line" >> ~/.bashrc
 done
 
-chmod +x "${DATA}/git-repos/group-handbook/code/hpc/bin/"*
+chmod +x "${SCRIPT_DIR}/bin/"*
 
 # setup ~/.condarc
 touch ~/.condarc
