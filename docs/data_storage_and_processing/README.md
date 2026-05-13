@@ -11,3 +11,4 @@ We here explain the steps of using the ARC and RFS. This includes getting, accou
 
 - [Advanced Ressearch Computing (ARC)](https://github.com/Neuronal-Oscillations/group-handbook/edit/main/docs/data_storage_and_processing/accessing_ARC.md)
 - [Research File System (RFS)](https://github.com/Neuronal-Oscillations/group-handbook/blob/main/docs/data_storage_and_processing/storage.md)
+- [Copy to and from RFS and data directories at ARC](https://github.com/Neuronal-Oscillations/group-handbook/blob/main/docs/data_storage_and_processing/RFS_to_ARC_data_transfer.md) 
