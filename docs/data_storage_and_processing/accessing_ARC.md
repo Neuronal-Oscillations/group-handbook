@@ -24,8 +24,11 @@ The Neuronal Oscillations project on the ARC infrastructure is called "psyc-neuo
 1. Connect via web browser to [NoMachine](https://www.nomachine.com/)
 2. Ensure you are on the VPN network
 2. Run NoMachine
-3. Add the host ```nx.arc.ox.ac.uk```
-4. Login with Oxford SSO
+3. Add the host
+   ```
+   nx.arc.ox.ac.uk
+   ```
+5. Login with Oxford SSO
 4. Select "Create a new virtual desktop"
 5. Once the desktop opens, launch applications from the menu (bottom left corner)
 
