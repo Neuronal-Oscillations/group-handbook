@@ -4,13 +4,11 @@ This document provides recommendations for storing OHBA imaging data, including 
 
 ## Prerequisites
 
-1. Follow the steps at [Oxford Research File Service (RFS) - Available for storing your live research data](https://www.it.ox.ac.uk/article/oxford-research-file-service-rfs-available-for-storing-your-live-research-data)
-   - This will direct you to the Service Catalogue where RFS can be requested
 
 ## Steps
 
 ### Requestions a RFS storage 
-- Follow steps at https://www.it.ox.ac.uk/article/oxford-research-file-service-rfs-available-for-storing-your-live-research-data
+Follow steps at https://www.it.ox.ac.uk/article/oxford-research-file-service-rfs-available-for-storing-your-live-research-data
   (this will take you to the Service Catalogue where RFS can be requestes)
 
 ### Mounting RFS storage
