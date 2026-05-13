@@ -19,8 +19,7 @@ These instructions will serve to download the 'group-handbook' including various
   ```
   
 ### Download 'group-handbook' markdown manual and bash scripts 
-
-* Download the repository into `$DATA/git-repos`. Later scripts and functions expect `group-handbook` in `$DATA/git-repos`.
+* Download the repository into `$DATA/git-repos`. The scripts and functions in `group-handbook` will reside in `$DATA/git-repos`.
 ```bash
 cd $DATA
 mkdir -p git-repos
@@ -28,14 +27,14 @@ cd git-repos
 git clone https://github.com/Neuronal-Oscillations/group-handbook
 ```
 
-# Setup System Environment
-
+### Setup System Environment
+* Execute the bash-script `setup_sysenv.sh`
 ```bash
 bash group-handbook/code/hpc/setup_sysenv.sh
 source ~/.bashrc
 ```
 
-This will write a couple of paths to your `~/.bashrc` that are necessary to use group functions and ensures everything is set up correctly.
+This will define paths in `~/.bashrc` necessary to use the group functions and ensure a correct setup.
 
 # RFS credentials
 After setting up the system environment you might have been prompted to create an RFS credentials file.
