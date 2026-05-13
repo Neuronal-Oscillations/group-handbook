@@ -28,8 +28,4 @@ We here explain the steps of using the ARC and RFS. This includes getting, accou
 
 
 Useful instructions
-<<<<<<< HEAD
 - [Copying between RFS and data directories on ARC](RFS-to-ARC-data-transfer.md)
-=======
-- [Copying between RFS and data directories on ARC](https://github.com/Neuronal-Oscillations/group-handbook/blob/main/docs/data-storage-and-processing/RFS-to-ARC-data-transfer.md)
->>>>>>> 1299a59 (rename folder)
