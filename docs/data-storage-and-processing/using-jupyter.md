@@ -1,7 +1,7 @@
 # Prerequisite
 - you are on a login node (not gateway, use `ssh htc-login`)
 - System Environment set up (see [initialise](initialise.md))
-- MNE set up (see [setup_mne](setup_mne.md))
+- MNE set up (see [setup-mne](setup-mne.md))
 
 # Start Jupyter job on cluster
 
