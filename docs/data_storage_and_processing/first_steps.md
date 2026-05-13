@@ -28,7 +28,7 @@ git clone https://github.com/Neuronal-Oscillations/group-handbook
 ```
 
 ### Setup System Environment
-* Execute the bash-script `setup_sysenv.sh`
+* Execute the bash-script `setup_sysenv.sh`:
 ```bash
 bash group-handbook/code/hpc/setup_sysenv.sh
 source ~/.bashrc
@@ -36,17 +36,17 @@ source ~/.bashrc
 
 This will define paths in `~/.bashrc` necessary to use the group functions and ensure a correct setup.
 
-# RFS credentials
-After setting up the system environment you might have been prompted to create an RFS credentials file.
-This is useful, because it allows you to interact with RFS using `nog_rfs` without being prompted for your username and password.
-
-The security risk is minimal, because the credentials file is placed in your ARC `$HOME` directory, which only you can access.
-
-`nog_rfs` expects the credentials file in `$HOME/.config/private` and it should be called `rfs_cred` (no file extension).
+### RFS credentials
+The RFS credentials file allows you to interact with RFS using `nog_rfs` (that we will set up later) without being prompted for your username and password. The security risk is minimal, because the credentials file is placed in your ARC `$HOME` directory, which only you can access. `nog_rfs` expects the credentials file in `$HOME/.config/private` and it should be called `rfs_cred` (no file extension).
 
 The file should look like this:
 ```bash
 username=AD-OAK\psycXXXX
 password=your_pass
 domain=ox.ac.uk
+```
+
+This can be done using the editor `nano` :
+```
+nano $HOME/.config/private/rfs_cred
 ```
