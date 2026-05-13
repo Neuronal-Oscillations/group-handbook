@@ -1,6 +1,6 @@
 # Prerequisite
 - you are on a login node (not gateway, use `ssh htc-login`)
-- System Environment set up (see `first_steps`)
+- System Environment set up (see [initialise](initialise.md))
 
 # Install MNE
 
