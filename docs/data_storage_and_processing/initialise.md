@@ -44,6 +44,9 @@ The RFS credentials file allows `nog_rfs` to interact with RFS without prompting
 ```bash
 mkdir -p $HOME/.config/private
 nano $HOME/.config/private/rfs_cred
+
+# restrict file access to user only
+chmod 600 $HOME/.config/private/rfs_cred
 ```
 
 The file should contain the following (replace with your own details):
