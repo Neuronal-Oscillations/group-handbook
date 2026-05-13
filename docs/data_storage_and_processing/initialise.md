@@ -43,10 +43,13 @@ The RFS credentials file allows `nog_rfs` to interact with RFS without prompting
 `nog_rfs` expects the credentials file at `$HOME/.config/private/rfs_cred` (no file extension). Create it using `nano`:
 ```bash
 mkdir -p $HOME/.config/private
-nano $HOME/.config/private/rfs_cred
 
-# restrict file access to user only
+# create file and limit access to user only
+touch $HOME/.config/private/rfs_cred
 chmod 600 $HOME/.config/private/rfs_cred
+
+# open the file and enter credentials
+nano $HOME/.config/private/rfs_cred
 ```
 
 The file should contain the following (replace with your own details):
