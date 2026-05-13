@@ -10,7 +10,7 @@ These instructions will serve to download the 'group-handbook' including various
 
 ## Steps 
 
-Login
+### Login
 * Connect to VPN
 * Connect to ARC (via remote desktop or SSH). You end up at a gateway node.
 * ssh into login node 
@@ -18,7 +18,7 @@ Login
   ssh -X htc-login
   ```
   
-Download 'group-handbook' markdown manual and bash scripts 
+### Download 'group-handbook' markdown manual and bash scripts 
 
 * Download the repository into `$DATA/git-repos`. Later scripts and functions expect `group-handbook` in `$DATA/git-repos`.
 ```bash
