@@ -10,4 +10,4 @@ We here explain the steps of using the ARC and RFS. This includes getting, accou
 ## Steps
 
 - Accessing [ARC](https://github.com/Neuronal-Oscillations/group-handbook/edit/main/docs/data_storage_and_processing/accessing_ARC.md)
-- Getting storage on RFS: [Storage of OHBA imaging data](https://github.com/Neuronal-Oscillations/group-handbook/blob/main/docs/data_storage_and_processing/storage.md)
+- Storage on RFS: [Storage of OHBA imaging data](https://github.com/Neuronal-Oscillations/group-handbook/blob/main/docs/data_storage_and_processing/storage.md)
