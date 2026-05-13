@@ -21,7 +21,6 @@ Login
 Download 'group-handbook' markdown manual and bash scripts 
 
 * Download the repository into `$DATA/git-repos`. Later scripts and functions expect `group-handbook` in `$DATA/git-repos`.
-
 ```bash
 cd $DATA
 mkdir -p git-repos
