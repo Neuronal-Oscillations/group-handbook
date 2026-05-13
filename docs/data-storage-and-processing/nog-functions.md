@@ -2,8 +2,8 @@
 
 - you are on a login node (not gateway, use `ssh htc-login`)
 - System Environment set up (see [initialise](initialise.md))
-- MNE set up for `nog_jupyter_server` (see [setup_mne](setup_mne.md))
-- some mamba environment to be used with vscode set up for `nog_vscode_server` (see [setup_mamba_environment](setup_mamba_environment.md))
+- MNE set up for `nog_jupyter_server` (see [setup-mne](setup-mne.md))
+- some mamba environment to be used with vscode set up for `nog_vscode_server` (see [setup-mamba-environment](setup-mamba-environment.md))
 
 # What are they ?
 
