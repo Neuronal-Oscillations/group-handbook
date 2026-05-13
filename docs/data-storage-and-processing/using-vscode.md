@@ -1,9 +1,10 @@
-# Prerequisite
+# Starting a VSCode server
+## Prerequisite
 - you are on a login node (not gateway, use `ssh htc-login`)
 - System Environment set up (see [initialise](initialise.md))
 - some mamba environment set up set up (see [setup-mamba-environment](setup-mamba-environment.md))
 
-# Using Cluster Node as VSCode backend
+## Using Cluster Node as VSCode backend
 
 The idea is to submit a job at ARC and later connect to that job via a VSCode instance running in the browser of your local computer.
 
