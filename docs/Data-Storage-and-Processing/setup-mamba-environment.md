@@ -1,10 +1,11 @@
-# Prerequisite
+# Setting up a mamba environment
+## Prerequisite
 - you are on a login node (not gateway, use `ssh htc-login`)
 - System Environment set up (see [initialise](initialise.md))
 
-# Setup new environment
+## Setup new environment
 
-You don't need to follow this instructions for setting up the MNE environment. For this you can see [setup_mne](setup_mne.md).
+You don't need to follow this instructions for setting up the MNE environment. For this you can see [setup-mne](setup-mne.md).
 
 You have to use a compute node to setup new environments or install new packages in an existing environment. ALWAYS !.
 
