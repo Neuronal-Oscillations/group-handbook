@@ -2,4 +2,4 @@
 
 Download the repository and add `group-handbook/code/hpc/bin` to `$PATH` in `~/.bashrc`. Also make the files executable using `chmod +x`
 
-When using `bash group-handbook/code/hpc/setup_sysenv.sh` this is done automatically. See also [initialise](../../../docs/data_storage_and_processing/initialise.md)
+When using `bash group-handbook/code/hpc/setup_sysenv.sh` this is done automatically. See also [initialise](../../../docs/Data-Storage-and-Processing/initialise.md)
