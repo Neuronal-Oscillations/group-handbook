@@ -13,6 +13,7 @@ We here explain the steps of using the ARC and RFS. This includes getting, accou
 - [Initialise Settings and Folders](https://github.com/Neuronal-Oscillations/group-handbook/blob/main/docs/data_storage_and_processing/initialise.md)
 - [Initialise NOG functions](https://github.com/Neuronal-Oscillations/group-handbook/blob/main/docs/data_storage_and_processing/nog_functions.md)
 - [Set up MNE Python](https://github.com/Neuronal-Oscillations/group-handbook/blob/main/docs/data_storage_and_processing/setup_mne.md)
+- [Using Jupyter to run MNE Python](https://github.com/Neuronal-Oscillations/group-handbook/blob/main/docs/data_storage_and_processing/using_jupyter.md)
 
 
 
