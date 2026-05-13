@@ -1,7 +1,7 @@
 # Initialise Settings and Folders
 
 ## Purpose
-These instructions cover downloading the `group-handbook` repository, which contains bash scripts that configure the required folders and system environment variables.
+These instructions cover downloading the [group-handbook](https://github.com/Neuronal-Oscillations/group-handbook) repository, which contains bash scripts that configure the required folders and system environment variables.
 
 ## Prerequisites
 - A SSO (Single Sign-On) account at the University of Oxford
@@ -19,7 +19,7 @@ These instructions cover downloading the `group-handbook` repository, which cont
   ```
 
 ### 2. Download the `group-handbook` Repository
-Download the repository into `$DATA/git-repos`. The scripts and functions in `group-handbook` will reside there.
+Download the repository into `$DATA/git-repos`. The scripts and functions in [group-handbook](https://github.com/Neuronal-Oscillations/group-handbook) will reside there.
 ```bash
 cd $DATA
 mkdir -p git-repos
@@ -36,7 +36,7 @@ source ~/.bashrc
 This defines the paths in `~/.bashrc` needed to use the group functions and ensures a correct environment setup.
 
 ### 4. Configure RFS Credentials
-The RFS credentials file allows `nog_rfs` to interact with RFS without prompting for your username and password each time.
+The RFS credentials file allows `nog_rfs` (see [nog_functions](nog_functions.md)) to interact with RFS without prompting for your username and password each time.
 
 > **Security note:** The credentials file is stored in your ARC `$HOME` directory, which only you can access, so the security risk is minimal.
 
@@ -58,4 +58,4 @@ username=AD-OAK\psycXXXX
 password=YOUR-PASSWORD
 domain=ox.ac.uk
 ```
-Save with `Ctrl+O` and exit with `Ctrl+X`.
+Save with `Ctrl+o` and exit with `Ctrl+x`.
