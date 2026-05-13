@@ -26,7 +26,6 @@ Download 'group-handbook' markdown manual and bash scripts
 cd $DATA
 mkdir -p git-repos
 cd git-repos
-
 git clone https://github.com/Neuronal-Oscillations/group-handbook
 ```
 
