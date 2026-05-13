@@ -1,15 +1,15 @@
 # Prerequisite
 
 - you are on a login node (not gateway, use `ssh htc-login`)
-- System Environment set up (see `first_steps`)
-- MNE set up for `nog_jupyter_server` (see `setup_mne`)
-- some mamba environment to be used with vscode set up for `nog_vscode_server` (see `setup_mamba_environment`)
+- System Environment set up (see [initialise](initialise.md))
+- MNE set up for `nog_jupyter_server` (see [setup_mne](setup_mne.md))
+- some mamba environment to be used with vscode set up for `nog_vscode_server` (see [setup_mamba_environment](setup_mamba_environment.md))
 
 # What are they ?
 
 They are command line functions that should streamline the interaction with the ARC cluster.
-Once installed correctly (see "first_steps"), they can be accessed from the ARC terminal.
-To make nog functions work properly, you MUST follow the setup procedure documented in "first_steps"
+Once installed correctly (see [initialise](initialise.md)), they can be accessed from the ARC terminal.
+To make nog functions work properly, you MUST follow the setup procedure documented in [initialise](initialise.md)
 
 # Why nog ?
 
@@ -73,7 +73,7 @@ A server will start in the background and shortly after, instructions on how to 
 
 # nog_rfs
 
-This functions allows the user to interact with the RFS file storage. Requires that the RFS credentials file is set up (see `first_steps`).
+This functions allows the user to interact with the RFS file storage. Requires that the RFS credentials file is set up (see [initialise](initialise.md)).
 
 ```bash
 nog_rfs (ls|mkdir|push|pull|rm) REMOTE_FILE [LOCAL_FILE]...
