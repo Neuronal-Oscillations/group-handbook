@@ -1,10 +1,20 @@
-# First things first
+# Initialise various setting and folders 
+## Purpose
+These instructions will serve to download the 'group-handbook' including various bash scripts. This scripts will define the required folders and system variables. 
 
-- connect to VPN
+## Prerequisites
+- A SSO (Single Sign-On) account at the University of Oxford
+- VPN access to the University of Oxford network (required for off-site access)
+- An account on the project psyc-neuosc at ARC
+
+
+## Steps 
+
+* Connect to VPN
   
-- connect to ARC (via remote desktop or SSH). You end up at a gateway node.
-  
-- ssh into login node (`ssh htc-login`)
+* Connect to ARC (via remote desktop or SSH). You end up at a gateway node.
+
+* ssh into login node (`ssh htc-login`)
   
 
 # Using Neuronal Oscillations Group code
