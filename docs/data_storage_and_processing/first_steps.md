@@ -42,7 +42,7 @@ The RFS credentials file allows you to interact with RFS using `nog_rfs` (that w
 The file should look like this:
 ```bash
 username=AD-OAK\psycXXXX
-password=your_pass
+password=YOUR-PASSWRD
 domain=ox.ac.uk
 ```
 
