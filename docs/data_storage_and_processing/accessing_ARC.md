@@ -33,11 +33,16 @@ The Neuronal Oscillations project on the ARC infrastructure is called "psyc-neuo
 5. Once the desktop opens, launch applications from the menu (bottom left corner)
 
 The abobe steps bring you to an entry node. The next step is to nagivate to an htc node write
-```ssh -X htc-login```
+```
+ssh -X htc-login
+```
 
 Major jobs should not be executed from a login node. To start an interactive session on a htc node write
 
-`srun -p interactive --x11 --pty /bin/bash`
+```
+srun -p interactive --x11 --pty /bin/bash
+```
+
 
 <img width="1145" height="585" alt="image" src="https://github.com/user-attachments/assets/89c5e9e4-8fe8-4b1e-80ac-2a4504c49c76" />
 
