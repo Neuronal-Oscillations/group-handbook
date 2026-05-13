@@ -3,22 +3,11 @@
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 
 # setup path structure
-mkdir -p "${HOME}/.config"
-mkdir -p "${HOME}/.config/private"
-
-mkdir -p "${DATA}/environments"
-mkdir -p "${DATA}/environments/.conda"
-mkdir -p "${DATA}/environments/.conda/pkgs"
-mkdir -p "${DATA}/environments/.conda/envs"
-
-mkdir -p "${DATA}/environments/vscode"
-mkdir -p "${DATA}/environments/vscode/.vscode-extensions"
-mkdir -p "${DATA}/environments/vscode/.vscode-cli"
-mkdir -p "${DATA}/environments/vscode/.vscode-server"
-
-mkdir -p "${DATA}/environments/jupyter"
-mkdir -p "${DATA}/environments/jupyter/share"
-mkdir -p "${DATA}/environments/jupyter/share/jupyter"
+mkdir -p \
+    "${HOME}/.config/private" \
+    "${DATA}/environments/.conda/"{pkgs,envs} \
+    "${DATA}/environments/vscode/.vscode-"{extensions,cli,server} \
+    "${DATA}/environments/jupyter/share/jupyter"
 
 # setup ~/.bashrc
 lines=(
