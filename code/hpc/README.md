@@ -1,7 +1,7 @@
 # HPC scripts
 Scripts in this folder are at the moment set up to work with the ARC cluster. Files to interface with RFS will follow.
 
-See [Data-Storage-and-Processing](../../docs/Data-Storage-and-Processing) for how to use them. Also check out [initilise](../../docs/Data-Storage-and-Processing/initialise.md) on how to setup your system environment.
+See [Data Storage and Processing](../../docs/Data-Storage-and-Processing) for how to use them. Also check out [initilise](../../docs/Data-Storage-and-Processing/initialise.md) on how to setup your system environment.
 
 # Setup scripts and functions:
 Download this repository to `$DATA/git-repos`:
@@ -23,4 +23,4 @@ Lastly re-source your ~/.bashrc
 ```bash
 source ~/.bashrc
 ```
-Afterwards the `nog_` functions are available to you. See also [nog-functions](../../docs/Data-Storage-and-Processing/nog-functions.md) 
+Afterwards the `nog_` functions are available to you. See also [nog_functions](../../docs/Data-Storage-and-Processing/nog-functions.md) 
