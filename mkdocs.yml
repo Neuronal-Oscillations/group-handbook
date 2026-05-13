@@ -8,3 +8,5 @@ theme:
       - navigation.sections    # grouped sidebar
       - navigation.top         # back to top button
       - toc.integrate          # table of contents in sidebar
+hooks:
+  - docs/hooks.py
