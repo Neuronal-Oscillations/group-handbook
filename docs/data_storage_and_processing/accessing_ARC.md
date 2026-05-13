@@ -24,13 +24,13 @@ The Neuronal Oscillations project on the ARC infrastructure is called "psyc-neuo
 1. Connect via web browser to [NoMachine](https://www.nomachine.com/)
 2. Ensure you are on the VPN network
 2. Run NoMachine
-3. Add the host `nx.arc.ox.ac.uk`
+3. Add the host ```nx.arc.ox.ac.uk```
 4. Login with Oxford SSO
 4. Select "Create a new virtual desktop"
 5. Once the desktop opens, launch applications from the menu (bottom left corner)
 
 The abobe steps bring you to an entry node. The next step is to nagivate to an htc node write
-`ssh -X htc-login`
+```ssh -X htc-login```
 
 Major jobs should not be executed from a login node. To start an interactive session on a htc node write
 
