@@ -1,9 +1,10 @@
-# Prerequisite
+# Starting a jupyter server
+## Prerequisite
 - you are on a login node (not gateway, use `ssh htc-login`)
 - System Environment set up (see [initialise](initialise.md))
 - MNE set up (see [setup-mne](setup-mne.md))
 
-# Start Jupyter job on cluster
+## Start Jupyter job on cluster
 
 You should be able to use the Neuronal Oscillations Group functions (nog functions) if you followed the "first steps" instructions. To start a jupyter server that you can connect to from your local machine's browser, use:
 
@@ -21,7 +22,7 @@ nog_jupyter_server -h
 
 The job is submitted as a batch job (but with live output). To see your current jobs use `squeue -u $USER` and to kill a job use `scancel <JOBID>`. Note that `ctrl + c` will **not** terminate the job (only the output).
 
-# Connect your local machine to Jupyter
+## Connect your local machine to Jupyter
 
 In your local machine's Terminal (or MobaXTerm on Windows), copy and paste the `ssh` command that `nog_jupyter_server` prints. It should look something like this:
 
