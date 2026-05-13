@@ -3,7 +3,8 @@
 This document provides recommendations for storing OHBA imaging data, including MEG, OPM, and MRI data. The Oxford Research File Service (RFS) can only be used for non-confidential data (for example large data with no identifiers). OneDrive can be used for confidential data.
 
 ## Prerequisites
-
+- A SSO (Single Sign-On) account at the University of Oxford
+- VPN access to the University of Oxford network (required for off-site access)
 
 ## Steps
 
