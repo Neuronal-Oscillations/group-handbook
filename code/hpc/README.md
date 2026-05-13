@@ -13,7 +13,7 @@ cd git-repos
 git clone https://github.com/Neuronal-Oscillations/group-handbook
 ```
 
-and setup your system environment:
+and setup your system environment (see [initilise](../../docs/data_storage_and_processing/initialise.md)):
 ```bash
 bash group-handbook/code/hpc/setup_sysenv.sh
 ```
@@ -23,4 +23,4 @@ Lastly re-source your ~/.bashrc
 ```bash
 source ~/.bashrc
 ```
-Afterwards the `nog_` functions are available to you.
+Afterwards the `nog_` functions are available to you. See also [nog_functions](../../docs/data_storage_and_processing/nog_functions.md) 
