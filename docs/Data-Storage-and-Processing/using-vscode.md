@@ -2,7 +2,7 @@
 ## Prerequisite
 - you are on a login node (not gateway, use `ssh htc-login`)
 - System Environment set up (see [initialise](initialise.md))
-- some mamba environment set up set up (see [setup-mamba-environment](setup-mamba-environment.md))
+- some mamba environment set up set up (see [Setting up Mamba Environment](setup-mamba-environment.md))
 
 ## Using Cluster Node as VSCode backend
 
@@ -10,7 +10,7 @@ The idea is to submit a job at ARC and later connect to that job via a VSCode in
 
 ### 1. Submit VSCode job
 
-Once we have that, we want to submit an interactive job that VSCode later connects to. We can use `nog_vscode_server` for this (see [nog-functions](nog-functions.md)):
+Once we have that, we want to submit an interactive job that VSCode later connects to. We can use `nog_vscode_server` for this (see [nog_functions](nog-functions.md)):
 
 ```bash
 nog_vscode_server
