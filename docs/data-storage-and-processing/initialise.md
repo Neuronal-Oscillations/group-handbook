@@ -36,7 +36,7 @@ source ~/.bashrc
 This defines the paths in `~/.bashrc` needed to use the group functions and ensures a correct environment setup.
 
 ### 4. Configure RFS Credentials
-The RFS credentials file allows `nog_rfs` (see [nog_functions](nog_functions.md)) to interact with RFS without prompting for your username and password each time.
+The RFS credentials file allows `nog_rfs` (see [nog_functions](nog-functions.md)) to interact with RFS without prompting for your username and password each time.
 
 > **Security note:** The credentials file is stored in your ARC `$HOME` directory, which only you can access, so the security risk is minimal.
 
