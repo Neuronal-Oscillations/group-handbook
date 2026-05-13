@@ -1,7 +1,7 @@
 # HPC scripts
 Scripts in this folder are at the moment set up to work with the ARC cluster. Files to interface with RFS will follow.
 
-See [data_storage_and_processing](../../docs/data_storage_and_processing) for how to use them. Also check out [initilise](../../docs/data_storage_and_processing/initialise.md) on how to setup your system environment.
+See [data_storage_and_processing](../../docs/Data-Storage-and-Processing) for how to use them. Also check out [initilise](../../docs/Data-Storage-and-Processing/initialise.md) on how to setup your system environment.
 
 # Setup scripts and functions:
 Download this repository to `$DATA/git-repos`:
@@ -13,7 +13,7 @@ cd git-repos
 git clone https://github.com/Neuronal-Oscillations/group-handbook
 ```
 
-and setup your system environment (see [initilise](../../docs/data_storage_and_processing/initialise.md)):
+and setup your system environment (see [initilise](../../docs/Data-Storage-and-Processing/initialise.md)):
 ```bash
 bash group-handbook/code/hpc/setup_sysenv.sh
 ```
@@ -23,4 +23,4 @@ Lastly re-source your ~/.bashrc
 ```bash
 source ~/.bashrc
 ```
-Afterwards the `nog_` functions are available to you. See also [nog_functions](../../docs/data_storage_and_processing/nog_functions.md) 
+Afterwards the `nog_` functions are available to you. See also [nog_functions](../../docs/Data-Storage-and-Processing/nog-functions.md) 
