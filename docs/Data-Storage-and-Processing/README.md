@@ -12,7 +12,7 @@ We here explain the steps of using the ARC and RFS. This includes getting, accou
 - [Research File System (RFS)](storage.md)
 - [Initialise Settings and Folders](initialise.md)
 - [Initialise NOG functions](nog-functions.md)
-- [Set up MNE Python](setup-mne.md)
+- [Setting up MNE Python](setup-mne.md)
 - [Using Jupyter to run MNE Python](using-jupyter.md)
 
 Useful instructions
