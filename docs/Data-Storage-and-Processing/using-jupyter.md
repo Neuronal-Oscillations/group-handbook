@@ -27,9 +27,9 @@ The job is submitted as a batch job (but with live output). To see your current 
 In your local machine's Terminal (or MobaXTerm on Windows), copy and paste the `ssh` command that `nog_jupyter_server` prints. It should look something like this:
 
 ```bash
-ssh -L 8888:htc-cXXX:XXXXX -J psycXXXX@gateway.arc.ox.ac.uk psycXXXX@htc-login
+ssh -L 8888:htc-cXXX:XXXXX psycXXXX@gateway.arc.ox.ac.uk
 ```
 
-You will have to enter your password twice (due to node hopping).
+You will have to enter your password.
 
 After that, open your browser on your local machine and navigate to [http://localhost:8888/tree](http://localhost:8888/tree)
