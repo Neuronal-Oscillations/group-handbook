@@ -11,7 +11,8 @@ Recommendations for copying data to and from ARC to RFS.
 - A SSO (Single Sign-On) account at the University of Oxford
 - VPN access to the University of Oxford network (required for off-site access)
 - An account on the project psyc-neuosc at ARC
-- A project on RFS drive 
+- A project on RFS drive
+- Install neuronal oscillatiosn group (nog) initialisation files (just do once); see [initialise](initialise.md)
   
 ## Steps
    
