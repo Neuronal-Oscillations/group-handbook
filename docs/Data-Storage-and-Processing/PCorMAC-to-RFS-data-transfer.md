@@ -57,8 +57,7 @@ This copies the `mydata` folder (and subfolders) from your local folder to the A
 
 
 ### References
-
-[RFS owners guide](https://help.it.ox.ac.uk/sites/default/files/help/documents/media/rfs_owners_guide.pdf)
+- [RFS owners guide](https://help.it.ox.ac.uk/sites/default/files/help/documents/media/rfs_owners_guide.pdf)
 <!--
 ## Verification
 ## Troubleshooting
