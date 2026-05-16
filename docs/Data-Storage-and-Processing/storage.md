@@ -64,28 +64,6 @@ Enter the server address: `smb://connect.ox.ac.uk/RFS`
 <img width="560" height="263" alt="image" src="https://github.com/user-attachments/assets/5affccbb-3f29-462e-b559-72958dd3babf" />
 
 
-### Linux
-
-For Linux/ARC systems, RFS access is typically configured during initial setup. If you need to mount RFS manually, use:
-
-```bash
-mount -t cifs //connect.ox.ac.uk/RFS /mount/point -o credentials=~/.smbcredentials
-```
-
-Consult the [ARC documentation](https://arc.ox.ac.uk) for detailed instructions specific to your system.
-
----
-
-## OneDrive Storage for Confidential Data
-
-For data containing personal identifiers or sensitive information, use Microsoft OneDrive. OneDrive is encrypted and access-controlled per file/folder.
-
-**To share OneDrive folders securely:**
-1. Create a folder in OneDrive for your project
-2. Use "Share" to grant specific users access with appropriate permissions
-3. Avoid sharing links publicly or with broad organizational access
-
----
 
 <!--
 ## Verification
