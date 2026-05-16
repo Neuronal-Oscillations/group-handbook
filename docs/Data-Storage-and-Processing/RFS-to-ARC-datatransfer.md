@@ -52,60 +52,65 @@ nog_rfs (ls|mkdir|push|pull|rm) REMOTE_FILE [LOCAL_FILE]...
 #### Log in to ARC
 - Login to ARC login node (use `ssh htc-login` from gateway/entry node'; see [Accessing ARC](accessing-ARC.md)
 
-#### List content in RFS root
+#### List content 
+List concent in RFS root
 ```bash
 nog_rfs ls
 ```
-#### List contenxt in RFS sub directions
-
+List content in RFS sub directions
 ```bash
 nog_rfs ls DIR/SUBDIR/
 ```
 
-#### Copy RFS FILE to current ARC directory
+#### Copy from RFS to ARC 
+Copy RFS FILE to current ARC directory
 ```bash
 nog_rfs pull RFS_FILE
 ```
-#### Copy RFS FILE to specific ARC directory
+Copy RFS FILE to specific ARC directory
 ```bash
 nog_rfs pull rfs_file $DATA/DIR
 ```
 
-#### Copy RFS directory to ARC
+Copy RFS directory to ARC
 ```bash
 mkdir RFS_FFS_DIR
 nog_rfs pull -d RFS_DIE RFS_DIR/
 ```
 
-#### Copy ARC file to RFS root
+#### Copy from ARC to RFS 
+Copy ARC file to RFS root
 ```bash
 nog_rfs push ARC_FILE
 ```
 
-#### Copy ARC directory to RFS root
+Copy ARC directory to RFS root
 ```bash
 nog_rfs push ARC_DIRECTORY
 ```
-#### Copy ARC directroy from RFS directpry
+Copy ARC directroy from RFS directpry
 ```bash
 nog_rfs push ARC_DIR RFS_DIR/
 ```
-#### Remove file on RFS to
+### Remove on RFS 
+Remove files on RFS
 ```bash
 nog_rfs rm RFS_DIR/FRS_FILE
 ```
 
-#### Remove directroy on RFS to (use with caution)
+Remove directroy on RFS to (use with caution)
 ```bash
 nog_rfs rm -d RFS_DIR/RFS_SUBDIR
 ```
 
-#### New RFS directory on root
+### Make RFS directory 
+
+New RFS directory on root
 ```bash
 nog_rfs mkdir "NEW_DIR
 ```
 
-#### New RFS directory in other directory
+New RFS directory in other directory
 ```bash
 nog_rfs mkdir NEW_SUBDIR NEW_DIR/
 ```
