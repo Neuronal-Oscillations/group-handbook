@@ -1,4 +1,4 @@
-# FRS Storage of OHBA Imaging Data
+# RFS Storage of OHBA Imaging Data
 
 ## Purpose
 
