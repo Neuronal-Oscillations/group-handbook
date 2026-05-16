@@ -1,11 +1,11 @@
 # Data transfer between RFS and ARC
 ## Purpose
 
-Recommendations for copying data to and from ARC to RFS.  
-
+Recommendations for copying data to and from ARC to RFS: 
 1. Copying raw data (typically from RFS; warm data) to the data directory on ARC (hot data)
 2. Performing analysis on ARC
 3. Copying output data back to the core store (typically RFS)
+This will be achieved using the group specific 'nog_rfs' script. 
 
 ## Prerequisites
 - A SSO (Single Sign-On) account at the University of Oxford
@@ -13,12 +13,6 @@ Recommendations for copying data to and from ARC to RFS.
 - An account on the project psyc-neuosc at ARC
 - A project on RFS drive
 - Install neuronal oscillatiosn group (nog) initialisation files (just do once); see [Initialise Settings and Folders](initialise.md)
-  
-## Steps
-   
-### Log in to ARC
-- Login to ARC login node (use `ssh htc-login` from gateway/entry node'; see [Accessing ARC](accessing-ARC.md)
-
 
 ### Data folders on ARC explained
 
@@ -27,6 +21,14 @@ Recommendations for copying data to and from ARC to RFS.
 - **$DATA folder (hot data)**: 15 TB (view with `echo $DATA`): the data 'working directory 
   
 Typically, you will copy data from RDS or other sources to the `$DATA` folder for analysis, then copy processed data back to RFS after completion.
+
+
+## Steps
+   
+### Log in to ARC
+- Login to ARC login node (use `ssh htc-login` from gateway/entry node'; see [Accessing ARC](accessing-ARC.md)
+
+
 
 
 ### nog_rfs
