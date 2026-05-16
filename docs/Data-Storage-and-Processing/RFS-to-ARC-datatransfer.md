@@ -18,13 +18,6 @@ Recommendations for copying raw data (typically from RFS; warm data) to anf from
 Typically, you will copy data from RDS or other sources to the `$DATA` folder for analysis, then copy processed data back to RFS after completion.
 
 
-## Steps
-   
-#### Log in to ARC
-- Login to ARC login node (use `ssh htc-login` from gateway/entry node'; see [Accessing ARC](accessing-ARC.md)
-
-
-
 #### nog_rfs
 
 This functions allows the user to interact with the RFS file storage. Requires that the RFS credentials file is set up (see [initialise](initialise.md)).
@@ -52,22 +45,28 @@ nog_rfs (ls|mkdir|push|pull|rm) REMOTE_FILE [LOCAL_FILE]...
      (e.g. nog_rfs rm -d "RFS_DIR/RFS_SUBDIR")
 ```
 
-#### Lists the contents of RFS
-List files in RFS root
+
+
+## Steps
+   
+#### Log in to ARC
+- Login to ARC login node (use `ssh htc-login` from gateway/entry node'; see [Accessing ARC](accessing-ARC.md)
+
+#### List content in RFS root
 ```bash
 nog_rfs ls
 ```
-List files in RFS sub directions
+#### List contenxt in RFS sub directions
+
 ```bash
 nog_rfs ls DIR/SUBDIR/
 ```
-#### Copy file from RFS to ARC
 
-Copy RFS FILE to current directory
+#### Copy RFS FILE to current ARC directory
 ```bash
 nog_rfs pull RFS_FILE
 ```
-Copy RFS FILE to specific directory
+#### Copy RFS FILE to specific ARC directory
 ```bash
 nog_rfs pull rfs_file $DATA/DIR
 ```
@@ -77,7 +76,6 @@ nog_rfs pull rfs_file $DATA/DIR
 mkdir RFS_FFS_DIR
 nog_rfs pull -d RFS_DIE RFS_DIR/
 ```
-
 
 #### Copy ARC file to RFS root
 ```bash
@@ -101,7 +99,6 @@ nog_rfs rm RFS_DIR/FRS_FILE
 ```bash
 nog_rfs rm -d RFS_DIR/RFS_SUBDIR
 ```
-
 
 #### New RFS directory on root
 ```bash
