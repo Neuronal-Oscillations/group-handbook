@@ -16,64 +16,110 @@ Recommendations for copying data to and from ARC to RFS.
   
 ## Steps
    
-####
-- Login to ARC login node (use `ssh htc-login` from gateway/entry node' see [Accessing ARC](accessing-ARC.md)
+### Log in to ARC
+- Login to ARC login node (use `ssh htc-login` from gateway/entry node'; see [Accessing ARC](accessing-ARC.md)
 
 
-#### Data folders on ARC explained
+### Data folders on ARC explained
 
-- **RFS (warm data)**: Not mounted automatically
-- **$HOME folder (no for data)**: 5 GB (view with `echo $HOME`)
-- **$DATA folder (hot data)**: 15 TB (view with `echo $DATA`)
+- **RFS (warm data)**: Backed-up long-term storate
+- **$HOME folder **: 5 GB (view with `echo $HOME`): standard Linux home directory; do not use for data
+- **$DATA folder (hot data)**: 15 TB (view with `echo $DATA`): the data 'working directory 
   
 Typically, you will copy data from RDS or other sources to the `$DATA` folder for analysis, then copy processed data back to RFS after completion.
 
 
-#### Windows (Command Line - recommended)
+### nog_rfs
 
-Start Terminal in Windows
+This functions allows the user to interact with the RFS file storage. Requires that the RFS credentials file is set up (see [initialise](initialise.md)).
 
-**From ARC to Windows:**
 ```bash
-scp psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/mydata/* C:\Users\bobhanson\
+nog_rfs (ls|mkdir|push|pull|rm) REMOTE_FILE [LOCAL_FILE]...
+
+'ls' can take one argument - remote subdirectory to list (e.g. nog_rfs ls "RFS_DIR/RFS_SUBDIR")
+
+'mkdir' can take two arguments - a directory tree to create, and a remote directory to create it in
+        (e.g. nog_rfs mkdir "NEW_DIR/NEW_SUBDIR" "RFS_DIR/RFS_SUBDIR")
+        if only one is given, remote directory is assumed to be the RFS root directory
+
+'push' can take two arguments - local file or directory to push, and remote directory to put it into
+       (e.g. nog_rfs push "FILE_OR_DIR" "RFS_DIR/RFS_SUBDIR")
+       if only one is given, remote directory is assumed to be the RFS root directory
+
+'pull' [-d] can take two arguments - remote directory to fetch, and local directory to put it into
+       -d for pulling directories. Ommit -d for single files
+       (e.g. nog_rfs pull -d "RFS_DIR/RFS_SUBDIR" "//data/psyc-neuosc/psyc1908/")
+       if only one is given, local directory is assumed to be the current working directory
+
+'rm' [-d] takes one argument - remote file or folder to delete
+     -d for deleting directories. Ommit -d for single files
+     (e.g. nog_rfs rm -d "RFS_DIR/RFS_SUBDIR")
 ```
-This copies the `mydata` folder (and subfolders) from the ARC data directory (`$DATA`) to your C: drive.
- 
-**From Windows to ARC:**
+
+### 1. List RFS files and folders
+
 ```bash
-scp -r C:\Users\bobhanson\mydata\* psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/
+# list files in RFS root
+nog_rfs ls
+
+# list files in RFS subdir
+nog_rfs ls SOME_DIR/SOME_SUBDIR/
 ```
-This copies the `mydata` folder (and subfolders) from your C: drive to the ARC data directory (`$DATA`). The `-r` flag enables recursive copying of all subfolders.
 
+### 2. Create new directory on RFS
 
-#### Windows (Graphical Interface Alternative - not recommended)
-
-1. Download and install [WinSCP](https://winscp.net/eng/docs/installation)
-2. Connect to `gateway.arc.ox.ac.uk` using your credentials
-3. Navigate to your ARC data directory
-4. Drag and drop files between your Windows machine and ARC
-5. To access RFS, navigate to the mapped network drive (e.g., R:)
-- <img width="813" height="549" alt="image" src="https://github.com/user-attachments/assets/eb9b564f-71c4-4c21-920d-032798bc9bdf" />
-
-#### macOS (Command Line)
-
-Start Terminal in MacOS 
-
-**From ARC to macOS:**
 ```bash
-`scp psyc9999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/mydata/* /Users/bobhanson/`
+# make new directory in root
+nog_rfs mkdir NEW_DIR
+
+# make new directory in other directory
+nog_rfs mkdir NEW_SUBDIR NEW_DIR/
+
+# make new directory tree in root
+nog_rfs mkdir NEW_DIR/NEW_SUBDIR
+
+# make new directory tree in other directory
+nog_rfs mkdir NEW_SUBSUBDIR/NEW_SUBSUBSUBDIR NEW_DIR/NEW_SUBDIR
 ```
-This copies the `mydata` folder (and subfolders) from ARC to your local drive.
- 
-**From macOS to ARC:**
+
+### 3. Push data to RFS
+
 ```bash
-`scp /Users/bobhanson/maydata/* psyc999@gateway.arc.ox.ac.uk:/data/psyc-neuosc/psyc9999/`
+# Push files or directories to root
+nog_rfs push file_or_dir
+
+# Push files or directories to other directory
+nog_rfs push file_or_dir OTHER_DIR/
 ```
-This copies the `mydata` folder (and subfolders) from your local folder to the ARC data directory. The `-r` flag enables recursive copying.
 
+### 4. Pull data from RFS
 
-###
-[The ARC user guide](https://arc-user-guide.readthedocs.io/en/latest/introduction.html)
+Note that here you have to indicate whether you want to push a file or directory. Use the `-d` flag to pull directories (no flag = file). Note that when pulling a directory, not the directory itself, but it's content gets pulled.
+
+```bash
+# pull file to current directory
+nog_rfs pull rfs_file
+
+# pull file to other directory
+nog_rfs pull rfs_file $DATA/
+
+# pull directory to current directory
+mkdir rfs_data
+nog_rfs pull -d rfs_data rfs_data/
+
+# pull directory to other directory
+mkdir $DATA/rfs_data
+nog_rfs pull -d rfs_data $DATA/rfs_data/
+```
+
+### 5. Remove files or directories from RFS
+
+Note that here you have to indicate whether you want to remove a file or directory. Use the `-d` flag to remove directories (no flag = file).
+
+```bash
+# Remove file
+nog_rfs rm RFS_DIR/RFS_SUBDIR/rfs_file
+
 
 
 <!--
