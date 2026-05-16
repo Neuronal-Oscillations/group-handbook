@@ -42,11 +42,11 @@ The installation may take several minutes. Wait for the script to complete.
 
 ### 3. Verify Installation
 
-Check that MNE is installed correctly:
+Check that MNE is installed correctly (making sure to use the right Python version):
 
 ```bash
-source $DATA/environments/mne/bin/activate
-python -c "import mne; print(mne.__version__)"
+conda activate mne_env
+~/.conda/envs/mne_env/bin/python -c "import mne; print(mne.__version__)"
 ```
 
 If successful, you will see the MNE version number printed.
