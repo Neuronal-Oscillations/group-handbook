@@ -31,22 +31,12 @@ This functions allows the user to interact with the RFS file storage. Requires t
 
 ```bash
 nog_rfs (ls|mkdir|push|pull|rm) REMOTE_FILE [LOCAL_FILE]...
-```
 
-#### Lists the contents of RFS
-```bash
-nog_rfs ls
-```
-'ls' can take remote subdirectory to list argument (e.g. ```nog_rfs ls "RFS_DIR/RFS_SUBDIR"```)
+'ls' can take one argument - remote subdirectory to list (e.g. nog_rfs ls "RFS_DIR/RFS_SUBDIR")
 
-#### Mmke directory on RFS
-```bash
-nog_rfs mkdir "NEW_DIR/NEW_SUBDIR" "RFS_DIR/RFS_SUBDIR"
-```
 'mkdir' can take two arguments - a directory tree to create, and a remote directory to create it in
         (e.g. nog_rfs mkdir "NEW_DIR/NEW_SUBDIR" "RFS_DIR/RFS_SUBDIR")
         if only one is given, remote directory is assumed to be the RFS root directory
-```
 
 'push' can take two arguments - local file or directory to push, and remote directory to put it into
        (e.g. nog_rfs push "FILE_OR_DIR" "RFS_DIR/RFS_SUBDIR")
@@ -62,71 +52,66 @@ nog_rfs mkdir "NEW_DIR/NEW_SUBDIR" "RFS_DIR/RFS_SUBDIR"
      (e.g. nog_rfs rm -d "RFS_DIR/RFS_SUBDIR")
 ```
 
-### 1. List RFS files and folders
-
+#### Lists the contents of RFS
+List files in RFS root
 ```bash
-# list files in RFS root
 nog_rfs ls
+```
+List files in RFS sub directions
+```bash
+nog_rfs ls DIR/SUBDIR/
+```
+#### Copy file from RFS to ARC
 
-# list files in RFS subdir
-nog_rfs ls SOME_DIR/SOME_SUBDIR/
+Copy RFS FILE to current directory
+```bash
+nog_rfs pull RFS_FILE
+```
+Copy RFS FILE to specific directory
+```bash
+nog_rfs pull rfs_file $DATA/DIR
 ```
 
-### 2. Create new directory on RFS
-
+#### Copy RFS directory to ARC
 ```bash
-# make new directory in root
-nog_rfs mkdir NEW_DIR
+mkdir RFS_FFS_DIR
+nog_rfs pull -d RFS_DIE RFS_DIR/
+```
 
-# make new directory in other directory
+
+#### Copy ARC file to RFS root
+```bash
+nog_rfs push ARC_FILE
+```
+
+#### Copy ARC directory to RFS root
+```bash
+nog_rfs push ARC_DIRECTORY
+```
+#### Copy ARC directroy from RFS directpry
+```bash
+nog_rfs push ARC_DIR RFS_DIR/
+```
+#### Remove file on RFS to
+```bash
+nog_rfs rm RFS_DIR/FRS_FILE
+```
+
+#### Remove directroy on RFS to (use with caution)
+```bash
+nog_rfs rm -d RFS_DIR/RFS_SUBDIR
+```
+
+
+#### New RFS directory on root
+```bash
+nog_rfs mkdir "NEW_DIR
+```
+
+#### New RFS directory in other directory
+```bash
 nog_rfs mkdir NEW_SUBDIR NEW_DIR/
-
-# make new directory tree in root
-nog_rfs mkdir NEW_DIR/NEW_SUBDIR
-
-# make new directory tree in other directory
-nog_rfs mkdir NEW_SUBSUBDIR/NEW_SUBSUBSUBDIR NEW_DIR/NEW_SUBDIR
 ```
-
-### 3. Push data to RFS
-
-```bash
-# Push files or directories to root
-nog_rfs push file_or_dir
-
-# Push files or directories to other directory
-nog_rfs push file_or_dir OTHER_DIR/
-```
-
-### 4. Pull data from RFS
-
-Note that here you have to indicate whether you want to push a file or directory. Use the `-d` flag to pull directories (no flag = file). Note that when pulling a directory, not the directory itself, but it's content gets pulled.
-
-```bash
-# pull file to current directory
-nog_rfs pull rfs_file
-
-# pull file to other directory
-nog_rfs pull rfs_file $DATA/
-
-# pull directory to current directory
-mkdir rfs_data
-nog_rfs pull -d rfs_data rfs_data/
-
-# pull directory to other directory
-mkdir $DATA/rfs_data
-nog_rfs pull -d rfs_data $DATA/rfs_data/
-```
-
-### 5. Remove files or directories from RFS
-
-Note that here you have to indicate whether you want to remove a file or directory. Use the `-d` flag to remove directories (no flag = file).
-
-```bash
-# Remove file
-nog_rfs rm RFS_DIR/RFS_SUBDIR/rfs_file
-
-
 
 <!--
 ## Verification
