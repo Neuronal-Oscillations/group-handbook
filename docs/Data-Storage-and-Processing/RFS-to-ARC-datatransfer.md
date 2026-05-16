@@ -1,123 +1,148 @@
-# Data transfer between RFS and ARC
+# Data Transfer Between RFS and ARC
+
 ## Purpose
-Recommendations for copying raw data (typically from RFS; warm data) to anf from the data directory on ARC (hot data). This will be achieved using the group specific 'nog_rfs' script. 
+
+Recommendations for copying raw data (typically from RFS; warm data) to and from the data directory on ARC (hot data). This is achieved using the group-specific `nog_rfs` script.
 
 ## Prerequisites
+
 - A SSO (Single Sign-On) account at the University of Oxford
 - VPN access to the University of Oxford network (required for off-site access)
-- An account on the project psyc-neuosc at ARC
+- An account on the project `psyc-neuosc` at ARC
 - A project on RFS drive
-- Install neuronal oscillatiosn group (nog) initialisation files (just do once); see [Initialise Settings and Folders](initialise.md)
+- Install Neuronal Oscillations Group (NOG) initialisation files (one-time setup); see [Initialise Settings and Folders](initialise.md)
 
-### Data folders on ARC explained
+## Storage Overview
 
-- **RFS (warm data)**: Backed-up long-term storate
-- **$HOME folder **: 5 GB (view with `echo $HOME`): standard Linux home directory; do not use for data
-- **$DATA folder (hot data)**: 15 TB (view with `echo $DATA`): the data 'working directory 
-  
-Typically, you will copy data from RDS or other sources to the `$DATA` folder for analysis, then copy processed data back to RFS after completion.
+### Data Folders on ARC Explained
 
+- **RFS (warm data)**: Backed-up long-term storage for archival
+- **$HOME folder**: 5 GB (view with `echo $HOME`) — standard Linux home directory; do not use for data
+- **$DATA folder (hot data)**: 15 TB (view with `echo $DATA`) — the primary data working directory
 
-#### nog_rfs
+**Typical workflow**: Copy data from RFS or other sources to `$DATA` for analysis, then copy processed data back to RFS upon completion.
 
-This functions allows the user to interact with the RFS file storage. Requires that the RFS credentials file is set up (see [initialise](initialise.md)).
+### The `nog_rfs` Command
 
+The `nog_rfs` function allows interaction with RFS file storage. Requires that RFS credentials are configured (see [Initialise Settings and Folders](initialise.md)).
+
+**Syntax:**
 ```bash
 nog_rfs (ls|mkdir|push|pull|rm) REMOTE_FILE [LOCAL_FILE]...
-
-'ls' can take one argument - remote subdirectory to list (e.g. nog_rfs ls "RFS_DIR/RFS_SUBDIR")
-
-'mkdir' can take two arguments - a directory tree to create, and a remote directory to create it in
-        (e.g. nog_rfs mkdir "NEW_DIR/NEW_SUBDIR" "RFS_DIR/RFS_SUBDIR")
-        if only one is given, remote directory is assumed to be the RFS root directory
-
-'push' can take two arguments - local file or directory to push, and remote directory to put it into
-       (e.g. nog_rfs push "FILE_OR_DIR" "RFS_DIR/RFS_SUBDIR")
-       if only one is given, remote directory is assumed to be the RFS root directory
-
-'pull' [-d] can take two arguments - remote directory to fetch, and local directory to put it into
-       -d for pulling directories. Ommit -d for single files
-       (e.g. nog_rfs pull -d "RFS_DIR/RFS_SUBDIR" "//data/psyc-neuosc/psyc1908/")
-       if only one is given, local directory is assumed to be the current working directory
-
-'rm' [-d] takes one argument - remote file or folder to delete
-     -d for deleting directories. Ommit -d for single files
-     (e.g. nog_rfs rm -d "RFS_DIR/RFS_SUBDIR")
 ```
 
+**Options:**
 
+- **`ls`** — List RFS directory contents
+  - Takes optional argument: remote subdirectory to list
+  - Example: `nog_rfs ls "RFS_DIR/RFS_SUBDIR"`
 
-## Steps
-   
-#### Log in to ARC
-- Login to ARC login node (use `ssh htc-login` from gateway/entry node'; see [Accessing ARC](accessing-ARC.md)
+- **`mkdir`** — Create a directory on RFS
+  - Takes one or two arguments: directory tree to create, and optional remote parent directory
+  - Example: `nog_rfs mkdir "NEW_DIR/NEW_SUBDIR" "RFS_DIR/RFS_SUBDIR"`
+  - If only one argument given, creates in RFS root directory
 
-#### List content 
-List concent in RFS root
+- **`push`** — Copy local file or directory to RFS
+  - Takes one or two arguments: local file/directory, and optional remote destination
+  - Example: `nog_rfs push "FILE_OR_DIR" "RFS_DIR/RFS_SUBDIR"`
+  - If only one argument given, uploads to RFS root directory
+
+- **`pull`** — Copy from RFS to local directory
+  - Use `-d` flag for pulling directories; omit for single files
+  - Takes one or two arguments: remote file/directory, and optional local destination
+  - Example: `nog_rfs pull -d "RFS_DIR/RFS_SUBDIR" "$DATA/DIR/"`
+  - If only one argument given, downloads to current working directory
+
+- **`rm`** — Delete file or directory on RFS (use with caution)
+  - Use `-d` flag for deleting directories; omit for single files
+  - Takes one argument: remote file or folder path
+  - Example: `nog_rfs rm -d "RFS_DIR/RFS_SUBDIR"`
+
+---
+
+## Workflow Examples
+
+### Log In to ARC
+
+```bash
+ssh htc-login
+```
+See [Accessing ARC](accessing-ARC.md) for detailed login instructions.
+
+### List RFS Contents
+
+**List RFS root directory:**
 ```bash
 nog_rfs ls
 ```
-List content in RFS sub directions
+
+**List specific RFS subdirectory:**
 ```bash
-nog_rfs ls DIR/SUBDIR/
+nog_rfs ls "DIR/SUBDIR/"
 ```
 
-#### Copy from RFS to ARC 
-Copy RFS FILE to current ARC directory
+### Copy Data from RFS to ARC
+
+**Copy single file to current directory:**
 ```bash
 nog_rfs pull RFS_FILE
 ```
-Copy RFS FILE to specific ARC directory
+
+**Copy file to specific ARC directory:**
 ```bash
-nog_rfs pull rfs_file $DATA/DIR
+nog_rfs pull RFS_FILE "$DATA/DIR/"
 ```
 
-Copy RFS directory to ARC
+**Copy entire directory from RFS:**
 ```bash
-mkdir RFS_FFS_DIR
-nog_rfs pull -d RFS_DIE RFS_DIR/
+nog_rfs pull -d "RFS_DIR/" "$DATA/LOCAL_DIR/"
 ```
 
-#### Copy from ARC to RFS 
-Copy ARC file to RFS root
+### Copy Data from ARC to RFS
+
+**Copy file to RFS root:**
 ```bash
-nog_rfs push ARC_FILE
+nog_rfs push LOCAL_FILE
 ```
 
-Copy ARC directory to RFS root
+**Copy directory to RFS root:**
 ```bash
-nog_rfs push ARC_DIRECTORY
-```
-Copy ARC directroy from RFS directpry
-```bash
-nog_rfs push ARC_DIR RFS_DIR/
-```
-### Remove on RFS 
-Remove files on RFS
-```bash
-nog_rfs rm RFS_DIR/FRS_FILE
+nog_rfs push LOCAL_DIRECTORY
 ```
 
-Remove directroy on RFS to (use with caution)
+**Copy to specific RFS subdirectory:**
 ```bash
-nog_rfs rm -d RFS_DIR/RFS_SUBDIR
+nog_rfs push LOCAL_DIR "RFS_DIR/"
 ```
 
-### Make RFS directory 
+### Create RFS Directories
 
-New RFS directory on root
+**Create new directory in RFS root:**
 ```bash
-nog_rfs mkdir "NEW_DIR
+nog_rfs mkdir "NEW_DIR"
 ```
 
-New RFS directory in other directory
+**Create nested directory structure:**
 ```bash
-nog_rfs mkdir NEW_SUBDIR NEW_DIR/
+nog_rfs mkdir "NEW_SUBDIR/NESTED_SUBDIR" "RFS_DIR/"
 ```
+
+### Remove Files and Directories from RFS
+
+**Remove file:**
+```bash
+nog_rfs rm "RFS_DIR/RFS_FILE"
+```
+
+**Remove directory (use with caution):**
+```bash
+nog_rfs rm -d "RFS_DIR/RFS_SUBDIR"
+```
+
+---
 
 <!--
 ## Verification
 ## Troubleshooting
 ## References
-
 -->
