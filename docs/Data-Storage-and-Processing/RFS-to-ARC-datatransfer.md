@@ -1,7 +1,7 @@
-# Analysis of OHBA imaging data. 
+# Data transfer between RFS and ARC
 ## Purpose
 
-Recommendations for copying data to and from Mac or Windows to RFS.  
+Recommendations for copying data to and from ARC to RFS.  
 
 1. Copying raw data (typically from RFS; warm data) to the data directory on ARC (hot data)
 2. Performing analysis on ARC
@@ -15,6 +15,9 @@ Recommendations for copying data to and from Mac or Windows to RFS.
   
 ## Steps
    
+####
+- Login to ARC login node (use `ssh htc-login` from gateway/entry node' see [Accessing ARC](accessing-ARC.md)
+
 
 #### Data folders on ARC explained
 
