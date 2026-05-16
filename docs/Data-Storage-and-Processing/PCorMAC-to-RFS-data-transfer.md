@@ -57,7 +57,6 @@ This copies the `mydata` folder (and subfolders) from your local folder to the A
 
 
 ###
-[The ARC user guide](https://arc-user-guide.readthedocs.io/en/latest/introduction.html)
 
 
 <!--
