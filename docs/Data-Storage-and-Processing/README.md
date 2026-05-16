@@ -19,7 +19,7 @@ A typical workflow involves:
   
 ## Steps
 - [Advanced Ressearch Computing (ARC)](accessing-ARC.md)
-- [Research File System (RFS)](storage.md)
+- [Research File System (RFS)](rfs.md)
 - [Initialise Settings and Folders](initialise.md)
 - [Setting up MNE Python](setup-mne.md)
 - [Using Jupyter to run MNE Python](jupyterMNE.md)
