@@ -26,4 +26,4 @@ A typical workflow involves:
 - [Using Jupyter to run MNE Python](using-jupyter.md)
 
 Useful instructions
-- [Copying between RFS and data directories on ARC](PCorMAC-to-RFS-data-transfer.md)
+- [Data transfer between MAC/PC snd ARC](PCorMAC-to-RFS-data-transfer.md)
