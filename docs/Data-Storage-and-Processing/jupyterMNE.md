@@ -32,7 +32,9 @@ nog_jupyter_server
 
 This will take a few seconds to minutes. It will submit a job to ARC to run a jupyter server. 
 
-Advanced: you canspecify options (e.g. requesting a certain amount of memory). For help functions:
+##### Advanced: 
+
+You can specify options  of nog_jupyter_serve (e.g. requesting a certain amount of memory) using the help function:
 
 ```bash
 nog_jupyter_server -h
