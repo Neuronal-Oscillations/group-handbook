@@ -63,7 +63,7 @@ nog_rfs (ls|mkdir|push|pull|rm) REMOTE_FILE [LOCAL_FILE]...
 ## Workflow Examples
 
 ### Log In to ARC
-
+The move to login node:
 ```bash
 ssh htc-login
 ```
