@@ -39,7 +39,7 @@ nog_jupyter_server -h
 ```
 To see the submitted jobs (andJOBIDs) use 
 ```bash
-`squeue -u $USER` 
+squeue -u $USER
 ```
 
 To kill a job 
