@@ -44,7 +44,7 @@ Once you have been granted RFS access, mount the storage on your local machine u
 6. Click **Finish**
 
 Your RFS project(s) will appear as folders under the mapped R: drive.
-
+  <img width="742" height="513" alt="image" src="https://github.com/user-attachments/assets/73315c93-52c5-47ef-945c-4969df71b8d3" />
 ### macOS
 
 1. Ensure you are connected to the Oxford VPN
@@ -58,6 +58,10 @@ Your RFS project(s) will appear as folders under the mapped R: drive.
 6. Enter your Oxford credentials when prompted
 
 Your RFS project(s) will appear in the mounted SMB share.
+
+Enter the server address: `smb://connect.ox.ac.uk/RFS`
+  <img width="560" height="263" alt="image" src="https://github.com/user-attachments/assets/5affccbb-3f29-462e-b559-72958dd3babf" />
+
 
 ### Linux
 
