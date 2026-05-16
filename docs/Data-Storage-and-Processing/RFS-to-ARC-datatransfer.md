@@ -5,6 +5,7 @@ Recommendations for copying data to and from ARC to RFS:
 1. Copying raw data (typically from RFS; warm data) to the data directory on ARC (hot data)
 2. Performing analysis on ARC
 3. Copying output data back to the core store (typically RFS)
+4. 
 This will be achieved using the group specific 'nog_rfs' script. 
 
 ## Prerequisites
