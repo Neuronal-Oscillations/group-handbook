@@ -1,4 +1,4 @@
-# Storage of OHBA Imaging Data
+# FRS Storage of OHBA Imaging Data
 
 ## Purpose
 
@@ -27,7 +27,7 @@ RFS provides backed-up long-term storage suitable for research data archives.
 
 ---
 
-## Mounting RFS Storage
+## Mounting RFS Storage on Windows or MacOS
 
 Once you have been granted RFS access, mount the storage on your local machine using the appropriate instructions for your operating system.
 
