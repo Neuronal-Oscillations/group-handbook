@@ -1,7 +1,7 @@
-# Transer of data betweeen ARC and Mac/PC
+# Transer of data betweeen ARC and Windows/MacOS
 ## Purpose
 
-Recommendations for copying data to and from Mac or Windows to ARC. This allow for moving data to and from the ARC from data of the PC/Mac or folders that has been mapped/mounted. This could for instance be a mounted RFS folder.
+Recommendations for copying data to and from MacOS or Windows to ARC. This allow for moving data to and from the ARC from data of the Wondows/MacOS or folders that has been mapped/mounted. This could for instance be a mounted RFS folder.
 
 NOTE: this is not suitable for copying large datasets between RFS and ARC as this transfers via the Mac/PC. 
 
