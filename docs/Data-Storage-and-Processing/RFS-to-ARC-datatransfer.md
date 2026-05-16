@@ -37,12 +37,16 @@ nog_rfs (ls|mkdir|push|pull|rm) REMOTE_FILE [LOCAL_FILE]...
 ```bash
 nog_rfs ls
 ```
-'ls' can take one argument - remote subdirectory to list (e.g. nog_rfs ls "RFS_DIR/RFS_SUBDIR")
+'ls' can take remote subdirectory to list argument (e.g. ```nog_rfs ls "RFS_DIR/RFS_SUBDIR"```)
 
-
+#### Mmke directory on RFS
+```bash
+nog_rfs mkdir "NEW_DIR/NEW_SUBDIR" "RFS_DIR/RFS_SUBDIR"
+```
 'mkdir' can take two arguments - a directory tree to create, and a remote directory to create it in
         (e.g. nog_rfs mkdir "NEW_DIR/NEW_SUBDIR" "RFS_DIR/RFS_SUBDIR")
         if only one is given, remote directory is assumed to be the RFS root directory
+```
 
 'push' can take two arguments - local file or directory to push, and remote directory to put it into
        (e.g. nog_rfs push "FILE_OR_DIR" "RFS_DIR/RFS_SUBDIR")
