@@ -45,7 +45,7 @@ The installation may take several minutes. Wait for the script to complete.
 Check that MNE is installed correctly (making sure to use the right Python version):
 
 ```bash
-source activate mne_env
+source activate $DATA/environments/mne_env
 ~/.conda/envs/mne_env/bin/python -c "import mne; print(mne.__version__)"
 ```
 
