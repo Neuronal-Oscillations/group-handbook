@@ -46,7 +46,7 @@ Check that MNE is installed correctly (making sure to use the right Python versi
 
 ```bash
 source activate $DATA/environments/mne_env
-~/.conda/envs/mne_env/bin/python -c "import mne; print(mne.__version__)"
+$DATA/environments/mne_env/bin/python -c "import mne; print(mne.__version__)"
 ```
 
 If successful, you will see the MNE version number printed.
