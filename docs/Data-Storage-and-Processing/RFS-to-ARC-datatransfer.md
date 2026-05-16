@@ -1,12 +1,6 @@
 # Data transfer between RFS and ARC
 ## Purpose
-
-Recommendations for copying data to and from ARC to RFS: 
-1. Copying raw data (typically from RFS; warm data) to the data directory on ARC (hot data)
-2. Performing analysis on ARC
-3. Copying output data back to the core store (typically RFS)
-4. 
-This will be achieved using the group specific 'nog_rfs' script. 
+Recommendations for copying raw data (typically from RFS; warm data) to anf from the data directory on ARC (hot data). This will be achieved using the group specific 'nog_rfs' script. 
 
 ## Prerequisites
 - A SSO (Single Sign-On) account at the University of Oxford
@@ -26,20 +20,25 @@ Typically, you will copy data from RDS or other sources to the `$DATA` folder fo
 
 ## Steps
    
-### Log in to ARC
+#### Log in to ARC
 - Login to ARC login node (use `ssh htc-login` from gateway/entry node'; see [Accessing ARC](accessing-ARC.md)
 
 
 
-
-### nog_rfs
+#### nog_rfs
 
 This functions allows the user to interact with the RFS file storage. Requires that the RFS credentials file is set up (see [initialise](initialise.md)).
 
 ```bash
 nog_rfs (ls|mkdir|push|pull|rm) REMOTE_FILE [LOCAL_FILE]...
+```
 
+#### Lists the contents of RFS
+```bash
+nog_rfs ls
+```
 'ls' can take one argument - remote subdirectory to list (e.g. nog_rfs ls "RFS_DIR/RFS_SUBDIR")
+
 
 'mkdir' can take two arguments - a directory tree to create, and a remote directory to create it in
         (e.g. nog_rfs mkdir "NEW_DIR/NEW_SUBDIR" "RFS_DIR/RFS_SUBDIR")
