@@ -3,7 +3,7 @@
 
 Recommendations for copying data to and from Mac or Windows to ARC. This allow for moving data to and from the ARC from data of the PC/Mac or folders that has been mapped/mounted. This could for instance be a mounted RFS folder.
 
-NOTE: this is not suitable for copying data between RFS and ARC as this transfer over the Mac/PC. 
+NOTE: this is not suitable for copying large datasets between RFS and ARC as this transfer over the Mac/PC. 
 
 ## Prerequisites
 - A SSO (Single Sign-On) account at the University of Oxford
