@@ -1,29 +1,15 @@
-# Analysis of OHBA imaging data. 
+# Transer of data betweeen RFS and Mac OR PC
 ## Purpose
 
-Recommendations for copying data to and from Mac or Windows to RFS.  
-
-1. Copying raw data (typically from RFS; warm data) to the data directory on ARC (hot data)
-2. Performing analysis on ARC
-3. Copying output data back to the core store (typically RFS)
+Recommendations for copying data to and from Mac or Windows to RFS. This allow for moving data to and from the RFS from data of the PC/Mac or folders that has been mapped/mounted. 
 
 ## Prerequisites
 - A SSO (Single Sign-On) account at the University of Oxford
 - VPN access to the University of Oxford network (required for off-site access)
-- An account on the project psyc-neuosc at ARC
 - A project on RFS drive 
   
 ## Steps
    
-
-#### Data folders on ARC explained
-
-- **RFS (warm data)**: Not mounted automatically
-- **$HOME folder (no for data)**: 5 GB (view with `echo $HOME`)
-- **$DATA folder (hot data)**: 15 TB (view with `echo $DATA`)
-  
-Typically, you will copy data from RDS or other sources to the `$DATA` folder for analysis, then copy processed data back to RFS after completion.
-
 
 #### Windows (Command Line - recommended)
 
