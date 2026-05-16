@@ -21,8 +21,9 @@ A typical workflow involves:
 - [Advanced Ressearch Computing (ARC)](accessing-ARC.md)
 - [Research File System (RFS)](storage.md)
 - [Initialise Settings and Folders](initialise.md)
-- [Initialise NOG functions](nog-functions.md)
 - [Setting up MNE Python](setup-mne.md)
+- [Initialise NOG functions](nog-functions.md)
+
 - [Using Jupyter to run MNE Python](using-jupyter.md)
 
 Useful instructions
