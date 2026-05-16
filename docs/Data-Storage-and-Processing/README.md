@@ -27,5 +27,7 @@ A typical workflow involves:
 Useful instructions
 - [Data transfer between MAC/PC and ARC](PCorMAC-to-RFS-data-transfer.md)
 - [Data transfer between RFS and ARC](RFS-to-ARC-datatransfer.md)
-- Chamge rights to $DATA so only you can access it: `chmod 700 $DATA`
-
+- Restrict access to your data directory so only you can read, write, and access it:
+```bash
+chmod 700 $DATA
+```
