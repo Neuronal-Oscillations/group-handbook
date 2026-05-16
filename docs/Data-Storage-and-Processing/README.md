@@ -22,9 +22,7 @@ A typical workflow involves:
 - [Research File System (RFS)](storage.md)
 - [Initialise Settings and Folders](initialise.md)
 - [Setting up MNE Python](setup-mne.md)
-- [Initialise NOG functions](nog-functions.md)
-
-- [Using Jupyter to run MNE Python](using-jupyter.md)
+- [Using Jupyter to run MNE Python](jupyterMNE.md)
 
 Useful instructions
 - [Data transfer between MAC/PC and ARC](PCorMAC-to-RFS-data-transfer.md)
