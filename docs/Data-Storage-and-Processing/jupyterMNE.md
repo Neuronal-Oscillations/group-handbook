@@ -40,11 +40,13 @@ The command will take a few seconds to minutes to complete. It submits a job to 
 
 ### 3. Connect Your Local Machine to Jupyter
 
-On your **local machine** (not on ARC), open a Terminal (or MobaXterm on Windows) and paste the SSH tunnel command printed by `nog_jupyter_server`. It should look like:
+On your **local machine** (not on ARC), open a Terminal (Windows or MacOS) and paste the SSH tunnel command printed by `nog_jupyter_server`:
 
 ```bash
-ssh -L 8888:htc-cXXX:XXXXX psycXXXX@gateway.arc.ox.ac.uk
+ssh -L 8888:htc-cXXX:YYYYY psycZZZZ@gateway.arc.ox.ac.uk
 ```
+
+Here XXX:YYYY refer to name of htc-c node where the job was started. psycZZZZ is your SSO username. 
 
 Enter your Oxford password when prompted. This creates a secure tunnel from your local machine to the Jupyter server.
 
