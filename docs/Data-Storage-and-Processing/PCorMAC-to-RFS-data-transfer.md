@@ -1,7 +1,7 @@
 # Analysis of OHBA imaging data. 
 ## Purpose
 
-Recommendations for copying data to and from RFS and ARC 
+Recommendations for copying data to and from Mac or Windows to RFS.  
 
 1. Copying raw data (typically from RFS; warm data) to the data directory on ARC (hot data)
 2. Performing analysis on ARC
