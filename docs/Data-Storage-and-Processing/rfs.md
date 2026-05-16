@@ -26,6 +26,12 @@ To request an RFS project for your research:
 RFS provides backed-up long-term storage suitable for research data archives.
 
 ---
+## The RFS web-interface:
+The RFS files can be inspected via a web-browswer:
+[RFS file browser](https://files.rfs.ox.ac.uk/)
+
+
+---
 
 ## Mounting RFS Storage on Windows or MacOS
 
@@ -63,7 +69,7 @@ Enter the server address: `smb://connect.ox.ac.uk/RFS`
 
 <img width="560" height="263" alt="image" src="https://github.com/user-attachments/assets/5affccbb-3f29-462e-b559-72958dd3babf" />
 
-
+###
 
 <!--
 ## Verification
@@ -71,3 +77,5 @@ Enter the server address: `smb://connect.ox.ac.uk/RFS`
 ## References
 -->
 
+## References
+[RFS guide](https://help.it.ox.ac.uk/sites/default/files/help/documents/media/rfs_owners_guide.pdf)
