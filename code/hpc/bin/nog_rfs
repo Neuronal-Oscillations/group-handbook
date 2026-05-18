@@ -77,7 +77,7 @@ function rfs_mkdir {
     # Build the chain of mkdir/cd commands
     for folder in "${folders[@]}"; do
         if [[ -n "${folder}" ]]; then
-            cmd+="mkdir ${folder}; cd ${folder}; "
+            cmd+="mkdir ${folder} 2>/dev/null; cd ${folder}; "
         fi
     done
     echo "Creating Directories..." >&2
@@ -107,9 +107,9 @@ function rfs_push {
 
     #if ${LOCAL} is a dir or file...
     if [[ -d "${LOCAL}" ]] ; then
-        local cmd="prompt OFF; recurse ON; lcd ${LOCAL}; mkdir ${REMOTE}; cd ${REMOTE}; mkdir ${LOCAL_NAME}; cd ${LOCAL_NAME}; mput *"
+        local cmd="prompt OFF; recurse ON; lcd ${LOCAL}; mkdir ${REMOTE} 2>/dev/null; cd ${REMOTE}; mkdir ${LOCAL_NAME} 2>/dev/null; cd ${LOCAL_NAME}; mput *"
     elif [[ -f "${LOCAL}" ]]; then
-        local cmd="prompt OFF; recurse ON; lcd ${LOCAL_DIR}; mkdir ${REMOTE}; cd ${REMOTE}; put ${LOCAL_NAME}"
+        local cmd="prompt OFF; recurse ON; lcd ${LOCAL_DIR}; mkdir ${REMOTE} 2>/dev/null; cd ${REMOTE}; put ${LOCAL_NAME}"
     else
         echo "ERROR: File or Folder does not exist." >&2
     fi
