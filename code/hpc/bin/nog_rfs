@@ -43,8 +43,8 @@ function get_proj_dir {
         # Extract project directory.
         RFS_PROJ_DIR=$(grep -i "^projname" "$CREDFILE" | sed -E 's/^projname[[:space:]]*=[[:space:]]*//')
         if [[ -z "$RFS_PROJ_DIR" ]]; then
-            echo "ERROR: variable 'projname' not found in $CREDFILE" >&2
-            exit 1
+            echo "Variable 'projname' not found in $CREDFILE" >&2
+            echo "Not setting project dir as root"
         fi
     fi
 }
