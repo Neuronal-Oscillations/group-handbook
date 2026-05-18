@@ -57,5 +57,6 @@ The file should contain the following (replace with your own details):
 username=AD-OAK\psycXXXX
 password=YOUR-PASSWORD
 domain=ox.ac.uk
+projdir=YOUR_PROJECT_DIR
 ```
 Save with `Ctrl+o` and exit with `Ctrl+x`.
