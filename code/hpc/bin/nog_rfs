@@ -223,7 +223,7 @@ fi
 
 if [[ $DEBUG -eq 1 ]]; then
     echo "DEBUG command:"
-    echo "smbclient \"${RFS}\" $SMB_BASE_CMD -c \"${CMD}\""
+    echo "smbclient \"//${RFS}\" $SMB_BASE_CMD -c \"${CMD}\""
     exit 0
 else
     smbclient "//${RFS}" ${SMB_BASE_CMD} -c "${CMD}" && exit 0
