@@ -40,7 +40,7 @@ function get_proj_dir {
         CREDFILE="${RFS_KEY}"
     fi
     if [[ -f "$CREDFILE" ]]; then
-        # Extract password. Only for use with mount_rfs. smbclient uses CREDFILE instead
+        # Extract project directory.
         RFS_PROJ_DIR=$(grep -i "^projdir" "$CREDFILE" | sed -E 's/^projdir[[:space:]]*=[[:space:]]*//')
         if [[ -z "$RFS_PROJ_DIR" ]]; then
             echo "ERROR: variable 'projdir' not found in $CREDFILE" >&2
