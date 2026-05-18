@@ -1,6 +1,6 @@
 #!/bin/bash
 
-THIS_SCRIPT=$(basename $0)
+THIS_SCRIPT=$(basename "$0")
 
 DEBUG=0
 ACTION="help"
@@ -8,7 +8,6 @@ DOMAIN="AD-OAK"
 SERVER="connect.ox.ac.uk" # RFS-CFILESVR03.connect.ox.ac.uk
 
 RFS="${SERVER}/RFS" # RFS01-J
-SHARE_URL="smb://${DOMAIN};$USER@${RFS}"
 
 function help {
 echo ""
@@ -35,16 +34,19 @@ echo "     (e.g. ${THIS_SCRIPT} rm -d \"RFS_DIR/RFS_SUBDIR\")"
 echo ""
 }
 
+function resolve_credfile {
+    [[ -z "$CREDFILE" ]] && CREDFILE="${RFS_KEY}"
+}
+
 function get_proj_dir {
-    if [[ -z "$CREDFILE" ]]; then
-        CREDFILE="${RFS_KEY}"
-    fi
     if [[ -f "$CREDFILE" ]]; then
         # Extract project directory.
         RFS_PROJ_DIR=$(grep -i "^projname" "$CREDFILE" | sed -E 's/^projname[[:space:]]*=[[:space:]]*//')
         if [[ -z "$RFS_PROJ_DIR" ]]; then
+            echo "" >&2
             echo "Variable 'projname' not found in $CREDFILE" >&2
-            echo "Not setting project dir as root"
+            echo "Not setting project dir as root directory." >&2
+            echo "" >&2
         fi
     fi
 }
@@ -172,6 +174,7 @@ while getopts "hvc:" opts ; do
 done
 shift $((OPTIND-1))
 
+resolve_credfile
 get_proj_dir
 
 case "${1:-help}" in
@@ -223,6 +226,6 @@ if [[ $DEBUG -eq 1 ]]; then
     echo "smbclient \"${RFS}\" $SMB_BASE_CMD -c \"${CMD}\""
     exit 0
 else
-    smbclient "//${RFS}" ${SMB_BASE_CMD} -c "${CMD}" 2>/dev/null && exit 0
+    smbclient "//${RFS}" ${SMB_BASE_CMD} -c "${CMD}" && exit 0
 fi
 exit 1
