@@ -209,7 +209,7 @@ esac
 if [[ -z "$CREDFILE" ]]; then
     SMB_BASE_CMD="-t 60000"
 else
-    SMB_BASE_CMD="-A \"${CREDFILE}\" -t 60000"
+    SMB_BASE_CMD="-A ${CREDFILE} -t 60000"
 fi
 
 if [[ -z "$CMD" ]]; then
