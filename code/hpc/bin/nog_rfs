@@ -35,21 +35,20 @@ echo "     (e.g. ${THIS_SCRIPT} rm -d \"RFS_DIR/RFS_SUBDIR\")"
 echo ""
 }
 
-# ── Mount helpers ────────────────────────────────────────────────────────────
-
-function get_pass {
+function get_proj_dir {
     if [[ -z "$CREDFILE" ]]; then
         CREDFILE="${RFS_KEY}"
     fi
     if [[ -f "$CREDFILE" ]]; then
         # Extract password. Only for use with mount_rfs. smbclient uses CREDFILE instead
-        PASSWORD=$(grep -i "^password" "$CREDFILE" | sed -E 's/^password[[:space:]]*=[[:space:]]*//')
-        if [[ -z "$PASSWORD" ]]; then
-            echo "ERROR: variable 'password' not found in $CREDFILE" >&2
+        RFS_PROJ_DIR=$(grep -i "^projdir" "$CREDFILE" | sed -E 's/^projdir[[:space:]]*=[[:space:]]*//')
+        if [[ -z "$RFS_PROJ_DIR" ]]; then
+            echo "ERROR: variable 'projdir' not found in $CREDFILE" >&2
             exit 1
         fi
     fi
 }
+
 
 # ── smbclient command builders ───────────────────────────────────────────────
 
@@ -173,6 +172,8 @@ while getopts "hvc:" opts ; do
 done
 shift $((OPTIND-1))
 
+get_proj_dir
+
 case "${1:-help}" in
   help) ACTION="help";;
   ls) ACTION="ls"; echo "listing files in RFS";;
@@ -202,7 +203,6 @@ case $ACTION in
     rm) CMD=$(rfs_rm "$IS_DIR" "$1");;
 esac
 
-get_pass
 if [[ -z "$CREDFILE" ]]; then
     SMB_BASE_CMD="-t 60000"
 else
@@ -212,6 +212,10 @@ fi
 if [[ -z "$CMD" ]]; then
     echo "ERROR: No command generated." >&2
     exit 1
+fi
+
+if [[ -n "$RFS_PROJ_DIR" ]]; then
+    CMD="cd ${RFS_PROJ_DIR}; ${CMD}"
 fi
 
 if [[ $DEBUG -eq 1 ]]; then
