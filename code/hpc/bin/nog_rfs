@@ -92,7 +92,7 @@ function rfs_push {
     #push data into RFS
     if [[ -z "${LOCAL}" ]] ; then
         echo "ERROR script requires at least one file/directory - local file/directory to push to RFS" >&2
-        return 0
+        return 1
     fi
 
     if [[ ! -r "${LOCAL}" ]] ; then
@@ -124,7 +124,7 @@ function rfs_pull {
     echo "fetching data from RFS (${REMOTE} to ${DEST})" >&2
     if [[ -z "${REMOTE}" ]] ; then
         echo "ERROR: script requires at least one file/directory - local file/directory to pull from RFS" >&2
-        return 0
+        return 1
     fi
 
     local REMOTE_DIR=$(dirname "${REMOTE}")
@@ -223,9 +223,9 @@ fi
 
 if [[ $DEBUG -eq 1 ]]; then
     echo "DEBUG command:"
-    echo "smbclient \"//${RFS}\" $SMB_BASE_CMD -c \"${CMD}\""
+    echo "smbclient \"//${RFS}\" \"$SMB_BASE_CMD\" -c \"${CMD}\""
     exit 0
 else
-    smbclient "//${RFS}" ${SMB_BASE_CMD} -c "${CMD}" && exit 0
+    smbclient "//${RFS}" "${SMB_BASE_CMD}" -c "${CMD}" && exit 0
 fi
 exit 1
