@@ -57,6 +57,9 @@ The file should contain the following (replace with your own details):
 username=AD-OAK\psycXXXX
 password=YOUR-PASSWORD
 domain=ox.ac.uk
-projdir=YOUR_PROJECT_DIR
+projname=YOUR_PROJECT_NAME
 ```
 Save with `Ctrl+o` and exit with `Ctrl+x`.
+
+> **Note:** projname should be the name of the project that you chose when requesting RFS storage.
+
