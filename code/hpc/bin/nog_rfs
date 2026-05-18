@@ -41,9 +41,9 @@ function get_proj_dir {
     fi
     if [[ -f "$CREDFILE" ]]; then
         # Extract project directory.
-        RFS_PROJ_DIR=$(grep -i "^projdir" "$CREDFILE" | sed -E 's/^projdir[[:space:]]*=[[:space:]]*//')
+        RFS_PROJ_DIR=$(grep -i "^projname" "$CREDFILE" | sed -E 's/^projname[[:space:]]*=[[:space:]]*//')
         if [[ -z "$RFS_PROJ_DIR" ]]; then
-            echo "ERROR: variable 'projdir' not found in $CREDFILE" >&2
+            echo "ERROR: variable 'projname' not found in $CREDFILE" >&2
             exit 1
         fi
     fi
