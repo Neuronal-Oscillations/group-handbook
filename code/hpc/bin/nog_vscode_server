@@ -1,14 +1,15 @@
 #!/bin/bash
 
 GPU=false
-MEM=16G
-CPUs=4
+MEM=32G
+CPUs=8
 TIME="08:00:00"
-PARTITION="medium"
+PARTITION="short"
+CLUSTER=all
 SCRIPT_PATH=$(realpath "$0")
 
 function help {
-    echo "Usage: $0 [-h] [-b] [-g] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION]"
+    echo "Usage: $0 [-h] [-b] [-g] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]"
     echo "  -h  help"
     echo "  -b  batch mode (default: interactive)"
     echo "  -g  request GPU"
@@ -16,6 +17,7 @@ function help {
     echo "  -c  CPUs (default: $CPUs)"
     echo "  -t  walltime (default: $TIME)"
     echo "  -p  partition (default: $PARTITION)"
+    echo "  -C  cluster (default: $CLUSTER)"
 }
 
 function setup_tunnel {
@@ -45,6 +47,7 @@ function int_session {
       --mem="$MEM" \
       --time="$TIME" \
       --job-name=vscode \
+      --clusters=$CLUSTER \
       --pty bash -c "source $SCRIPT_PATH; setup_tunnel"
 }
 
@@ -60,6 +63,7 @@ $GRES
 #SBATCH --mem=$MEM
 #SBATCH --time=$TIME
 #SBATCH --job-name=vscode
+#SBATCH --clusters=$CLUSTER
 #SBATCH --output=$DATA/logs/vscode-%j.log
 
 source $HOME/.bashrc && source $SCRIPT_PATH && setup_tunnel
@@ -74,13 +78,14 @@ EOF
 function main {
     ACTION="interactive"
 
-    while getopts "hbgm:c:t:p:" opts ; do
+    while getopts "hbgm:c:t:p:C:" opts ; do
         case $opts in
             h) help; exit 0 ;;
             b) ACTION="batch";;
             g) GPU=true;;
             m) MEM="$OPTARG";;
             c) CPUs="$OPTARG";;
+            C) CLUSTER="$OPTARG";;
             t) TIME="$OPTARG";;
             p) PARTITION="$OPTARG";;
             *) echo "illegal option" >&2; help; exit 62 ;;
