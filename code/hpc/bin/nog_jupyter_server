@@ -7,7 +7,7 @@ CLUSTER="htc"
 SCRIPT_PATH=$(realpath "$0")
 
 function help {
-    echo "Usage: $0 [-h] [-b] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]"
+    echo "Usage: $0 [-h] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]"
     echo "  -h  help"
     echo "  -m  memory (default: $MEM)"
     echo "  -c  CPUs (default: $CPUs)"
@@ -91,7 +91,7 @@ tail -f $LOGFILE
 }
 
 function main {
-    while getopts "hm:c:t:p:" opts; do
+    while getopts "hm:c:t:p:C:" opts; do
         case $opts in
             h) help; exit 0 ;;
             m) MEM="$OPTARG" ;;
