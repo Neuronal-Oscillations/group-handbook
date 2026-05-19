@@ -9,9 +9,8 @@ CLUSTER="htc"
 SCRIPT_PATH=$(realpath "$0")
 
 function help {
-    echo "Usage: $0 [-h] [-b] [-g] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]"
+    echo "Usage: $0 [-h] [-g] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]"
     echo "  -h  help"
-    echo "  -b  batch mode (default: interactive)"
     echo "  -g  request GPU"
     echo "  -m  memory (default: $MEM)"
     echo "  -c  CPUs (default: $CPUs)"
@@ -37,7 +36,7 @@ function setup_tunnel {
     $VSCODE_DIR/code tunnel user login --provider microsoft && $VSCODE_DIR/code tunnel --accept-server-license-terms
 }
 
-function int_session {
+function new_session {
     GRES=""
     [[ "$GPU" == true ]] && GRES="--gres=gpu:1"
       srun \
@@ -51,37 +50,10 @@ function int_session {
       --pty bash -c "source $SCRIPT_PATH; setup_tunnel"
 }
 
-function bat_session {
-    GRES=""
-    [[ "$GPU" == true ]] && GRES="#SBATCH --gres=gpu:1"
-    mkdir -p $DATA/logs
-    JOBID=$(sbatch --parsable <<EOF
-#!/bin/bash
-#SBATCH --partition=$PARTITION
-$GRES
-#SBATCH --cpus-per-task=$CPUs
-#SBATCH --mem=$MEM
-#SBATCH --time=$TIME
-#SBATCH --job-name=vscode
-#SBATCH --clusters=$CLUSTER
-#SBATCH --output=$DATA/logs/vscode-%j.log
-
-source $HOME/.bashrc && source $SCRIPT_PATH && setup_tunnel
-EOF
-)
-    echo "Submitted job $JOBID — waiting for tunnel URL..."
-    LOGFILE=$DATA/logs/vscode-${JOBID}.log
-    until [[ -f $LOGFILE ]]; do sleep 2; done
-    tail -f $LOGFILE
-}
-
 function main {
-    ACTION="interactive"
-
     while getopts "hbgm:c:t:p:C:" opts ; do
         case $opts in
             h) help; exit 0 ;;
-            b) ACTION="batch";;
             g) GPU=true;;
             m) MEM="$OPTARG";;
             c) CPUs="$OPTARG";;
@@ -91,11 +63,7 @@ function main {
             *) echo "illegal option" >&2; help; exit 62 ;;
         esac
     done
-
-    case $ACTION in
-        interactive) int_session;;
-        batch)  bat_session;;
-    esac
+    new_session
 }
 
 [[ "${BASH_SOURCE[0]}" == "$0" ]] && main "$@"
