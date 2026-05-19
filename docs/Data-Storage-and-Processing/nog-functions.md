@@ -21,12 +21,13 @@ nog_jupyter_server
 Optional arguments and usage:
 
 ```bash
-nog_jupyter_server [-h] [-b] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION]
+nog_jupyter_server [-h] [-b] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]
   -h  help
   -m  memory (default: 16G)
   -c  CPUs (default: 8)
   -t  walltime (default: 08:00:00)
   -p  partition (default: medium)
+  -C cluster (default: htc)
 ```
 
 Example:
@@ -39,7 +40,7 @@ A server will start in the background and shortly after, instructions on how to 
 
 ## nog_vscode_server
 
-This functions will submit an interactive or batch job to the cluster, which sets up a VSCode server that you can connect to from your laptop:
+This functions will submit an interactive job to the cluster, which sets up a VSCode server that you can connect to from your laptop:
 
 ```bash
 nog_vscode_server
@@ -48,14 +49,14 @@ nog_vscode_server
 Optional arguments and usage:
 
 ```bash
-nog_vscode_server [-h] [-b] [-g] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION]
+nog_vscode_server [-h] [-g] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]
   -h  help
-  -b  batch mode (default: interactive)
   -g  request GPU
   -m  memory (default: 16G)
   -c  CPUs (default: 4)
   -t  walltime (default: 08:00:00)
   -p  partition (default: medium)
+  -C cluster (default: htc)
 ```
 
 Example:
