@@ -2,16 +2,18 @@
 MEM=16G
 CPUs=8
 TIME="08:00:00"
-PARTITION="medium"
+PARTITION="short"
+CLUSTER="htc"
 SCRIPT_PATH=$(realpath "$0")
 
 function help {
-    echo "Usage: $0 [-h] [-b] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION]"
+    echo "Usage: $0 [-h] [-b] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]"
     echo "  -h  help"
     echo "  -m  memory (default: $MEM)"
     echo "  -c  CPUs (default: $CPUs)"
     echo "  -t  walltime (default: $TIME)"
     echo "  -p  partition (default: $PARTITION)"
+    echo "  -C  cluster (default: $CLUSTER)"
 }
 
 function check_env {
@@ -44,6 +46,7 @@ JOBID=$(sbatch --parsable <<EOF
 #SBATCH --cpus-per-task=$CPUs
 #SBATCH --mem=$MEM
 #SBATCH --time=$TIME
+#SBATCH --clusters=$CLUSTER
 #SBATCH --output=$DATA/logs/jupyter-%j.log
 
 # MNE_ENV_PATH must be set in ~/.bashrc (e.g. via setup_mne.sh or manually)
@@ -95,6 +98,7 @@ function main {
             c) CPUs="$OPTARG" ;;
             t) TIME="$OPTARG" ;;
             p) PARTITION="$OPTARG" ;;
+            C) CLUSTER="$OPTARG" ;;
             *) echo "Illegal option" >&2; help; exit 62 ;;
         esac
     done
