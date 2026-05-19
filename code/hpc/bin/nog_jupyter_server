@@ -84,6 +84,8 @@ echo "-------------------------------------------------------------------"
     --NotebookApp.password=''
 EOF
 )
+JOBID=$(echo "$JOBID" | cut -d';' -f1)
+
 echo "Submitted job $JOBID — waiting for jupyter..."
 LOGFILE=$DATA/logs/jupyter-${JOBID}.log
 until [[ -f $LOGFILE ]]; do sleep 2; done
