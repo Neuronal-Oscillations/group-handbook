@@ -161,3 +161,65 @@ nog_rfs rm RFS_DIR/RFS_SUBDIR/rfs_file
 # Remove directory
 nog_rfs rm -d RFS_DIR/RFS_SUBDIR
 ```
+
+## nog_slurm
+
+Useful for monitoring jobs and resources.
+
+```bash
+nog_slurm
+```
+
+Optional arguments and usage:
+
+```bash
+Usage: nog_slurm [OPTIONS] <action> [ACTION OPTIONS]
+
+Options:
+  -C <cluster>   Target cluster (default: htc)
+  -h             Show this help message
+
+Actions:
+  help           Show this help message
+  list           List view of your jobs
+  usage          Show memory usage for your jobs
+  cancel         Cancel your jobs
+
+Action options   (placed after the action keyword):
+  (none)         Operate on the most recently submitted job (default)
+  -a             Operate on ALL jobs belonging to $USER on the cluster
+  -j <id[,id]>   Operate on the specified comma-separated job IDs
+  -l             Live update every 10s (works only with 'list' and 'usage')
+
+Examples:
+  $(basename "$0") -C htc list       # list current jobs on 'htc'
+  $(basename "$0") usage -l          # report for last job with update every $UPDATE_TIME
+  $(basename "$0") -C arc usage -a   # report for all jobs on 'arc'
+  $(basename "$0") cancel            # cancel last job (with confirmation)
+  $(basename "$0") cancel -a         # cancel all jobs
+  $(basename "$0") cancel -j 12345,12346
+```
+
+Example 1:
+
+```bash
+nog_slurm list -l
+```
+
+This will show all currently running jobs on `htc` and update the view every 10s (`-l` for "live"). Omit `-l` for a one time lookup.
+
+Example 2:
+
+```bash
+nog_slurm -C arc cancel -a
+```
+
+Cancels all jobs (`-a`) on the "arc" cluster (`-C arc`). If you want to cancel all jobs on "htc" use `-C htc`
+
+Example 3:
+
+```bash
+nog_slurm usage -j 123456 -l
+```
+
+Shows a live view (`-l`) of memory usage of job 123456 (`-j 123456`), which updates every 10s.
