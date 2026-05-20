@@ -1,0 +1,168 @@
+#!/bin/bash
+
+CLUSTER="htc"
+JOBS=""
+SCOPE="last"
+UPDATE_TIME=10s
+LIVE="false"
+
+# ── colours ──────────────────────────────────────────────────────────────────
+RED='\033[0;31m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'
+
+# ── help ─────────────────────────────────────────────────────────────────────
+function help {
+    cat <<EOF
+Usage: $(basename "$0") [OPTIONS] <action> [ACTION OPTIONS]
+
+Options:
+  -C <cluster>   Target cluster (default: htc)
+  -h             Show this help message
+
+Actions:
+  help           Show this help message
+  list           List view of your jobs
+  usage          Show efficiency report for your jobs (uses seff)
+  cancel         Cancel your jobs
+
+Action options   (placed after the action keyword):
+  (none)         Operate on the most recently submitted job (default)
+  -a             Operate on ALL jobs belonging to \$USER on the cluster
+  -j <id[,id]>   Operate on the specified comma-separated job IDs
+  -l             Live update every $UPDATE_TIME (works only with 'list' and 'usage')
+
+Examples:
+  $(basename "$0") -C htc list       # list current jobs on 'htc'
+  $(basename "$0") usage -l          # report for last job with update every $UPDATE_TIME
+  $(basename "$0") -C arc usage -a   # report for all jobs on 'arc'
+  $(basename "$0") cancel            # cancel last job (with confirmation)
+  $(basename "$0") cancel -a         # cancel all jobs
+  $(basename "$0") cancel -j 12345,12346
+EOF
+}
+
+function get_jobs {
+    # JOBS already set explicitly via -j: use as-is.
+    if [[ -n "$JOBS" ]]; then
+        return 0
+    fi
+
+    # last line is the most recently submitted job.
+    local all_ids
+    all_ids=$(squeue -u "$USER" --clusters "$CLUSTER" -h -o '%i %V' 2>/dev/null | sort -k2 | awk '{print $1}')
+
+    if [[ -z "$all_ids" ]]; then
+        echo -e "${YELLOW}No jobs found for $USER on cluster '$CLUSTER'.${NC}" >&2
+        return 0
+    fi
+
+    if [[ "$SCOPE" == "all" ]]; then
+        JOBS=$(echo "$all_ids" | tr '\n' ',' | sed 's/,$//')
+    else
+        # Default: most recently submitted job only.
+        JOBS=$(echo "$all_ids" | tail -n 1)
+    fi
+}
+
+function cancel_jobs {
+    get_jobs
+
+    if [[ -z "$JOBS" ]]; then
+        echo -e "${YELLOW}Nothing to cancel.${NC}"
+        return 0
+    fi
+
+    echo -e "${CYAN}Jobs to cancel on '$CLUSTER': ${JOBS}${NC}"
+    read -r -p "Are you sure you want to cancel these jobs? [y/N] " confirm
+    if [[ "${confirm,,}" != "y" ]]; then
+        echo "Aborted."
+        return 0
+    fi
+
+    IFS=',' read -ra JOB_ARRAY <<< "$JOBS"
+    if scancel --clusters "$CLUSTER" "${JOB_ARRAY[@]}"; then
+        echo -e "${CYAN}Cancelled: ${JOBS}${NC}"
+    else
+        echo -e "${RED}scancel returned an error – check output above.${NC}" >&2
+        return 1
+    fi
+}
+
+function res_use {
+    get_jobs
+
+    if [[ -z "$JOBS" ]]; then
+        echo -e "${YELLOW}No jobs to report on.${NC}"
+        return 0
+    fi
+    ec=0
+    IFS=',' read -ra JOB_ARRAY <<< "$JOBS"
+    while true; do
+        [[ "$LIVE" == "true" ]] && clear
+        for JOB in "${JOB_ARRAY[@]}"; do
+            echo -e "${CYAN}── seff report for job $JOB ──${NC}"
+            sstat -j "$JOB" --format=AveCPU,AveRSS,MaxRSS \
+            || { echo -e "${RED}seff failed for job $JOB${NC}" >&2; ec=1; }
+        done
+        [[ "$LIVE" == "false" ]] && exit $ec
+        sleep $UPDATE_TIME
+    done
+}
+
+function list_view {
+    while true; do
+        [[ "$LIVE" == "true" ]] && clear
+        echo -e "${CYAN}[$(date '+%Y-%m-%d %H:%M:%S')]  $USER @ $CLUSTER${NC}"
+        squeue -u "$USER" --clusters "$CLUSTER"
+        [[ "$LIVE" == "false" ]] && exit 0
+        sleep $UPDATE_TIME
+    done
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Parse global options (before the action keyword)
+# ─────────────────────────────────────────────────────────────────────────────
+while getopts ":hC:" opts; do
+    case $opts in
+        h) help; exit 0 ;;
+        C) CLUSTER="$OPTARG" ;;
+        :) echo -e "${RED}Option -$OPTARG requires an argument.${NC}" >&2; help; exit 1 ;;
+        *) echo -e "${RED}Illegal option: -$OPTARG${NC}" >&2; help; exit 62 ;;
+    esac
+done
+shift $((OPTIND - 1))
+OPTIND=1   # reset for second getopts pass below
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Determine action
+# ─────────────────────────────────────────────────────────────────────────────
+case "${1:-help}" in
+    help)   ACTION="help" ;;
+    list)   ACTION="list" ;;
+    usage)  ACTION="usage" ;;
+    cancel) ACTION="cancel" ;;
+    *)      echo -e "${RED}Unknown action: $1${NC}" >&2; help; exit 63 ;;
+esac
+shift
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Parse per-action options (after the action keyword)
+# ─────────────────────────────────────────────────────────────────────────────
+while getopts ":aj:l" opts; do
+    case $opts in
+        a) SCOPE="all" ;;
+        j) JOBS="$OPTARG" ;;
+        l) LIVE="true" ;;
+        :) echo -e "${RED}Option -$OPTARG requires an argument.${NC}" >&2; help; exit 1 ;;
+        *) echo -e "${RED}Illegal option: -$OPTARG${NC}" >&2; help; exit 62 ;;
+    esac
+done
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Dispatch
+# ─────────────────────────────────────────────────────────────────────────────
+case $ACTION in
+    help)   help ;;
+    list)   list_view ;;
+    usage)  res_use ;;
+    cancel) cancel_jobs ;;
+esac
