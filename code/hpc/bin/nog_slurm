@@ -21,7 +21,7 @@ Options:
 Actions:
   help           Show this help message
   list           List view of your jobs
-  usage          Show efficiency report for your jobs (uses seff)
+  usage          Show efficiency report for your jobs (uses sstat)
   cancel         Cancel your jobs
 
 Action options   (placed after the action keyword):
@@ -99,9 +99,9 @@ function res_use {
     while true; do
         [[ "$LIVE" == "true" ]] && clear
         for JOB in "${JOB_ARRAY[@]}"; do
-            echo -e "${CYAN}── seff report for job $JOB ──${NC}"
+            echo -e "${CYAN}── sstat report for job $JOB ──${NC}"
             sstat -j "$JOB" --format=AveCPU,AveRSS,MaxRSS \
-            || { echo -e "${RED}seff failed for job $JOB${NC}" >&2; ec=1; }
+            || { echo -e "${RED}sstat failed for job $JOB${NC}" >&2; ec=1; }
         done
         [[ "$LIVE" == "false" ]] && exit $ec
         sleep $UPDATE_TIME
