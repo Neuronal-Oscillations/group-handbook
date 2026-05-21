@@ -24,7 +24,7 @@ A typical workflow involves:
 - [Setting up MNE Python](setup-mne.md)
 - [Using Jupyter to run MNE Python](jupyterMNE.md)
 
-### Useful instructions
+### Useful instructionss
 - [Data transfer between Windows/MacOS and ARC](PCorMAC-to-RFS-data-transfer.md)
 - [Data transfer between RFS and ARC](RFS-to-ARC-datatransfer.md)
 - Restrict access to your data directory so only you can read, write, and access it: `chmod 700 $DATA`
