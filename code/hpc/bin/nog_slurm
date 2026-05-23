@@ -6,6 +6,17 @@ SCOPE="last"
 UPDATE_TIME=10s
 LIVE="false"
 
+MEM=16G
+CPUs=8
+GPU=""
+TIME="08:00:00"
+PARTITION="short"
+CLUSTER="htc"
+ENV4SCRIPT=""
+ENVACT=""
+INTERPRETER="bash"
+
+
 # ── colours ──────────────────────────────────────────────────────────────────
 RED='\033[0;31m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'
 
@@ -14,30 +25,83 @@ function help {
     cat <<EOF
 Usage: $(basename "$0") [OPTIONS] <action> [ACTION OPTIONS]
 
-Options:
+Global options:
   -C <cluster>   Target cluster (default: htc)
   -h             Show this help message
 
 Actions:
   help           Show this help message
   list           List view of your jobs
-  usage          Show efficiency report for your jobs (uses sstat)
+  usage          Show current resource usage for your jobs (uses sstat)
   cancel         Cancel your jobs
+  submit         Submit a script as a SLURM job (must be .sh or .py)
 
-Action options   (placed after the action keyword):
+Options for list / usage / cancel:
   (none)         Operate on the most recently submitted job (default)
-  -a             Operate on ALL jobs belonging to \$USER on the cluster
+  -a             Operate on ALL jobs belonging to $USER on the cluster
   -j <id[,id]>   Operate on the specified comma-separated job IDs
-  -l             Live update every $UPDATE_TIME (works only with 'list' and 'usage')
+  -l             Live update every $UPDATE_TIME (works with 'list' and 'usage' only)
+  -C <cluster>   Override cluster for this action
+
+Options for submit:
+  -e <env>       Path to conda / mamba environment to activate before running
+  -m <mem>       Memory per job (default: $MEM)
+  -c <cpus>      CPUs per task (default: $CPUs)
+  -t <time>      Wall time limit (default: $TIME)
+  -p <partition> Partition to submit to (default: $PARTITION)
+  -C <cluster>   Override cluster for this action
+  -g <gpu>       Set GPU specification (default: no GPU)
 
 Examples:
-  $(basename "$0") -C htc list       # list current jobs on 'htc'
-  $(basename "$0") usage -l          # report for last job with update every $UPDATE_TIME
-  $(basename "$0") -C arc usage -a   # report for all jobs on 'arc'
-  $(basename "$0") cancel            # cancel last job (with confirmation)
-  $(basename "$0") cancel -a         # cancel all jobs
-  $(basename "$0") cancel -j 12345,12346
+  $(basename "$0") -C htc list              # list current jobs on 'htc'
+  $(basename "$0") usage -l                 # report for last job, live update
+  $(basename "$0") -C arc usage -a          # report for all jobs on 'arc'
+  $(basename "$0") cancel                   # cancel last job (with confirmation)
+  $(basename "$0") cancel -a                # cancel all jobs
+  $(basename "$0") cancel -j 12345,12346    # cancel specific jobs
+  $(basename "$0") submit MyScript.sh       # submit bash script with defaults
+  $(basename "$0") submit -e MyEnv -g 1 -m 32G -c 16 -t 24:00:00 -p long MyScript.py arg1 arg2
 EOF
+}
+
+function submit {
+    [[ -z "$1" ]] && { echo -e "${RED}ERROR: No script provided.${NC}" >&2; help; exit 1; }
+
+    mkdir -p "$DATA/logs"
+    local SCRIPT_PATH="$(realpath "$1")"
+    local SCRIPT_NAME="$(basename "${1%.*}")"
+    local SCRIPT_EXT="${1##*.}"
+
+    [[ -n "${ENV4SCRIPT}"  ]] && ENVACT="source activate $(realpath "${ENV4SCRIPT}")"
+    case $SCRIPT_EXT in
+        sh)   INTERPRETER="bash" ;;
+        py)   INTERPRETER="python" ;;
+        *) echo -e "${RED}ERROR: Function not implemented for .${SCRIPT_EXT} scripts yet.${NC}" >&2; help; exit 1 ;;
+    esac
+    local GPU_DIRECTIVE=""
+    [[ -n "$GPU" ]] && GPU_DIRECTIVE="#SBATCH --gres=gpu:${GPU}"
+JOBID=$(sbatch --parsable <<EOF
+#!/bin/bash
+#SBATCH --partition=$PARTITION
+#SBATCH --job-name=$SCRIPT_NAME
+#SBATCH --cpus-per-task=$CPUs
+#SBATCH --mem=$MEM
+#SBATCH --time=$TIME
+#SBATCH --clusters=$CLUSTER
+#SBATCH --output=$DATA/logs/$SCRIPT_NAME-%j.log
+$GPU_DIRECTIVE
+
+# source basic and, if requested, activate environment
+source $HOME/.bashrc
+$ENVACT
+
+$INTERPRETER "${SCRIPT_PATH}" "${@:2}"
+
+EOF
+)
+[[ $CLUSTER == "all" ]] && CLUSTER=$(echo "$JOBID" | cut -d';' -f2)
+JOBID=$(echo "$JOBID" | cut -d';' -f1)
+echo -e "${CYAN}Submitted job ${JOBID} to ${CLUSTER} ${NC}"
 }
 
 function get_jobs {
@@ -140,6 +204,7 @@ case "${1:-help}" in
     list)   ACTION="list" ;;
     usage)  ACTION="usage" ;;
     cancel) ACTION="cancel" ;;
+    submit) ACTION="submit" ;;
     *)      echo -e "${RED}Unknown action: $1${NC}" >&2; help; exit 63 ;;
 esac
 shift
@@ -147,15 +212,33 @@ shift
 # ─────────────────────────────────────────────────────────────────────────────
 # Parse per-action options (after the action keyword)
 # ─────────────────────────────────────────────────────────────────────────────
-while getopts ":aj:l" opts; do
-    case $opts in
-        a) SCOPE="all" ;;
-        j) JOBS="$OPTARG" ;;
-        l) LIVE="true" ;;
-        :) echo -e "${RED}Option -$OPTARG requires an argument.${NC}" >&2; help; exit 1 ;;
-        *) echo -e "${RED}Illegal option: -$OPTARG${NC}" >&2; help; exit 62 ;;
-    esac
-done
+if [[ "$ACTION" == "submit" ]]; then
+    while getopts ":e:m:c:t:p:g:C:" opts; do
+        case $opts in
+            e) ENV4SCRIPT="$OPTARG" ;;
+            m) MEM="$OPTARG" ;;
+            c) CPUs="$OPTARG" ;;
+            t) TIME="$OPTARG" ;;
+            p) PARTITION="$OPTARG" ;;
+            g) GPU="$OPTARG" ;;
+            C) CLUSTER="$OPTARG" ;;
+            :) echo -e "${RED}Option -$OPTARG requires an argument.${NC}" >&2; help; exit 1 ;;
+            *) echo -e "${RED}Illegal option for submit: -$OPTARG${NC}" >&2; help; exit 62 ;;
+        esac
+    done
+else
+    while getopts ":aj:lC:" opts; do
+        case $opts in
+            a) SCOPE="all" ;;
+            j) JOBS="$OPTARG" ;;
+            l) LIVE="true" ;;
+            C) CLUSTER="$OPTARG" ;;
+            :) echo -e "${RED}Option -$OPTARG requires an argument.${NC}" >&2; help; exit 1 ;;
+            *) echo -e "${RED}Illegal option: -$OPTARG${NC}" >&2; help; exit 62 ;;
+        esac
+    done
+fi
+shift $((OPTIND - 1))
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Dispatch
@@ -165,4 +248,5 @@ case $ACTION in
     list)   list_view ;;
     usage)  res_use ;;
     cancel) cancel_jobs ;;
+    submit) submit "${@}" ;;
 esac
