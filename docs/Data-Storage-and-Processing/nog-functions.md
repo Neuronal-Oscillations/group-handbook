@@ -175,29 +175,42 @@ Optional arguments and usage:
 ```bash
 Usage: nog_slurm [OPTIONS] <action> [ACTION OPTIONS]
 
-Options:
+Global options:
   -C <cluster>   Target cluster (default: htc)
   -h             Show this help message
 
 Actions:
   help           Show this help message
   list           List view of your jobs
-  usage          Show memory usage for your jobs
+  usage          Show current resource usage for your jobs (uses sstat)
   cancel         Cancel your jobs
+  submit         Submit a script as a SLURM job (must be .sh or .py)
 
-Action options   (placed after the action keyword):
+Options for list / usage / cancel:
   (none)         Operate on the most recently submitted job (default)
   -a             Operate on ALL jobs belonging to $USER on the cluster
   -j <id[,id]>   Operate on the specified comma-separated job IDs
-  -l             Live update every 10s (works only with 'list' and 'usage')
+  -l             Live update every $UPDATE_TIME (works with 'list' and 'usage' only)
+  -C <cluster>   Override cluster for this action
+
+Options for submit:
+  -e <env>       Path to conda / mamba environment to activate before running
+  -m <mem>       Memory per job (default: $MEM)
+  -c <cpus>      CPUs per task (default: $CPUs)
+  -t <time>      Wall time limit (default: $TIME)
+  -p <partition> Partition to submit to (default: $PARTITION)
+  -C <cluster>   Override cluster for this action
+  -g <gpu>       Set GPU specification (default: no GPU)
 
 Examples:
-  $(basename "$0") -C htc list       # list current jobs on 'htc'
-  $(basename "$0") usage -l          # report for last job with update every $UPDATE_TIME
-  $(basename "$0") -C arc usage -a   # report for all jobs on 'arc'
-  $(basename "$0") cancel            # cancel last job (with confirmation)
-  $(basename "$0") cancel -a         # cancel all jobs
-  $(basename "$0") cancel -j 12345,12346
+  $(basename "$0") -C htc list              # list current jobs on 'htc'
+  $(basename "$0") usage -l                 # report for last job, live update
+  $(basename "$0") -C arc usage -a          # report for all jobs on 'arc'
+  $(basename "$0") cancel                   # cancel last job (with confirmation)
+  $(basename "$0") cancel -a                # cancel all jobs
+  $(basename "$0") cancel -j 12345,12346    # cancel specific jobs
+  $(basename "$0") submit MyScript.sh       # submit bash script with defaults
+  $(basename "$0") submit -e MyEnv -g 1 -m 32G -c 16 -t 24:00:00 -p long MyScript.py arg1 arg2
 ```
 
 Example 1:
@@ -223,3 +236,29 @@ nog_slurm usage -j 123456 -l
 ```
 
 Shows a live view (`-l`) of memory usage of job 123456 (`-j 123456`), which updates every 10s.
+
+Example 4:
+
+```bash
+nog_slurm submit -e $DATA/environments/mne_env -m 32G -c 16 -t 12:00:00 $DATA/scripts/MyScript.py S42
+```
+
+Submits a batch job that looks like this:
+
+```bash
+#!/bin/bash
+#SBATCH --partition=short
+#SBATCH --job-name=MyScript
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=32G
+#SBATCH --time=12:00:00
+#SBATCH --clusters=htc
+#SBATCH --output=$DATA/logs/MyScript-%j.log
+
+source $HOME/.bashrc
+source activate $DATA/environments/mne_env
+
+python $DATA/scripts/MyScript.py S42
+```
+
+This will request 32 Gb of memory, 16 CPUs, for 12 hours, and submits a job that activates the mamba environment `mne_env` and runs the script `MyScript.py` with `S42` as an argument.
