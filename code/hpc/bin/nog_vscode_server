@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GPU=false
+GPU=""
 MEM=32G
 CPUs=8
 TIME="08:00:00"
@@ -9,14 +9,16 @@ CLUSTER="htc"
 SCRIPT_PATH=$(realpath "$0")
 
 function help {
-    echo "Usage: $0 [-h] [-g] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]"
+    echo "Usage: $0 [-h] [-g GPU] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]"
     echo "  -h  help"
-    echo "  -g  request GPU"
+    echo "  -g  request GPU" (default: no GPU)
     echo "  -m  memory (default: $MEM)"
     echo "  -c  CPUs (default: $CPUs)"
     echo "  -t  walltime (default: $TIME)"
     echo "  -p  partition (default: $PARTITION)"
     echo "  -C  cluster (default: $CLUSTER)"
+    echo ""
+    echo "Example: nog_vscode_server -m 16G -c 8 -t 24:00:00 -p medium -C htc"
 }
 
 function setup_tunnel {
@@ -38,7 +40,7 @@ function setup_tunnel {
 
 function new_session {
     GRES=""
-    [[ "$GPU" == true ]] && GRES="--gres=gpu:1"
+    [[ -n "$GPU" ]] && GRES="--gres=gpu:${GPU}"
       srun \
       --partition="$PARTITION" \
       $GRES \
@@ -51,10 +53,10 @@ function new_session {
 }
 
 function main {
-    while getopts "hbgm:c:t:p:C:" opts ; do
+    while getopts "hg:m:c:t:p:C:" opts ; do
         case $opts in
             h) help; exit 0 ;;
-            g) GPU=true;;
+            g) GPU="$OPTARG";;
             m) MEM="$OPTARG";;
             c) CPUs="$OPTARG";;
             C) CLUSTER="$OPTARG";;
