@@ -91,7 +91,7 @@ JOBID=$(sbatch --parsable <<EOF
 #SBATCH --output=$DATA/logs/$SCRIPT_NAME-%j.log
 $GPU_DIRECTIVE
 
-# source basic and, if requested, activate environment
+# source bashrc and, if requested, activate environment
 source $HOME/.bashrc
 $ENVACT
 
