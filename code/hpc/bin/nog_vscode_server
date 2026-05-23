@@ -11,7 +11,7 @@ SCRIPT_PATH=$(realpath "$0")
 function help {
     echo "Usage: $0 [-h] [-g GPU] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]"
     echo "  -h  help"
-    echo "  -g  request GPU" (default: no GPU)
+    echo "  -g  request GPU (default: no GPU)"
     echo "  -m  memory (default: $MEM)"
     echo "  -c  CPUs (default: $CPUs)"
     echo "  -t  walltime (default: $TIME)"
