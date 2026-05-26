@@ -55,7 +55,6 @@ Options for submit:
 Examples:
   $(basename "$0") -C htc list              # list current jobs on 'htc'
   $(basename "$0") usage -l                 # report for last job, live update
-  $(basename "$0") -C arc usage -a          # report for all jobs on 'arc'
   $(basename "$0") cancel                   # cancel last job (with confirmation)
   $(basename "$0") cancel -a                # cancel all jobs
   $(basename "$0") cancel -j 12345,12346    # cancel specific jobs
