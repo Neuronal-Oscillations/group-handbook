@@ -158,15 +158,14 @@ function res_use {
         echo -e "${YELLOW}No jobs to report on.${NC}"
         return 0
     fi
-    ec=0
     IFS=',' read -ra JOB_ARRAY <<< "$JOBS"
+    JOB="${JOB_ARRAY[-1]}"
+
     echo -e "${CYAN}── sstat report for job $JOB ──${NC}"
     if [[ "$LIVE" == "true" ]];then
-        watch -n $UPDATE_TIME sstat -j "$JOB" --format=AveCPU,AveRSS,MaxRSS \
-            || { echo -e "${RED}sstat failed for job $JOB${NC}" >&2; ec=1; }
+        watch -n $UPDATE_TIME sstat -j "$JOB" --format=AveCPU,AveRSS,MaxRSS || echo -e "${RED}sstat failed for job $JOB${NC}" >&2
     else
-        sstat -j "$JOB" --format=AveCPU,AveRSS,MaxRSS \
-            || { echo -e "${RED}sstat failed for job $JOB${NC}" >&2; ec=1; }
+        sstat -j "$JOB" --format=AveCPU,AveRSS,MaxRSS || echo -e "${RED}sstat failed for job $JOB${NC}" >&2
     fi
 }
 
