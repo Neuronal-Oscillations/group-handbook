@@ -3,7 +3,7 @@
 CLUSTER="htc"
 JOBS=""
 SCOPE="last"
-UPDATE_TIME=10s
+UPDATE_TIME=10
 LIVE="false"
 
 MEM=16G
@@ -40,7 +40,7 @@ Options for list / usage / cancel:
   (none)         Operate on the most recently submitted job (default)
   -a             Operate on ALL jobs belonging to $USER on the cluster
   -j <id[,id]>   Operate on the specified comma-separated job IDs
-  -l             Live update every $UPDATE_TIME (works with 'list' and 'usage' only)
+  -l             Live update every $UPDATE_TIME seconds (works with 'list' and 'usage' only)
   -C <cluster>   Override cluster for this action
 
 Options for submit:
@@ -160,26 +160,22 @@ function res_use {
     fi
     ec=0
     IFS=',' read -ra JOB_ARRAY <<< "$JOBS"
-    while true; do
-        [[ "$LIVE" == "true" ]] && clear
-        for JOB in "${JOB_ARRAY[@]}"; do
-            echo -e "${CYAN}── sstat report for job $JOB ──${NC}"
-            sstat -j "$JOB" --format=AveCPU,AveRSS,MaxRSS \
+    echo -e "${CYAN}── sstat report for job $JOB ──${NC}"
+    if [[ "$LIVE" == "true" ]];then
+        watch -n $UPDATE_TIME sstat -j "$JOB" --format=AveCPU,AveRSS,MaxRSS \
             || { echo -e "${RED}sstat failed for job $JOB${NC}" >&2; ec=1; }
-        done
-        [[ "$LIVE" == "false" ]] && exit $ec
-        sleep $UPDATE_TIME
-    done
+    else
+        sstat -j "$JOB" --format=AveCPU,AveRSS,MaxRSS \
+            || { echo -e "${RED}sstat failed for job $JOB${NC}" >&2; ec=1; }
+    fi
 }
 
 function list_view {
-    while true; do
-        [[ "$LIVE" == "true" ]] && clear
-        echo -e "${CYAN}[$(date '+%Y-%m-%d %H:%M:%S')]  $USER @ $CLUSTER${NC}"
+    if [[ "$LIVE" == "true" ]];then
+        watch -n $UPDATE_TIME squeue -u "$USER" --clusters "$CLUSTER"
+    else
         squeue -u "$USER" --clusters "$CLUSTER"
-        [[ "$LIVE" == "false" ]] && exit 0
-        sleep $UPDATE_TIME
-    done
+    fi
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
