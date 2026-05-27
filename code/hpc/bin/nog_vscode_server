@@ -62,15 +62,7 @@ function setup_tunnel {
         rm "${VSCODE_BASE}/vscode_cli.tar.gz"
     fi
 
-    # Authentication Check
-    if "${VSCODE_BASE}/code" tunnel user show &> /dev/null; then
-        echo "Authentication verified. Starting tunnel..."
-        "${VSCODE_BASE}/code" tunnel --accept-server-license-terms
-    else
-        echo "Not authenticated. Requesting login..."
-        "${VSCODE_BASE}/code" tunnel user login --provider microsoft && \
-        "${VSCODE_BASE}/code" tunnel --accept-server-license-terms
-    fi
+    "${VSCODE_BASE}/code" tunnel user login --provider microsoft && "${VSCODE_BASE}/code" tunnel --accept-server-license-terms
 }
 
 function new_session {
