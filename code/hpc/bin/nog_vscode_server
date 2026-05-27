@@ -6,66 +6,152 @@ CPUs=8
 TIME="08:00:00"
 PARTITION="short"
 CLUSTER="htc"
+BATCH="false"
 SCRIPT_PATH=$(realpath "$0")
 
 function help {
-    echo "Usage: $0 [-h] [-g GPU] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]"
-    echo "  -h  help"
-    echo "  -g  request GPU (default: no GPU)"
-    echo "  -m  memory (default: $MEM)"
-    echo "  -c  CPUs (default: $CPUs)"
-    echo "  -t  walltime (default: $TIME)"
-    echo "  -p  partition (default: $PARTITION)"
-    echo "  -C  cluster (default: $CLUSTER)"
-    echo ""
-    echo "Example: nog_vscode_server -m 16G -c 8 -t 24:00:00 -p medium -C htc"
+cat <<EOF
+Usage: $0 [-h] [-b] [-g GPU] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]
+  -h  help
+  -b  run in batch mode via sbatch (default is interactive via srun)
+  -g  request GPU (default: no GPU)
+  -m  memory (default: $MEM)
+  -c  CPUs (default: $CPUs)
+  -t  walltime (default: $TIME)
+  -p  partition (default: $PARTITION)
+  -C  cluster (default: $CLUSTER)
+
+Example: 
+  nog_vscode_server -m 16G -c 8 -t 24:00:00 -p medium -C htc
+
+Note:
+  Do NOT use -b for the very first run. Use the default interactive job instead to complete the authentication.
+EOF
+}
+
+function init_env_vars {
+    export VSCODE_BASE="${DATA}/environments/vscode"
+    export VSCODE_EXTENSIONS="${VSCODE_BASE}/.vscode-extensions"
+    export VSCODE_CLI_DATA_DIR="${VSCODE_BASE}/.vscode-cli"
+    export VSCODE_AGENT_FOLDER="${VSCODE_BASE}/.vscode-server"
+
+    local REQ_ENV_PATHS=(
+        "export VSCODE_BASE=\"${DATA}/environments/vscode\""
+        "export VSCODE_EXTENSIONS=\"${VSCODE_BASE}/.vscode-extensions\""
+        "export VSCODE_CLI_DATA_DIR=\"${VSCODE_BASE}/.vscode-cli\""
+        "export VSCODE_AGENT_FOLDER=\"${VSCODE_BASE}/.vscode-server\""
+    )
+
+    for line in "${REQ_ENV_PATHS[@]}"; do
+        grep -qxF "$line" $HOME/.bashrc || echo "$line" >> $HOME/.bashrc
+    done
 }
 
 function setup_tunnel {
-    mkdir -p $DATA/environments
-    mkdir -p $DATA/environments/vscode
-    local VSCODE_DIR=$DATA/environments/vscode
+    for line in "${REQ_ENV_PATHS[@]}"; do
+      grep -qxF "$line" ~/.bashrc || echo "$line" >> ~/.bashrc
+    done
 
-    curl -Lk 'https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64' --output $VSCODE_DIR/vscode_cli.tar.gz
-    tar -xf $VSCODE_DIR/vscode_cli.tar.gz -C $VSCODE_DIR
-    rm $VSCODE_DIR/vscode_cli.tar.gz
+    mkdir -p "${VSCODE_BASE}"
 
-    export VSCODE_BASE="$VSCODE_DIR"
-    export VSCODE_EXTENSIONS="$VSCODE_DIR/.vscode-extensions"
-    export VSCODE_CLI_DATA_DIR="$VSCODE_DIR/.vscode-cli"
-    export VSCODE_AGENT_FOLDER="$VSCODE_DIR/.vscode-server"
+    # Cache the download: Only fetch if the binary doesn't exist
+    if [[ ! -x "${VSCODE_BASE}/code" ]]; then
+        echo "Downloading VS Code CLI..."
+        curl -Lk 'https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64' --output "${VSCODE_BASE}/vscode_cli.tar.gz"
+        tar -xf "${VSCODE_BASE}/vscode_cli.tar.gz" -C "${VSCODE_BASE}"
+        rm "${VSCODE_BASE}/vscode_cli.tar.gz"
+    fi
 
-    $VSCODE_DIR/code tunnel user login --provider microsoft && $VSCODE_DIR/code tunnel --accept-server-license-terms
+    # Authentication Check
+    if "${VSCODE_BASE}/code" tunnel user show &> /dev/null; then
+        echo "Authentication verified. Starting tunnel..."
+        "${VSCODE_BASE}/code" tunnel --accept-server-license-terms
+    else
+        echo "Not authenticated. Requesting login..."
+        "${VSCODE_BASE}/code" tunnel user login --provider microsoft && \
+        "${VSCODE_BASE}/code" tunnel --accept-server-license-terms
+    fi
 }
 
 function new_session {
-    GRES=""
-    [[ -n "$GPU" ]] && GRES="--gres=gpu:${GPU}"
-      srun \
+    local GPU_DIRECTIVE=""
+    [[ -n "$GPU" ]] && GPU_DIRECTIVE="--gres=gpu:${GPU}"
+    
+    # Note: Unquoted $GPU_DIRECTIVE is intentional so Bash drops it if it's empty
+    srun \
       --partition="$PARTITION" \
-      $GRES \
+      $GPU_DIRECTIVE \
       --cpus-per-task="$CPUs" \
       --mem="$MEM" \
       --time="$TIME" \
       --job-name=vscode \
-      --clusters=$CLUSTER \
-      --pty bash -c "source $SCRIPT_PATH; setup_tunnel"
+      --clusters="$CLUSTER" \
+      --pty bash -c "source $HOME/.bashrc && source $SCRIPT_PATH && setup_tunnel"
+}
+
+function new_batch {
+    # Pre-flight check: Ensure user is authenticated before submitting the job
+    if [[ -x "$VSCODE_BASE/code" ]] && ! "$VSCODE_BASE/code" tunnel user show &> /dev/null; then
+        echo "ERROR: Not authenticated. Please run without '-b' first to log in interactively."
+        exit 1
+    elif [[ ! -x "$VSCODE_BASE/code" ]]; then
+        echo "ERROR: VS Code CLI missing. Please run without '-b' first to initialize."
+        exit 1
+    fi
+
+    local GPU_DIRECTIVE=""
+    [[ -n "$GPU" ]] && GPU_DIRECTIVE="#SBATCH --gres=gpu:${GPU}"
+
+    local JOBID
+    JOBID=$(sbatch --parsable <<EOF
+#!/bin/bash
+#SBATCH --partition=$PARTITION
+#SBATCH --job-name=vscode
+#SBATCH --cpus-per-task=$CPUs
+#SBATCH --mem=$MEM
+#SBATCH --time=$TIME
+#SBATCH --clusters=$CLUSTER
+#SBATCH --output=$DATA/logs/vscode-%j.log
+${GPU_DIRECTIVE:-}
+
+source "$HOME/.bashrc"
+source "$SCRIPT_PATH"
+setup_tunnel
+EOF
+)
+    JOBID=$(echo "$JOBID" | cut -d';' -f1)
+    echo "Job submitted! Waiting for VSCode log to generate..."
+    
+    until [[ -f "$DATA/logs/vscode-${JOBID}.log" ]]; do 
+        sleep 2s
+    done 
+    tail -f "$DATA/logs/vscode-${JOBID}.log"
 }
 
 function main {
-    while getopts "hg:m:c:t:p:C:" opts ; do
+    while getopts "hbg:m:c:t:p:C:" opts ; do
         case $opts in
             h) help; exit 0 ;;
+            b) BATCH="true" ;;
             g) GPU="$OPTARG";;
             m) MEM="$OPTARG";;
             c) CPUs="$OPTARG";;
             C) CLUSTER="$OPTARG";;
             t) TIME="$OPTARG";;
             p) PARTITION="$OPTARG";;
-            *) echo "illegal option" >&2; help; exit 62 ;;
+            *) echo "illegal option" >&2; help; exit 64 ;;
         esac
     done
-    new_session
+
+    init_env_vars
+
+    mkdir -p "$DATA/logs"
+    
+    if [[ "$BATCH" == "true" ]]; then
+        new_batch
+    else
+        new_session
+    fi
 }
 
 [[ "${BASH_SOURCE[0]}" == "$0" ]] && main "$@"
