@@ -82,15 +82,6 @@ function new_session {
 }
 
 function new_batch {
-    # Pre-flight check: Ensure user is authenticated before submitting the job
-    if [[ -x "$VSCODE_BASE/code" ]] && ! "$VSCODE_BASE/code" tunnel user show &> /dev/null; then
-        echo "ERROR: Not authenticated. Please run without '-b' first to log in interactively."
-        exit 1
-    elif [[ ! -x "$VSCODE_BASE/code" ]]; then
-        echo "ERROR: VS Code CLI missing. Please run without '-b' first to initialize."
-        exit 1
-    fi
-
     local GPU_DIRECTIVE=""
     [[ -n "$GPU" ]] && GPU_DIRECTIVE="#SBATCH --gres=gpu:${GPU}"
 
