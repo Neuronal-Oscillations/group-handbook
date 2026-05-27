@@ -103,7 +103,7 @@ setup_tunnel
 EOF
 )
     JOBID=$(echo "$JOBID" | cut -d';' -f1)
-    echo "Job submitted! Waiting for VSCode log to generate..."
+    echo "Job ${JOBID} submitted! Waiting for VSCode to start ..."
     
     until [[ -f "$DATA/logs/vscode-${JOBID}.log" ]]; do 
         sleep 2s
