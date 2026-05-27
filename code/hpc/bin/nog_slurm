@@ -30,7 +30,7 @@ Actions:
   usage          Show current and maximum memory usage for job ID (uses sstat)
   cancel         Cancel your jobs
   submit         Submit a script as a SLURM batch job (must be .sh or .py)
-  log            View log file of job
+  log            View log file of job ($DATA/logs/<job_name>-<job_id>.log)
 
 Options for list:
   (none)         Show output once
@@ -77,6 +77,9 @@ Examples:
 
   $(basename "$0") submit MyScript.sh       # submit bash script with defaults
   $(basename "$0") submit -e MyEnv -g 1 -m 32G -c 16 -t 24:00:00 -p long MyScript.py arg1 arg2
+
+  $(basename "$0") log -l                   # Show log file for last job, live update
+  $(basename "$0") log -j 12345             # Show log file for job 12345
 EOF
 }
 
