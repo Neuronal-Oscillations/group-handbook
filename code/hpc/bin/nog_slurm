@@ -47,7 +47,7 @@ Options for usage:
 Options for cancel:
   (none)         Cancel the most recently submitted job
   -a             Cancel ALL jobs belonging to $USER on the specified cluster
-  -s             Cancel SELECTED jobs. Shows list of jobs. Select via comma seperated indices.
+  -s             Shows list of jobs. Select via comma seperated indices.
   -j <id[,id]>   Cancel specified comma-separated job IDs
   -C <cluster>   Operate on jobs for specified cluster (default: $CLUSTER)
 
@@ -63,6 +63,7 @@ Options for submit:
 Options for log:
   (none)         Show output of the most recently submitted job
   -l             Live update
+  -s             Shows list of jobs. Select job bia index.
   -j <id>        Show output for a specific job ID
   -C <cluster>   Show result for specified cluster (default: $CLUSTER)
 
@@ -111,6 +112,7 @@ JOBID=$(sbatch --parsable <<EOF
 #SBATCH --time=$TIME
 #SBATCH --clusters=$CLUSTER
 #SBATCH --output=$DATA/logs/$SCRIPT_NAME-%j.log
+#SBATCH --error=$DATA/logs/$SCRIPT_NAME-%j.log
 $GPU_DIRECTIVE
 
 # source bashrc and, if requested, activate environment
@@ -144,7 +146,7 @@ function select_jobs {
     done
 
     echo ""
-    read -r -p "Enter comma-separated indices to cancel (e.g. 0,2,3): " selection
+    read -r -p "Enter comma-separated indices to select jobs (e.g. 0,2,3): " selection
 
     local all_ids=()
     for i in "${!raw[@]}"; do
@@ -253,6 +255,16 @@ function list_view {
 }
 
 function log_view {
+    # if requested promt for job selection
+    if [[ "$SELECT" == "true" ]]; then
+        select_jobs
+        [[ -z "$JOBS" ]] && return 0
+        if [[ "$JOBS" == *","* ]]; then
+            echo -e "${YELLOW}Please select only one job.${NC}"
+            return 0
+        fi
+    fi
+
     get_jobs
     [[ -z "$JOBS" ]] && { echo -e "${YELLOW}No jobs to report on.${NC}"; return 0; }
 
@@ -260,7 +272,7 @@ function log_view {
     JOB="${JOB_ARRAY[-1]}"
 
     local job_name
-    job_name=$(scontrol show job "$JOB" --clusters $CLUSTER | grep -oP 'JobName=\K\S+')
+    job_name=$(scontrol show job "$JOB" --clusters "$CLUSTER" | grep -oP 'JobName=\K\S+')
 
     [[ -z "$job_name" ]] && { echo -e "${RED}Could not resolve job name for $JOB.${NC}" >&2; return 1; }
 
@@ -302,9 +314,10 @@ if [[ "$ACTION" == "list" ]]; then
         esac
     done
 elif [[ "$ACTION" == "log" ]]; then
-    while getopts ":lj:C:" opts; do
+    while getopts ":lsj:C:" opts; do
         case $opts in
             l) LIVE="true" ;;
+            s) SELECT="true" ;;
             j) JOBS="$OPTARG" ;;
             C) CLUSTER="$OPTARG" ;;
             :) echo -e "${RED}Option -$OPTARG requires an argument.${NC}" >&2; help; exit 64 ;;
