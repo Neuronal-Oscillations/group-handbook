@@ -14,6 +14,7 @@ CLUSTER="htc"
 ENV4SCRIPT=""
 ENVACT=""
 INTERPRETER="bash"
+SELECT="false"
 
 
 # ── colours ──────────────────────────────────────────────────────────────────
@@ -46,6 +47,7 @@ Options for usage:
 Options for cancel:
   (none)         Cancel the most recently submitted job
   -a             Cancel ALL jobs belonging to $USER on the specified cluster
+  -s             Cancel SELECTED jobs. Shows list of jobs. Select via comma seperated indices.
   -j <id[,id]>   Cancel specified comma-separated job IDs
   -C <cluster>   Operate on jobs for specified cluster (default: $CLUSTER)
 
@@ -72,6 +74,7 @@ Examples:
   $(basename "$0") usage -j 12345           # report usage for job 12345
 
   $(basename "$0") cancel                   # cancel last job on $CLUSTER
+  $(basename "$0") cancel -s                # cancel selected jobs on $CLUSTER
   $(basename "$0") cancel -a -C arc         # cancel all jobs on arc
   $(basename "$0") cancel -j 12345,12346    # cancel specific jobs on $CLUSTER
 
@@ -123,6 +126,46 @@ JOBID=$(echo "$JOBID" | cut -d';' -f1)
 echo -e "${CYAN}Submitted job ${JOBID} to ${CLUSTER} ${NC}"
 }
 
+function select_jobs {
+    # Print numbered list of all jobs
+    local all_ids
+    mapfile -t all_ids < <(squeue -u "$USER" --clusters "$CLUSTER" \
+                            -h -o '%i %j %T %M' 2>/dev/null)
+
+    if [[ ${#all_ids[@]} -eq 0 ]]; then
+        echo -e "${YELLOW}No jobs found for $USER on cluster '$CLUSTER'.${NC}"
+        return 0
+    fi
+
+    echo -e "${CYAN}── Jobs for $USER on '$CLUSTER' ──${NC}"
+    for i in "${!all_ids[@]}"; do
+        echo -e "  ${CYAN}[$i]${NC}  ${all_ids[$i]}"
+    done
+
+    echo ""
+    read -r -p "Enter comma-separated indices to cancel (e.g. 0,2,3): " selection
+
+    # Extract job IDs from selected indices
+    local selected_ids=()
+    IFS=',' read -ra indices <<< "$selection"
+    for idx in "${indices[@]}"; do
+        idx="${idx// /}"  # strip whitespace
+        if [[ ! "$idx" =~ ^[0-9]+$ ]] || (( idx >= ${#all_ids[@]} )); then
+            echo -e "${RED}Invalid index: $idx — skipping.${NC}" >&2
+            continue
+        fi
+        selected_ids+=("$(echo "${all_ids[$idx]}" | awk '{print $1}')")
+    done
+
+    if [[ ${#selected_ids[@]} -eq 0 ]]; then
+        echo -e "${YELLOW}No valid jobs selected.${NC}"
+        return 0
+    fi
+
+    # Feed into existing cancel logic
+    JOBS=$(IFS=','; echo "${selected_ids[*]}")
+}
+
 function get_jobs {
     # JOBS already set explicitly via -j: use as-is.
     if [[ -n "$JOBS" ]]; then
@@ -147,6 +190,12 @@ function get_jobs {
 }
 
 function cancel_jobs {
+    if [[ "$SELECT" == "true" ]]; then
+        select_jobs
+
+        [[ -z "$JOBS" ]] && return 0
+    fi
+
     get_jobs
 
     if [[ -z "$JOBS" ]]; then
@@ -204,7 +253,7 @@ function log_view {
     JOB="${JOB_ARRAY[-1]}"
 
     local job_name
-    job_name=$(scontrol show job $JOB --clusters $CLUSTER | grep -oP 'JobName=\K\S+')
+    job_name=$(scontrol show job "$JOB" --clusters $CLUSTER | grep -oP 'JobName=\K\S+')
 
     [[ -z "$job_name" ]] && { echo -e "${RED}Could not resolve job name for $JOB.${NC}" >&2; return 1; }
 
@@ -266,8 +315,9 @@ elif [[ "$ACTION" == "usage" ]]; then
         esac
     done
 elif [[ "$ACTION" == "cancel" ]]; then
-    while getopts ":aj:C:" opts; do
+    while getopts ":asj:C:" opts; do
         case $opts in
+            s) SELECT="true" ;;
             j) JOBS="$OPTARG" ;;
             a) SCOPE="all" ;;
             C) CLUSTER="$OPTARG" ;;
