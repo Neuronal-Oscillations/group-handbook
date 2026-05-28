@@ -129,6 +129,7 @@ echo -e "${CYAN}Submitted job ${JOBID} to ${CLUSTER} ${NC}"
 }
 
 function select_jobs {
+    local action="${1:-cancel}"
     local raw
     mapfile -t raw < <(squeue -u "$USER" --clusters "$CLUSTER" 2>/dev/null \
                         | grep -v '^CLUSTER:')
@@ -146,7 +147,11 @@ function select_jobs {
     done
 
     echo ""
-    read -r -p "Enter comma-separated indices to select jobs (e.g. 0,2,3): " selection
+    if [[ "$action" == "log" ]]; then
+        read -r -p "Enter index of job to view log (e.g. 1): " selection
+    else
+        read -r -p "Enter comma-separated indices to cancel (e.g. 0,2,3): " selection
+    fi
 
     local all_ids=()
     for i in "${!raw[@]}"; do
@@ -199,7 +204,7 @@ function get_jobs {
 function cancel_jobs {
     # if requested promt for job selection
     if [[ "$SELECT" == "true" ]]; then
-        select_jobs
+        select_jobs "cancel"
 
         # if no jobs were selected, do not proceed.
         [[ -z "$JOBS" ]] && return 0
@@ -257,7 +262,8 @@ function list_view {
 function log_view {
     # if requested promt for job selection
     if [[ "$SELECT" == "true" ]]; then
-        select_jobs
+        select_jobs "log"
+
         [[ -z "$JOBS" ]] && return 0
         if [[ "$JOBS" == *","* ]]; then
             echo -e "${YELLOW}Please select only one job.${NC}"
