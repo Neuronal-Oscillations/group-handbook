@@ -130,7 +130,7 @@ function select_jobs {
     # Print numbered list of all jobs
     local all_ids
     mapfile -t all_ids < <(squeue -u "$USER" --clusters "$CLUSTER" \
-                            -h -o '%i %j %T %M' 2>/dev/null)
+                            -h -o '%i %j %T %M %P %R' 2>/dev/null)
 
     if [[ ${#all_ids[@]} -eq 0 ]]; then
         echo -e "${YELLOW}No jobs found for $USER on cluster '$CLUSTER'.${NC}"
@@ -138,6 +138,7 @@ function select_jobs {
     fi
 
     echo -e "${CYAN}── Jobs for $USER on '$CLUSTER' ──${NC}"
+    echo -e "${CYAN}     ID         NAME       STATE     TIME      PARTITION  NODELIST${NC}"
     for i in "${!all_ids[@]}"; do
         echo -e "  ${CYAN}[$i]${NC}  ${all_ids[$i]}"
     done
