@@ -244,12 +244,12 @@ function res_use {
     JOB="${JOB_ARRAY[-1]}"
 
     local step
-    step=$(sacct -j "$JOB" --clusters "$CLUSTER" -h \
+    step=$(sacct -j "$JOB" --clusters "$CLUSTER" \
            --format=JobID%-30 2>/dev/null \
            | tr -d ' ' \
            | grep -v "^$JOB$" \
            | grep -v "\.extern$" \
-           | head -1)
+           | tail -1)
     
     if [[ -z "$step" ]]; then
         echo -e "${RED}No active steps found for job $JOB.${NC}" >&2
