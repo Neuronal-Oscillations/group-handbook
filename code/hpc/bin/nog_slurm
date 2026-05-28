@@ -127,30 +127,33 @@ echo -e "${CYAN}Submitted job ${JOBID} to ${CLUSTER} ${NC}"
 }
 
 function select_jobs {
-    # Print numbered list of all jobs
-    local all_ids
-    mapfile -t all_ids < <(squeue -u "$USER" --clusters "$CLUSTER" \
-                            -h -o '%i %j %T %M %P %R' 2>/dev/null)
+    local raw
+    mapfile -t raw < <(squeue -u "$USER" --clusters "$CLUSTER" \
+                        -o '%-12i %-20j %-10T %-10M %-12P %R' 2>/dev/null)
 
-    if [[ ${#all_ids[@]} -eq 0 ]]; then
+    if [[ ${#raw[@]} -le 1 ]]; then
         echo -e "${YELLOW}No jobs found for $USER on cluster '$CLUSTER'.${NC}"
         return 0
     fi
 
     echo -e "${CYAN}── Jobs for $USER on '$CLUSTER' ──${NC}"
-    echo -e "${CYAN}     ID         NAME       STATE     TIME      PARTITION  NODELIST${NC}"
-    for i in "${!all_ids[@]}"; do
-        echo -e "  ${CYAN}[$i]${NC}  ${all_ids[$i]}"
+    echo -e "${CYAN}     ${raw[0]}${NC}"  # header from squeue
+
+    local all_ids=()
+    for i in "${!raw[@]}"; do
+        [[ $i -eq 0 ]] && continue  # skip header
+        local idx=$(( i - 1 ))
+        echo -e "  ${CYAN}[$idx]${NC}  ${raw[$i]}"
+        all_ids+=("${raw[$i]}")
     done
 
     echo ""
-    read -r -p "Enter comma-separated indices to make selection (e.g. 0,2,3): " selection
+    read -r -p "Enter comma-separated indices to cancel (e.g. 0,2,3): " selection
 
-    # Extract job IDs from selected indices
     local selected_ids=()
     IFS=',' read -ra indices <<< "$selection"
     for idx in "${indices[@]}"; do
-        idx="${idx// /}"  # strip whitespace
+        idx="${idx// /}"
         if [[ ! "$idx" =~ ^[0-9]+$ ]] || (( idx >= ${#all_ids[@]} )); then
             echo -e "${RED}Invalid index: $idx — skipping.${NC}" >&2
             continue
@@ -163,7 +166,6 @@ function select_jobs {
         return 0
     fi
 
-    # Feed into existing cancel logic
     JOBS=$(IFS=','; echo "${selected_ids[*]}")
 }
 
