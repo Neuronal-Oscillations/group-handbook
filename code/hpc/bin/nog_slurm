@@ -243,11 +243,24 @@ function res_use {
     IFS=',' read -ra JOB_ARRAY <<< "$JOBS"
     JOB="${JOB_ARRAY[-1]}"
 
-    echo -e "${CYAN}── sstat report for job $JOB ──${NC}"
+    local step
+    step=$(sacct -j "$JOB" --clusters "$CLUSTER" -h \
+           --format=JobID%-30 2>/dev/null \
+           | tr -d ' ' \
+           | grep -v "^$JOB$" \        # exclude the bare job ID
+           | grep -v "\.extern$" \     # exclude the extern step (overhead, not useful)
+           | head -1)
+    
+    if [[ -z "$step" ]]; then
+        echo -e "${RED}No active steps found for job $JOB.${NC}" >&2
+        return 1
+    fi
+    
+    echo -e "${CYAN}── sstat report for step $step ──${NC}"
     if [[ "$LIVE" == "true" ]];then
-        watch -n $UPDATE_TIME sstat -j "$JOB" --format=AveCPU,AveRSS,MaxRSS || echo -e "${RED}sstat failed for job $JOB${NC}" >&2
+        watch -n $UPDATE_TIME sstat -j "$step" --format=AveCPU,AveRSS,MaxRSS || echo -e "${RED}sstat failed for job $JOB${NC}" >&2
     else
-        sstat -j "$JOB" --format=AveCPU,AveRSS,MaxRSS || echo -e "${RED}sstat failed for job $JOB${NC}" >&2
+        sstat -j "$step" --format=AveCPU,AveRSS,MaxRSS || echo -e "${RED}sstat failed for job $JOB${NC}" >&2
     fi
 }
 
