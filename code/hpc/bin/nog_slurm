@@ -353,7 +353,7 @@ elif [[ "$ACTION" == "log" ]]; then
         esac
     done
 elif [[ "$ACTION" == "usage" ]]; then
-    while getopts ":lj:C:" opts; do
+    while getopts ":lsj:C:" opts; do
         case $opts in
             s) SELECT="true" ;;
             l) LIVE="true" ;;
