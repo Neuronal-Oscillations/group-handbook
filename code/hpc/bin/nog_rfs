@@ -26,12 +26,12 @@ Actions:
   mkdir <dst> [base]    Create directory tree at RFS/<project>/<dst>,
                         optionally rooted at RFS/<project>/<base>
 
-  push  <src> <dst>     Upload local file or directory to RFS/<project>/<dst>
+  push  <src> [dst]     Upload local file or directory to RFS/<project>/<dst>
 
   pull [-d] <src> [dst] Download file (or directory with -d) from RFS/<project>/<src>
                         to local <dst> (default: current directory)
 
-  rm   [-d] <src>       Delete file (or directory tree with -d) at RFS/<project>/<src>
+  rm   [-d] <dst>       Delete file (or directory tree with -d) at RFS/<project>/<dst>
 
 Examples:
   $(basename "$0") ls                             # list content of RFS/<project>/
@@ -40,7 +40,7 @@ Examples:
   $(basename "$0") mkdir NewDir                   # create RFS/<project>/NewDir
   $(basename "$0") mkdir SubDir NewDir            # create RFS/<project>/NewDir/SubDir
 
-  $(basename "$0") push MyDir RemoteDir           # upload MyDir    → RFS/<project>/RemoteDir/MyDir
+  $(basename "$0") push MyDir                     # upload MyDir    → RFS/<project>/MyDir
   $(basename "$0") push MyFile.txt RemoteDir      # upload MyFile   → RFS/<project>/RemoteDir/MyFile.txt
 
   $(basename "$0") pull RemoteDir/MyFile.txt .    # download file   → ./MyFile.txt
