@@ -11,7 +11,7 @@ SCRIPT_PATH=$(realpath "$0")
 
 function help {
 cat <<EOF
-Usage: $0 [-h] [-b] [-g GPU] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]
+Usage: $(basename "$0") [-h] [-b] [-g GPU] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]
   -h  help
   -b  run in batch mode via sbatch (default is interactive via srun)
   -g  request GPU (default: no GPU)
