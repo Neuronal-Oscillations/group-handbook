@@ -4,6 +4,7 @@ JOBS=""
 SCOPE="last"
 UPDATE_TIME=10
 LIVE="false"
+SELECT="false"
 
 MEM=16G
 CPUs=8
@@ -11,10 +12,11 @@ GPU=""
 TIME="08:00:00"
 PARTITION="short"
 CLUSTER="htc"
+
 ENV4SCRIPT=""
 ENVACT=""
 INTERPRETER="bash"
-SELECT="false"
+
 
 
 # ── colours ──────────────────────────────────────────────────────────────────
@@ -60,6 +62,8 @@ Options for submit:
   -p <partition> Partition to submit to (default: $PARTITION)
   -C <cluster>   Start job on specified cluster (default: $CLUSTER)
   -g <gpu>       Set GPU specification (default: no GPU)
+  -w [id]        Wait for a job to finish before starting. Uses the last submitted
+                 job if no ID given, or waits for the specified job ID (default: none)
 
 Options for log:
   (none)         Show output of the most recently submitted job
@@ -69,22 +73,24 @@ Options for log:
   -C <cluster>   Show result for specified cluster (default: $CLUSTER)
 
 Examples:
-  $(basename "$0") list                     # list current jobs on $CLUSTER
-  $(basename "$0") list -C arc -l           # list current jobs on arc, live update
+  $(basename "$0") list                         # list current jobs on $CLUSTER
+  $(basename "$0") list -C arc -l               # list current jobs on arc, live update
 
-  $(basename "$0") usage -l                 # report usage for last job, live update
-  $(basename "$0") usage -j 12345           # report usage for job 12345
+  $(basename "$0") usage -l                     # report usage for last job, live update
+  $(basename "$0") usage -j 12345               # report usage for job 12345
 
-  $(basename "$0") cancel                   # cancel last job on $CLUSTER
-  $(basename "$0") cancel -s                # cancel selected jobs on $CLUSTER
-  $(basename "$0") cancel -a -C arc         # cancel all jobs on arc
-  $(basename "$0") cancel -j 12345,12346    # cancel specific jobs on $CLUSTER
+  $(basename "$0") cancel                       # cancel last job on $CLUSTER
+  $(basename "$0") cancel -s                    # cancel selected jobs on $CLUSTER
+  $(basename "$0") cancel -a -C arc             # cancel all jobs on arc
+  $(basename "$0") cancel -j 12345,12346        # cancel specific jobs on $CLUSTER
 
-  $(basename "$0") submit MyScript.sh       # submit bash script with defaults
+  $(basename "$0") submit MyScript.sh           # submit bash script with defaults
   $(basename "$0") submit -e MyEnv -g 1 -m 32G -c 16 -t 24:00:00 -p long MyScript.py arg1 arg2
+  $(basename "$0") submit -w MyScript.py        # wait for last submitted job to finish before running
+  $(basename "$0") submit -w 12345 MyScript.py  # wait for job 12345 to finish before running
 
-  $(basename "$0") log -l                   # Show log file for last job, live update
-  $(basename "$0") log -j 12345             # Show log file for job 12345
+  $(basename "$0") log -l                       # Show log file for last job, live update
+  $(basename "$0") log -j 12345                 # Show log file for job 12345
 EOF
 }
 
@@ -104,6 +110,13 @@ function submit {
     esac
     local GPU_DIRECTIVE=""
     [[ -n "$GPU" ]] && GPU_DIRECTIVE="#SBATCH --gres=gpu:${GPU}"
+
+    local DEP_DIRECTIVE=""
+    if [[ -n "$JOBS" ]]; then
+        DEP_DIRECTIVE="#SBATCH --dependency=afterany:${JOBS}"
+        echo -e "${CYAN}Will wait for job ${JOBS} to complete before starting.${NC}"
+    fi
+
 JOBID=$(sbatch --parsable <<EOF
 #!/bin/bash
 #SBATCH --partition=$PARTITION
@@ -115,6 +128,7 @@ JOBID=$(sbatch --parsable <<EOF
 #SBATCH --output=$DATA/logs/$SCRIPT_NAME-%j.log
 #SBATCH --error=$DATA/logs/$SCRIPT_NAME-%j.log
 $GPU_DIRECTIVE
+$DEP_DIRECTIVE
 
 # source bashrc and, if requested, activate environment
 source $HOME/.bashrc
@@ -375,7 +389,7 @@ elif [[ "$ACTION" == "cancel" ]]; then
         esac
     done
 elif [[ "$ACTION" == "submit" ]]; then
-    while getopts ":e:m:c:t:p:g:C:" opts; do
+    while getopts ":e:m:c:t:p:g:C:w" opts; do
         case $opts in
             e) ENV4SCRIPT="$OPTARG" ;;
             m) MEM="$OPTARG" ;;
@@ -384,6 +398,13 @@ elif [[ "$ACTION" == "submit" ]]; then
             p) PARTITION="$OPTARG" ;;
             g) GPU="$OPTARG" ;;
             C) CLUSTER="$OPTARG" ;;
+            w)  if [[ "${!OPTIND}" =~ ^[0-9]+$ ]]; then
+                    JOBS="${!OPTIND}"
+                    OPTIND=$((OPTIND + 1))
+                else
+                    get_jobs
+                fi
+                ;;
             :) echo -e "${RED}Option -$OPTARG requires an argument.${NC}" >&2; help; exit 64 ;;
             *) echo -e "${RED}Illegal option -$OPTARG for ${ACTION}.${NC}" >&2; help; exit 64 ;;
         esac
