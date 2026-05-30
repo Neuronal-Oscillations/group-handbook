@@ -10,29 +10,47 @@ SERVER="connect.ox.ac.uk" # RFS-CFILESVR03.connect.ox.ac.uk
 RFS="${SERVER}/RFS" # RFS01-J
 
 function help {
-    cat <<EOF
+cat <<EOF
 
-Usage: ${THIS_SCRIPT} (ls|mkdir|push|pull|rm) REMOTE_FILE [LOCAL_FILE]...
+Usage: $(basename "$0") [OPTIONS] <action> [ACTION ARGS]
 
-    'ls' can take one argument - remote subdirectory to list (e.g. ${THIS_SCRIPT} ls "RFS_DIR/RFS_SUBDIR")
+Global Options:
+  -h             Show this help message
+  -v             Debug mode (print smbclient command without executing)
+  -c <credfile>  Path to credentials file (default: \$RFS_KEY)
+                 File should contain: username, password, domain, projname
 
-    'mkdir' can take two arguments - a directory tree to create, and a remote directory to create it in
-        (e.g. ${THIS_SCRIPT} mkdir "NEW_DIR/NEW_SUBDIR" "RFS_DIR/RFS_SUBDIR")
-        if only one is given, remote directory is assumed to be the RFS root directory
+Actions:
+  ls   [dir]            List contents of RFS/<project>[/dir]
 
-    'push' can take two arguments - local file or directory to push, and remote directory to put it into
-       (e.g. ${THIS_SCRIPT} push "FILE_OR_DIR" "RFS_DIR/RFS_SUBDIR")
-       if only one is given, remote directory is assumed to be the RFS root directory
+  mkdir <dst> [base]    Create directory tree at RFS/<project>/<dst>,
+                        optionally rooted at RFS/<project>/<base>
 
-    'pull' [-d] can take two arguments - remote directory to fetch, and local directory to put it into
-       -d for pulling directories. Ommit -d for single files
-       (e.g. ${THIS_SCRIPT} pull -d "RFS_DIR/RFS_SUBDIR" "$DATA/")
-       if only one is given, local directory is assumed to be the current working directory
+  push  <src> <dst>     Upload local file or directory to RFS/<project>/<dst>
 
-    'rm' [-d] takes one argument - remote file or folder to delete
-     -d for deleting directories. Ommit -d for single files
-     (e.g. ${THIS_SCRIPT} rm -d "RFS_DIR/RFS_SUBDIR")
+  pull [-d] <src> [dst] Download file (or directory with -d) from RFS/<project>/<src>
+                        to local <dst> (default: current directory)
 
+  rm   [-d] <src>       Delete file (or directory tree with -d) at RFS/<project>/<src>
+
+Examples:
+  $(basename "$0") ls                             # list content of RFS/<project>/
+  $(basename "$0") ls MyDir/                      # list content of RFS/<project>/MyDir/
+
+  $(basename "$0") mkdir NewDir                   # create RFS/<project>/NewDir
+  $(basename "$0") mkdir SubDir NewDir            # create RFS/<project>/NewDir/SubDir
+
+  $(basename "$0") push MyDir RemoteDir           # upload MyDir    → RFS/<project>/RemoteDir/MyDir
+  $(basename "$0") push MyFile.txt RemoteDir      # upload MyFile   → RFS/<project>/RemoteDir/MyFile.txt
+
+  $(basename "$0") pull RemoteDir/MyFile.txt .    # download file   → ./MyFile.txt
+  $(basename "$0") pull -d RemoteDir/MyDir .      # download dir    → ./MyDir/
+
+  $(basename "$0") rm RemoteDir/MyFile.txt        # delete file from RFS
+  $(basename "$0") rm -d RemoteDir                # delete directory tree from RFS
+
+  $(basename "$0") -v push MyDir RemoteDir        # dry-run: print smbclient command only
+  $(basename "$0") -c ~/my_creds push MyDir Dst   # use custom credentials file
 EOF
 }
 
