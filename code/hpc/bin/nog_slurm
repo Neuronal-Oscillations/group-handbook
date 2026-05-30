@@ -40,6 +40,7 @@ Options for list:
 
 Options for usage:
   (none)         Show output of the most recently submitted job
+  -s             Shows list of jobs. Select job via index.
   -l             Live update every $UPDATE_TIME seconds
   -j <id>        Show output for a specific job ID
   -C <cluster>   Show result for specified cluster (default: $CLUSTER)
@@ -63,7 +64,7 @@ Options for submit:
 Options for log:
   (none)         Show output of the most recently submitted job
   -l             Live update
-  -s             Shows list of jobs. Select job bia index.
+  -s             Shows list of jobs. Select job via index.
   -j <id>        Show output for a specific job ID
   -C <cluster>   Show result for specified cluster (default: $CLUSTER)
 
@@ -147,11 +148,11 @@ function select_jobs {
     done
 
     echo ""
-    if [[ "$action" == "log" ]]; then
-        read -r -p "Enter index of job to view log (e.g. 1): " selection
-    else
-        read -r -p "Enter comma-separated indices to cancel (e.g. 0,2,3): " selection
-    fi
+    case $action in
+        log) read -r -p "Enter index of job to view log (e.g. 1): " selection ;;
+        cancel) read -r -p "Enter comma-separated indices to cancel (e.g. 0,2,3): " selection ;;
+        usage)  read -r -p "Enter index of job to display usage (e.g. 1): " selection ;;
+    esac
 
     local all_ids=()
     for i in "${!raw[@]}"; do
@@ -234,6 +235,14 @@ function cancel_jobs {
 }
 
 function res_use {
+    # if requested promt for job selection
+    if [[ "$SELECT" == "true" ]]; then
+        select_jobs "usage"
+
+        # if no jobs were selected, do not proceed.
+        [[ -z "$JOBS" ]] && return 0
+    fi
+
     get_jobs
 
     if [[ -z "$JOBS" ]]; then
@@ -346,6 +355,7 @@ elif [[ "$ACTION" == "log" ]]; then
 elif [[ "$ACTION" == "usage" ]]; then
     while getopts ":lj:C:" opts; do
         case $opts in
+            s) SELECT="true" ;;
             l) LIVE="true" ;;
             j) JOBS="$OPTARG" ;;
             C) CLUSTER="$OPTARG" ;;
