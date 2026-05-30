@@ -14,24 +14,24 @@ function help {
 
 Usage: ${THIS_SCRIPT} (ls|mkdir|push|pull|rm) REMOTE_FILE [LOCAL_FILE]...
 
-    'ls' can take one argument - remote subdirectory to list (e.g. ${THIS_SCRIPT} ls \"RFS_DIR/RFS_SUBDIR\")
+    'ls' can take one argument - remote subdirectory to list (e.g. ${THIS_SCRIPT} ls "RFS_DIR/RFS_SUBDIR")
 
     'mkdir' can take two arguments - a directory tree to create, and a remote directory to create it in
-        (e.g. ${THIS_SCRIPT} mkdir \"NEW_DIR/NEW_SUBDIR\" \"RFS_DIR/RFS_SUBDIR\")
+        (e.g. ${THIS_SCRIPT} mkdir "NEW_DIR/NEW_SUBDIR" "RFS_DIR/RFS_SUBDIR")
         if only one is given, remote directory is assumed to be the RFS root directory
 
     'push' can take two arguments - local file or directory to push, and remote directory to put it into
-       (e.g. ${THIS_SCRIPT} push \"FILE_OR_DIR\" \"RFS_DIR/RFS_SUBDIR\")
+       (e.g. ${THIS_SCRIPT} push "FILE_OR_DIR" "RFS_DIR/RFS_SUBDIR")
        if only one is given, remote directory is assumed to be the RFS root directory
 
     'pull' [-d] can take two arguments - remote directory to fetch, and local directory to put it into
        -d for pulling directories. Ommit -d for single files
-       (e.g. ${THIS_SCRIPT} pull -d \"RFS_DIR/RFS_SUBDIR\" \"/$DATA/\")
+       (e.g. ${THIS_SCRIPT} pull -d "RFS_DIR/RFS_SUBDIR" "$DATA/")
        if only one is given, local directory is assumed to be the current working directory
 
     'rm' [-d] takes one argument - remote file or folder to delete
      -d for deleting directories. Ommit -d for single files
-     (e.g. ${THIS_SCRIPT} rm -d \"RFS_DIR/RFS_SUBDIR\")
+     (e.g. ${THIS_SCRIPT} rm -d "RFS_DIR/RFS_SUBDIR")
 
 EOF
 }
