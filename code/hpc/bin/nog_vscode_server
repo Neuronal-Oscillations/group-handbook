@@ -25,7 +25,7 @@ Example:
   nog_vscode_server -m 16G -c 8 -t 24:00:00 -p medium -C htc
 
 Note:
-  Do NOT use -b for the very first run. Use the default interactive job instead to complete the authentication.
+  Do NOT use -b for the very first run. Use the default interactive job instead to complete the authentification.
 EOF
 }
 
