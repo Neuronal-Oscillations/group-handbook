@@ -7,13 +7,15 @@ CLUSTER="htc"
 SCRIPT_PATH=$(realpath "$0")
 
 function help {
-    echo "Usage: $0 [-h] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]"
-    echo "  -h  help"
-    echo "  -m  memory (default: $MEM)"
-    echo "  -c  CPUs (default: $CPUs)"
-    echo "  -t  walltime (default: $TIME)"
-    echo "  -p  partition (default: $PARTITION)"
-    echo "  -C  cluster (default: $CLUSTER)"
+    cat <<EOF
+Usage: $0 [-h] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]
+  -h  help
+  -m  memory (default: $MEM)
+  -c  CPUs (default: $CPUs)
+  -t  walltime (default: $TIME)
+  -p  partition (default: $PARTITION)
+  -C  cluster (default: $CLUSTER)
+EOF
 }
 
 function check_env {
