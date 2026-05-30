@@ -7,7 +7,10 @@ mkdir -p \
     "${HOME}/.config/private" \
     "${DATA}/environments/.conda/"{pkgs,envs} \
     "${DATA}/environments/vscode/.vscode-"{extensions,cli,server} \
-    "${DATA}/environments/jupyter/share/jupyter"
+    "${DATA}/environments/jupyter/share/jupyter" \
+    "${DATA}/.cache/"{torch,triton} \
+    "${DATA}/.cache/torch/"{extensions,inductor}
+    
 
 # setup ~/.bashrc
 lines=(
@@ -21,6 +24,10 @@ lines=(
   "export VSCODE_AGENT_FOLDER=\"${DATA}/environments/vscode/.vscode-server\""
   "export JUPYTER_PATH=\"${DATA}/environments/jupyter/share/jupyter\""
   "export MNE_ENV_PATH=\"${DATA}/environments/mne_env\""
+  "export TORCH_HOME=\"${DATA}/.cache/torch\""
+  "export TORCH_EXTENSIONS_DIR=\"${DATA}/.cache/torch/extensions\""
+  "export TRITON_CACHE_DIR=\"${DATA}/.cache/triton\""
+  "export TORCHINDUCTOR_CACHE_DIR=\"${DATA}/.cache/torch/inductor\""
 )
 
 for line in "${lines[@]}"; do
