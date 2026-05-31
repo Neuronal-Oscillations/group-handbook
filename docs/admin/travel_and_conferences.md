@@ -1,12 +1,7 @@
 # Travel and conferences
 
-Our travel budgets are limited — please try to limit costs (in particular for air travel and hotels). The more we spend per trip, the less we can travel.
- 
-Try to supplement travel budget by applying for support from the departments and colleges.
- 
----
+## When to attend
 
-## Abstracts
 Conference or workshop travel should be tied to a substantive scientific submissions — typically an abstract presenting ongoing research as a poster or talk.
 
 ### What Qualifies as a Substantive Submission
@@ -17,7 +12,7 @@ A substantive abstract reports recent, robust data that is ready to be discussed
 - Highlight and draw attention to noteworthy recent results
 - Invite critical feedback that strengthens the research
 
-> **For international conferences and workshops:** submissions based on preliminary concepts or future ideas do not qualify. The work must be grounded in real, discussable data.
+> For international conferences and workshops: submissions based on preliminary concepts or future ideas do typically not qualify. The work must be grounded in real, discussable data.
 
 ---
 
@@ -30,8 +25,16 @@ Complete both of the following well before the submission deadline:
 
 ---
 
+
+Our travel budgets are limited — please try to limit costs (in particular for air travel and hotels). The more we spend per trip, the less we can travel.
  
-## Before Travel
+Try to supplement travel budget by applying for support from the departments and colleges.
+ 
+---
+
+## Preparation and funding
+ 
+### Before Travel
  
 1. Estimate costs and seek approval from PI
 2. Read the [departmental](https://unioxfordnexus.sharepoint.com/sites/PSYC-AdminTeam/SitePages/Travel.aspx) and [university guidelines](https://finance.admin.ox.ac.uk/accommodation-and-subsistence-expenses-claimants-guide)
@@ -41,7 +44,7 @@ Complete both of the following well before the submission deadline:
 4. Book flights and hotel on KeyTravel
 ---
  
-## After Travel
+### After Travel
  
 Report expenses on [SAP Concur](https://sts.fed.ox.ac.uk/adfs/ls/idpinitiatedsignon.aspx?loginToRp=https://www.concur.com)
  
