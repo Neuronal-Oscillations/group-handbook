@@ -29,68 +29,72 @@ Usage: $(basename "$0") <action> [ACTION OPTIONS]
 
 Actions:
   help           Show this help message
-  list           List view of your jobs
-  usage          Show current and maximum memory usage for job ID (uses sstat)
-  cancel         Cancel your jobs
   submit         Submit a script as a SLURM batch job (must be .sh or .py)
-  log            View log file of job ($DATA/logs/<job_name>-<job_id>.log)
+  list           List your jobs (optional live view)
+  usage          Show current and maximum memory (optional live view)
+  log            View log file of running job
+  cancel         Cancel jobs
+
+Options for submit:
+  -e <env>       Path to conda / mamba environment to activate before running (default: none)
+  -c <cpus>      Number of CPUs requested (default: $CPUs)
+  -g <gpu>       Set GPU specification. Uses --gres=<gpu> (default: no GPU)
+  -m <mem>       Memory requested (default: $MEM)
+  -p <partition> Partition to submit to (default: $PARTITION)
+  -t <time>      Wall time limit (default: $TIME)
+  -w [id]        Wait for a job to finish before starting. Without argument waits for
+                 last submitted (default). Otherwise specify [id]. 
+                 Uses --dependency=afterany:[id]
+  -C <cluster>   Start job on specified cluster (default: $CLUSTER)
 
 Options for list:
-  (none)         Show output once
+  (none)         List all current jobs
   -l             Live update every $UPDATE_TIME seconds
   -C <cluster>   Show result for specified cluster (default: $CLUSTER)
 
 Options for usage:
-  (none)         Show output of the most recently submitted job
-  -s             Shows list of jobs. Select job via index.
-  -l             Live update every $UPDATE_TIME seconds
+  (none)         Show output for last submitted job
   -j <id>        Show output for a specific job ID
+  -l             Live update every $UPDATE_TIME seconds
+  -s             Shows list of jobs. Select job via index.
+  -C <cluster>   Show result for specified cluster (default: $CLUSTER)
+
+Options for log:
+  (none)         Show output for last submitted job
+  -j <id>        Show output for a specific job ID
+  -l             Live update every $UPDATE_TIME seconds
+  -s             Shows list of jobs. Select job via index.
   -C <cluster>   Show result for specified cluster (default: $CLUSTER)
 
 Options for cancel:
-  (none)         Cancel the most recently submitted job
-  -a             Cancel ALL jobs belonging to $USER on the specified cluster
-  -s             Shows list of jobs. Select via comma seperated indices.
+  (none)         Cancel last submitted job
+  -a             Cancel ALL jobs on $CLUSTER
   -j <id[,id]>   Cancel specified comma-separated job IDs
+  -s             Shows list of jobs. Select via comma seperated indices.
   -C <cluster>   Operate on jobs for specified cluster (default: $CLUSTER)
 
-Options for submit:
-  -e <env>       Path to conda / mamba environment to activate before running (default: none)
-  -m <mem>       Memory requested (default: $MEM)
-  -c <cpus>      Number of CPUs requested (default: $CPUs)
-  -t <time>      Wall time limit (default: $TIME)
-  -p <partition> Partition to submit to (default: $PARTITION)
-  -C <cluster>   Start job on specified cluster (default: $CLUSTER)
-  -g <gpu>       Set GPU specification (default: no GPU)
-  -w [id]        Wait for a job to finish before starting. Uses the last submitted
-                 job if no ID given, or waits for the specified job ID (default: none)
-
-Options for log:
-  (none)         Show output of the most recently submitted job
-  -l             Live update
-  -s             Shows list of jobs. Select job via index.
-  -j <id>        Show output for a specific job ID
-  -C <cluster>   Show result for specified cluster (default: $CLUSTER)
-
 Examples:
+  $(basename "$0") submit MyScript.sh           # submit bash script with defaults
+  $(basename "$0") submit -e MyEnv -g 1 -m 32G -c 16 -t 24:00:00 -p long MyScript.py arg1 arg2
+
+  $(basename "$0") submit -w MyScript.py        # wait for last submitted job to finish before running
+  $(basename "$0") submit -w 12345 MyScript.py  # wait for job 12345 to finish before running
+
   $(basename "$0") list                         # list current jobs on $CLUSTER
   $(basename "$0") list -C arc -l               # list current jobs on arc, live update
 
   $(basename "$0") usage -l                     # report usage for last job, live update
   $(basename "$0") usage -j 12345               # report usage for job 12345
 
+  $(basename "$0") log -l                       # Show log file for last job, live update
+  $(basename "$0") log -j 12345                 # Show log file for job 12345
+
   $(basename "$0") cancel                       # cancel last job on $CLUSTER
   $(basename "$0") cancel -s                    # cancel selected jobs on $CLUSTER
+
   $(basename "$0") cancel -a -C arc             # cancel all jobs on arc
   $(basename "$0") cancel -j 12345,12346        # cancel specific jobs on $CLUSTER
 
-  $(basename "$0") submit MyScript.sh           # submit bash script with defaults
-  $(basename "$0") submit -e MyEnv -g 1 -m 32G -c 16 -t 24:00:00 -p long MyScript.py arg1 arg2
-  $(basename "$0") submit -w MyScript.py        # wait for last submitted job to finish before running
-  $(basename "$0") submit -w 12345 MyScript.py  # wait for job 12345 to finish before running
-
-  $(basename "$0") log -l                       # Show log file for last job, live update
-  $(basename "$0") log -j 12345                 # Show log file for job 12345
 EOF
 }
 
