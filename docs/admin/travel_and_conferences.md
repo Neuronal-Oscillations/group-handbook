@@ -8,8 +8,7 @@ A substantive abstract reports recent, robust data that is ready to be discussed
 - Present recent findings to the community with the goal of improving integration or interpretation alongside others' work, in support of a future publication
 - Highlight and draw attention to noteworthy recent results
 - Invite critical feedback that strengthens the research
-
-> For international conferences and workshops: submissions based on preliminary concepts or future ideas do typically not qualify. The work must be grounded in real, discussable data.
+- For international conferences and workshops: submissions based on preliminary concepts or future ideas do typically not qualify. The work must be grounded in real, discussable data.
 
 ---
 
