@@ -13,8 +13,9 @@ A substantive abstract reports recent, robust data that is ready to be discussed
 ### Before Submitting an Abstract
 
 Complete both of the following well before the submission deadline:
-1. **Co-author approval** — all co-authors must have had adequate time to read, comment on, and approve the abstract
-2. **Funding confirmation** — verify with PI that funding is available to cover the associated travel costs (see below)
+
+- **Co-author approval** — all co-authors must have had adequate time to read, comment on, and approve the abstract
+- **Funding confirmation** — verify with PI that funding is available to cover the associated travel costs (see below)
 
 ## Preparation and funding
 Our travel budgets are limited — please try to limit costs (in particular for air travel and hotels). For cost for food etc see also [university guidelines](https://finance.admin.ox.ac.uk/accommodation-and-subsistence-expenses-claimants-guide). The more we spend per trip, the less we can travel.
