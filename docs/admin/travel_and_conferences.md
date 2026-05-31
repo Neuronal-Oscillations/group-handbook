@@ -35,7 +35,7 @@ Try to supplement travel budget by applying for support from the departments and
  
 Report expenses on [SAP Concur](https://sts.fed.ox.ac.uk/adfs/ls/idpinitiatedsignon.aspx?loginToRp=https://www.concur.com)
  
-- PI will approve expenses after submission
+- PI will review and approve expenses after submission (this happens via SAP system)
 - Make a separate entry with receipt for each item — entries must be done carefully, otherwise this will cost significant time to correct
 - SAP Concur can be installed as a phone app, allowing you to photograph meal receipts and other expenses directly
 > **Note:** Expenses exceeding the limits set in the [university guidelines](https://finance.admin.ox.ac.uk/accommodation-and-subsistence-expenses-claimants-guide) will not be covered.
