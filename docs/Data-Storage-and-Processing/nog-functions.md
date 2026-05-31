@@ -180,7 +180,7 @@ Actions:
   submit         Submit a script as a SLURM batch job (must be .sh or .py)
   list           List your jobs (optional live view)
   usage          Show current and maximum memory (optional live view)
-  log            View log file of running job
+  log            View log file of running job (optional live view)
   cancel         Cancel jobs
 
 Options for submit:
