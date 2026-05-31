@@ -1,7 +1,4 @@
 # Travel and conferences
-
-## When to attend
-
 Conference or workshop travel should be tied to a substantive scientific submissions — typically an abstract presenting ongoing research as a poster or talk.
 
 ### What Qualifies as a Substantive Submission
