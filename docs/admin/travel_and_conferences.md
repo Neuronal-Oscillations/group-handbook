@@ -16,16 +16,10 @@ Complete both of the following well before the submission deadline:
 1. **Co-author approval** — all co-authors must have had adequate time to read, comment on, and approve the abstract
 2. **Funding confirmation** — verify with PI that funding is available to cover the associated travel costs (see below)
 
----
-
-
+## Preparation and funding
 Our travel budgets are limited — please try to limit costs (in particular for air travel and hotels). The more we spend per trip, the less we can travel.
  
 Try to supplement travel budget by applying for support from the departments and colleges.
- 
----
-
-## Preparation and funding
  
 ### Before Travel
  
