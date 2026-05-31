@@ -24,7 +24,7 @@ Try to supplement travel budget by applying for support from the departments and
  
 ### Before Travel
  
-- Estimate costs and seek approval from PI
+- Estimate **full costs** and seek approval from PI
 - Read the [departmental](https://unioxfordnexus.sharepoint.com/sites/PSYC-AdminTeam/SitePages/Travel.aspx) and [university guidelines](https://finance.admin.ox.ac.uk/accommodation-and-subsistence-expenses-claimants-guide)
 - For international travel, apply for the following **at least 6 weeks before travel**:
    - [Travel insurance](https://travelinsurance.admin.ox.ac.uk/)
