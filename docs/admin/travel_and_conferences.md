@@ -10,12 +10,9 @@ A substantive abstract reports recent, robust data that is ready to be discussed
 - Invite critical feedback that strengthens the research
 - For international conferences and workshops: submissions based on preliminary concepts or future ideas do typically not qualify. The work must be grounded in real, discussable data.
 
----
-
 ### Before Submitting an Abstract
 
 Complete both of the following well before the submission deadline:
-
 1. **Co-author approval** — all co-authors must have had adequate time to read, comment on, and approve the abstract
 2. **Funding confirmation** — verify with PI that funding is available to cover the associated travel costs (see below)
 
