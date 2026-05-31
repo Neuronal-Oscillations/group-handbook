@@ -5,6 +5,7 @@ SCOPE="last"
 UPDATE_TIME=10
 LIVE="false"
 SELECT="false"
+ENV4SCRIPT=""
 
 MEM=16G
 CPUs=8
@@ -12,12 +13,6 @@ GPU=""
 TIME="08:00:00"
 PARTITION="short"
 CLUSTER="htc"
-
-ENV4SCRIPT=""
-ENVACT=""
-INTERPRETER="bash"
-
-
 
 # ── colours ──────────────────────────────────────────────────────────────────
 RED='\033[0;31m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'
@@ -98,6 +93,7 @@ Examples:
 EOF
 }
 
+# ── functions ────────────────────────────────────────────────────────────────
 function submit {
     [[ -z "$1" ]] && { echo -e "${RED}ERROR: No script provided.${NC}" >&2; help; exit 1; }
 
@@ -105,6 +101,7 @@ function submit {
     local SCRIPT_PATH="$(realpath "$1")"
     local SCRIPT_NAME="$(basename "${1%.*}")"
     local SCRIPT_EXT="${1##*.}"
+    local ENVACT=""
 
     [[ -n "${ENV4SCRIPT}"  ]] && ENVACT="source activate $(realpath "${ENV4SCRIPT}")"
     case $SCRIPT_EXT in
@@ -333,9 +330,7 @@ function log_view {
     fi
 }
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Determine action
-# ─────────────────────────────────────────────────────────────────────────────
+# ── Determine action ─────────────────────────────────────────────────────────
 case "${1:-help}" in
     help)   help; exit 0 ;;
     list)   ACTION="list" ;;
@@ -347,9 +342,7 @@ case "${1:-help}" in
 esac
 shift
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Parse per-action options (after the action keyword)
-# ─────────────────────────────────────────────────────────────────────────────
+# ── Parse per-action options (after the action keyword) ──────────────────────
 if [[ "$ACTION" == "list" ]]; then
     while getopts ":lC:" opts; do
         case $opts in
@@ -418,9 +411,7 @@ else
     echo -e "${RED}Illegal action ${ACTION}.${NC}" >&2; help; exit 64
 fi
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Dispatch
-# ─────────────────────────────────────────────────────────────────────────────
+# ── Deploy ───────────────────────────────────────────────────────────────────
 case $ACTION in
     help)   help ;;
     list)   list_view ;;
