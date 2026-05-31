@@ -1,4 +1,4 @@
-# Travel
+# Travel and conferences
  
 Our travel budgets are limited — please try to limit costs (in particular for air travel and hotels). The more we spend per trip, the less we can travel.
  
