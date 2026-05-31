@@ -83,8 +83,8 @@ Examples:
   $(basename "$0") list                         # list current jobs on $CLUSTER
   $(basename "$0") list -C arc -l               # list current jobs on arc, live update
 
-  $(basename "$0") usage -l                     # report usage for last job, live update
   $(basename "$0") usage -j 12345               # report usage for job 12345
+  $(basename "$0") usage -j 12345 -l            # live update for job 12345
 
   $(basename "$0") log -l                       # Show log file for last job, live update
   $(basename "$0") log -j 12345                 # Show log file for job 12345
