@@ -261,6 +261,7 @@ Submits a batch job that looks like this:
 #SBATCH --time=12:00:00
 #SBATCH --clusters=htc
 #SBATCH --output=$DATA/logs/MyScript-%j.log
+#SBATCH --error=$DATA/logs/MyScript-%j.log
 #SBATCH --dependency=afterany:123456
 
 source $HOME/.bashrc
