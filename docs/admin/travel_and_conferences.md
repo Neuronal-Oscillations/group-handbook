@@ -1,10 +1,35 @@
 # Travel and conferences
- 
+
 Our travel budgets are limited — please try to limit costs (in particular for air travel and hotels). The more we spend per trip, the less we can travel.
  
 Try to supplement travel budget by applying for support from the departments and colleges.
  
 ---
+
+## Abstracts
+Conference or workshop travel should be tied to a substantive scientific submissions — typically an abstract presenting ongoing research as a poster or talk.
+
+### What Qualifies as a Substantive Submission
+
+A substantive abstract reports recent, robust data that is ready to be discussed with the scientific community. It should meet standard expectations of scientific integrity and serve one or more of the following purposes:
+
+- Present recent findings to the community with the goal of improving integration or interpretation alongside others' work, in support of a future publication
+- Highlight and draw attention to noteworthy recent results
+- Invite critical feedback that strengthens the research
+
+> **For international conferences and workshops:** submissions based on preliminary concepts or future ideas do not qualify. The work must be grounded in real, discussable data.
+
+---
+
+### Before Submitting an Abstract
+
+Complete both of the following well before the submission deadline:
+
+1. **Co-author approval** — all co-authors must have had adequate time to read, comment on, and approve the abstract
+2. **Funding confirmation** — verify with PI that funding is available to cover the associated travel costs (see below)
+
+---
+
  
 ## Before Travel
  
