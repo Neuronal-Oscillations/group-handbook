@@ -173,13 +173,21 @@ nog_rfs rm -d RFS_DIR/RFS_SUBDIR
 Useful for starting, monitoring or canceling jobs.
 
 ```bash
-nog_slurm
+nog_slurm <action> [OPTIONS]
 ```
+The main function call is followed by one of those actions. See `help` and examples for every action below:
 
-Optional arguments and usage:
+- [help](#help)
+- [submit](#submit)
+- [list](#list)
+- [usage](#usage)
+- [log](#log)
+- [cancel](#cancel)
+- [exec](#exec)
 
+### help
 ```bash
-Usage: nog_slurm <action> [ACTION OPTIONS]
+Usage: $(basename "$0") <action> [ACTION OPTIONS]
 
 Actions:
   help           Show this help message
@@ -188,69 +196,81 @@ Actions:
   usage          Show current and maximum memory (optional live view)
   log            View log file of running job (optional live view)
   cancel         Cancel jobs
+  exec           Execute a command when a job starts or finishes
 
 Options for submit:
   -e <env>       Path to conda / mamba environment to activate before running (default: none)
-  -c <cpus>      Number of CPUs requested (default: 8)
+  -c <cpus>      Number of CPUs requested (default: $CPUs)
   -g <gpu>       Set GPU specification. Uses --gres=<gpu> (default: no GPU)
-  -m <mem>       Memory requested (default: 16G)
-  -p <partition> Partition to submit to (default: short)
-  -t <time>      Wall time limit (default: 08:00:00)
+  -m <mem>       Memory requested (default: $MEM)
+  -p <partition> Partition to submit to (default: $PARTITION)
+  -t <time>      Wall time limit (default: $TIME)
   -w [id]        Wait for a job to finish before starting. Without argument waits for
                  last submitted (default). Otherwise specify [id]. 
                  Uses --dependency=afterany:[id]
-  -C <cluster>   Start job on specified cluster (default: htc)
+  -C <cluster>   Start job on specified cluster (default: $CLUSTER)
 
 Options for list:
   (none)         List all current jobs
-  -l             Live update every 10 seconds
-  -C <cluster>   Show result for specified cluster (default: htc)
+  -l             Live update every $UPDATE_TIME seconds
+  -C <cluster>   Show result for specified cluster (default: $CLUSTER)
 
 Options for usage:
   (none)         Show output for last submitted job
   -j <id>        Show output for a specific job ID
-  -l             Live update every 10 seconds
+  -l             Live update every $UPDATE_TIME seconds
   -s             Shows list of jobs. Select job via index.
-  -C <cluster>   Show result for specified cluster (default: htc)
+  -C <cluster>   Show result for specified cluster (default: $CLUSTER)
 
 Options for log:
   (none)         Show output for last submitted job
   -j <id>        Show output for a specific job ID
-  -l             Live update every 10 seconds
+  -l             Live update every $UPDATE_TIME seconds
   -s             Shows list of jobs. Select job via index.
-  -C <cluster>   Show result for specified cluster (default: htc)
+  -C <cluster>   Show result for specified cluster (default: $CLUSTER)
 
 Options for cancel:
   (none)         Cancel last submitted job
-  -a             Cancel ALL jobs on htc
+  -a             Cancel ALL jobs on $CLUSTER
   -j <id[,id]>   Cancel specified comma-separated job IDs
   -s             Shows list of jobs. Select via comma seperated indices.
-  -C <cluster>   Operate on jobs for specified cluster (default: htc)
+  -C <cluster>   Operate on jobs for specified cluster (default: $CLUSTER)
+
+Options for exec:
+  (none)         Watch last submitted job, execute when finished
+  -j <id>        Watch a specific job ID
+  -s             Shows list of jobs. Select job to watch via index.
+  -r             Execute when job starts running (default: wait for finish)
+  -C <cluster>   Operate on jobs for specified cluster (default: $CLUSTER)
 
 Examples:
-  nog_slurm submit MyScript.sh           # submit bash script with defaults
-  nog_slurm submit -e MyEnv -g 1 -m 32G -c 16 -t 24:00:00 -p long MyScript.py arg1 arg2
+  $(basename "$0") submit MyScript.sh           # submit bash script with defaults
+  $(basename "$0") submit -e MyEnv -g 1 -m 32G -c 16 -t 24:00:00 -p long MyScript.py arg1 arg2
 
-  nog_slurm submit -w MyScript.py        # wait for last submitted job to finish before running
-  nog_slurm submit -w 12345 MyScript.py  # wait for job 12345 to finish before running
+  $(basename "$0") submit -w MyScript.py        # wait for last submitted job to finish before running
+  $(basename "$0") submit -w 12345 MyScript.py  # wait for job 12345 to finish before running
 
-  nog_slurm list                         # list current jobs on htc
-  nog_slurm list -C arc -l               # list current jobs on arc, live update
+  $(basename "$0") list                         # list current jobs on $CLUSTER
+  $(basename "$0") list -C arc -l               # list current jobs on arc, live update
 
-  nog_slurm usage -j 12345               # report usage for job 12345
-  nog_slurm usage -j 12345 -l            # live update for job 12345
+  $(basename "$0") usage -j 12345               # report usage for job 12345
+  $(basename "$0") usage -j 12345 -l            # live update for job 12345
 
-  nog_slurm log -l                       # Show log file for last job, live update
-  nog_slurm log -j 12345                 # Show log file for job 12345
+  $(basename "$0") log -l                       # Show log file for last job, live update
+  $(basename "$0") log -j 12345                 # Show log file for job 12345
 
-  nog_slurm cancel                       # cancel last job on htc
-  nog_slurm cancel -s                    # cancel selected jobs on htc
+  $(basename "$0") cancel                       # cancel last job on $CLUSTER
+  $(basename "$0") cancel -s                    # cancel selected jobs on $CLUSTER
 
-  nog_slurm cancel -a -C arc             # cancel all jobs on arc
-  nog_slurm cancel -j 12345,12346        # cancel specific jobs on htc
+  $(basename "$0") cancel -a -C arc             # cancel all jobs on arc
+  $(basename "$0") cancel -j 12345,12346        # cancel specific jobs on $CLUSTER
+
+  $(basename "$0") exec echo done"              # Print "done" after last submitted job finished
+  $(basename "$0") exec -r echo started         # Print "started" after last submitted job started
+  $(basename "$0") exec -s -r  bash notify.sh   # select job, run script on start
 ```
 
-Example 1:
+### submit
 
 ```bash
 nog_slurm submit -e $DATA/environments/mne_env -m 32G -c 16 -t 12:00:00 -w 123456 $DATA/scripts/MyScript.py S42
@@ -278,7 +298,7 @@ python $DATA/scripts/MyScript.py S42
 
 This will request 32 Gb of memory, 16 CPUs, for 12 hours, and submits a job that activates the mamba environment `mne_env` and runs the script `MyScript.py` with `S42` as an argument. However, this job will only start after job 123456 finished (`-w 123456`).
 
-Example 2:
+### list
 
 ```bash
 nog_slurm list -l
@@ -286,7 +306,7 @@ nog_slurm list -l
 
 This will show all currently running jobs on `htc` and update the view every 10s (`-l` for "live"). Omit `-l` for a one time lookup.
 
-Example 3:
+### usage
 
 ```bash
 nog_slurm usage -j 123456 -l
@@ -294,7 +314,7 @@ nog_slurm usage -j 123456 -l
 
 Shows a live view (`-l`) of memory usage of job 123456 (`-j 123456`), which updates every 10s.
 
-Example 4:
+### log
 
 ```bash
 nog_slurm log -s -l
@@ -302,10 +322,18 @@ nog_slurm log -s -l
 
 Displays all jobs, of which you can select one running jobs (`-s`). The log file corresponding to this job will be displayed in terminal and live updated ('-l').
 
-Example 5:
+### cancel
 
 ```bash
 nog_slurm cancel -s -C arc 
 ```
 
 Displays all jobs, of which you can select jobs to be canceled (`-s`) in a comma separated format (e.g. `1,3,4`). Selected jobs are canceled on the "arc" cluster (`-C arc`). If you e.g. want to cancel all jobs on "htc" use `nog_slurm cancel -a -C htc`.
+
+### exec
+
+```bash
+nog_slurm exec -j 123456 -r "nog_slurm log -l -j 123456"
+```
+
+After job 123456 (`-j 123456`) has started (`-r`), show a live view of its log file (`"nog_slurm log -l -j 123456"`).
