@@ -320,7 +320,7 @@ Shows a live view (`-l`) of memory usage of job 123456 (`-j 123456`), which upda
 nog_slurm log -s -l
 ```
 
-Displays all jobs, of which you can select one running jobs (`-s`). The log file corresponding to this job will be displayed in terminal and live updated `-l`).
+Displays all jobs, of which you can select one running jobs (`-s`). The log file corresponding to this job will be displayed in terminal and live updated (`-l`).
 
 ### cancel
 
