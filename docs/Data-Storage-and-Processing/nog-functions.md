@@ -4,6 +4,7 @@ Once installed correctly (see [initialise](initialise.md)), they can be accessed
 To make nog functions work properly, you MUST follow the setup procedure documented in [initialise](initialise.md)
 
 Available Functions:
+
 - [nog_jupyter_server](#nog_jupyter_server)
 - [nog_vscode_server](#nog_vscode_server)
 - [nog_rfs](#nog_rfs)
