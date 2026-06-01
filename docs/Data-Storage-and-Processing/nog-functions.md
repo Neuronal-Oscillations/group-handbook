@@ -296,7 +296,9 @@ source activate $DATA/environments/mne_env
 python $DATA/scripts/MyScript.py S42
 ```
 
-This will request 32 Gb of memory, 16 CPUs, for 12 hours, and submits a job that activates the mamba environment `mne_env` and runs the script `MyScript.py` with `S42` as an argument. However, this job will only start after job 123456 finished (`-w 123456`).
+This will request 32 Gb of memory, 16 CPUs, for 12 hours, and submits a job that activates the mamba environment `mne_env` and runs the script `MyScript.py` with `S42` as an argument. However, this job will only start after job 123456 finished (`-w 123456`). 
+
+Note that either `mamba` or `conda` is expected to be available via `~/.bashrc` in order to load environments. See [initialise](initialise.md) on how to setup your system environment.
 
 ### list
 
