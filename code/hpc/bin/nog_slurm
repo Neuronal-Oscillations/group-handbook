@@ -5,6 +5,7 @@ SCOPE="last"
 UPDATE_TIME=10
 LIVE="false"
 SELECT="false"
+ON_START="false"
 ENV4SCRIPT=""
 
 MEM=16G
@@ -29,6 +30,7 @@ Actions:
   usage          Show current and maximum memory (optional live view)
   log            View log file of running job (optional live view)
   cancel         Cancel jobs
+  exec           Execute a command when a job starts or finishes
 
 Options for submit:
   -e <env>       Path to conda / mamba environment to activate before running (default: none)
@@ -68,6 +70,13 @@ Options for cancel:
   -s             Shows list of jobs. Select via comma seperated indices.
   -C <cluster>   Operate on jobs for specified cluster (default: $CLUSTER)
 
+Options for exec:
+  (none)         Watch last submitted job, execute when finished
+  -j <id>        Watch a specific job ID
+  -s             Shows list of jobs. Select job to watch via index.
+  -r             Execute when job starts running (default: wait for finish)
+  -C <cluster>   Operate on jobs for specified cluster (default: $CLUSTER)
+
 Examples:
   $(basename "$0") submit MyScript.sh           # submit bash script with defaults
   $(basename "$0") submit -e MyEnv -g 1 -m 32G -c 16 -t 24:00:00 -p long MyScript.py arg1 arg2
@@ -89,6 +98,10 @@ Examples:
 
   $(basename "$0") cancel -a -C arc             # cancel all jobs on arc
   $(basename "$0") cancel -j 12345,12346        # cancel specific jobs on $CLUSTER
+
+  $(basename "$0") exec echo done"              # Print "done" after last submitted job finished
+  $(basename "$0") exec -r echo started         # Print "started" after last submitted job started
+  $(basename "$0") exec -s -r  bash notify.sh   # select job, run script on start
 
 EOF
 }
@@ -164,9 +177,10 @@ function select_jobs {
 
     echo ""
     case $action in
-        log) read -r -p "Enter index of job to view log (e.g. 1): " selection ;;
+        log)    read -r -p "Enter index of job to view log (e.g. 1): " selection ;;
         cancel) read -r -p "Enter comma-separated indices to cancel (e.g. 0,2,3): " selection ;;
         usage)  read -r -p "Enter index of job to display usage (e.g. 1): " selection ;;
+        exec)   read -r -p "Enter index of job to watch (e.g. 1): " selection ;;
     esac
 
     local all_ids=()
@@ -330,6 +344,45 @@ function log_view {
     fi
 }
 
+function run_on_job {
+    [[ $# -ne 1 ]] && { echo -e "${RED}ERROR: Command must be a single quoted string, e.g. \"echo hi\"${NC}" >&2; exit 1; }
+
+    if [[ "$SELECT" == "true" ]]; then
+        select_jobs "exec"
+        [[ -z "$JOBS" ]] && return 0
+    fi
+
+    get_jobs
+    [[ -z "$JOBS" ]] && return 0
+
+    IFS=',' read -ra JOB_ARRAY <<< "$JOBS"
+    local JOB="${JOB_ARRAY[-1]}"
+
+    if [[ "$ON_START" == true ]]; then
+        echo -e "${CYAN}Waiting for job ${JOB} to start...${NC}"
+        while true; do
+            local STATUS
+            STATUS=$(squeue -j "$JOB" --clusters "$CLUSTER" -h -o '%T' 2>/dev/null)
+            [[ "$STATUS" == "RUNNING" ]] && break
+            if [[ -z "$STATUS" ]]; then
+                echo -e "${YELLOW}Job ${JOB} is no longer in the queue.${NC}"
+                return 0
+            fi
+            sleep "$UPDATE_TIME"
+        done
+        echo -e "${CYAN}Job ${JOB} started.${NC}"
+    else
+        echo -e "${CYAN}Waiting for job ${JOB} to finish...${NC}"
+        while squeue -j "$JOB" --clusters "$CLUSTER" -h 2>/dev/null | grep -q .; do
+            sleep "$UPDATE_TIME"
+        done
+        echo -e "${CYAN}Job ${JOB} finished.${NC}"
+    fi
+
+    echo -e "${CYAN}Executing: ${*}${NC}"
+    eval "${@}"
+}
+
 # ── Determine action ─────────────────────────────────────────────────────────
 case "${1:-help}" in
     help)   help; exit 0 ;;
@@ -338,6 +391,7 @@ case "${1:-help}" in
     cancel) ACTION="cancel" ;;
     submit) ACTION="submit" ;;
     log)    ACTION="log" ;;
+    exec)   ACTION="exec" ;;
     *)      echo -e "${RED}Unknown action: $1${NC}" >&2; help; exit 64 ;;
 esac
 shift
@@ -407,6 +461,18 @@ elif [[ "$ACTION" == "submit" ]]; then
         esac
     done
     shift $((OPTIND - 1))
+elif [[ "$ACTION" == "exec" ]]; then
+    while getopts ":j:sC:r" opts; do
+            case $opts in
+                j) JOBS="$OPTARG" ;;
+                s) SELECT="true" ;;
+                C) CLUSTER="$OPTARG" ;;
+                r) ON_START="true" ;;
+                :) echo -e "${RED}Option -$OPTARG requires an argument.${NC}" >&2; help; exit 64 ;;
+                *) echo -e "${RED}Illegal option -$OPTARG for exec.${NC}" >&2; help; exit 64 ;;
+            esac
+        done
+    shift $((OPTIND - 1))
 else
     echo -e "${RED}Illegal action ${ACTION}.${NC}" >&2; help; exit 64
 fi
@@ -419,4 +485,5 @@ case $ACTION in
     cancel) cancel_jobs ;;
     submit) submit "${@}" ;;
     log)    log_view ;;
+    exec)   run_on_job "${@}" ;;
 esac
