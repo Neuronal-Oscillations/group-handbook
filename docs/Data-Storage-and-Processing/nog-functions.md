@@ -336,4 +336,4 @@ Displays all jobs, of which you can select jobs to be canceled (`-s`) in a comma
 nog_slurm exec -j 123456 -r "nog_slurm log -l -j 123456"
 ```
 
-After job 123456 (`-j 123456`) has started (`-r`), show a live view of its log file (`"nog_slurm log -l -j 123456"`).
+After job 123456 (`-j 123456`) is listed as running (`-r`), show a live view of its log file (`"nog_slurm log -l -j 123456"`).
