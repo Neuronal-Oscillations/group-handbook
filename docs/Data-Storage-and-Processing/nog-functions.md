@@ -187,7 +187,7 @@ The main function call is followed by one of those actions. See `help` and examp
 
 ### help
 ```bash
-Usage: $(basename "$0") <action> [ACTION OPTIONS]
+Usage: nog_slurm <action> [ACTION OPTIONS]
 
 Actions:
   help           Show this help message
@@ -244,30 +244,30 @@ Options for exec:
   -C <cluster>   Operate on jobs for specified cluster (default: $CLUSTER)
 
 Examples:
-  $(basename "$0") submit MyScript.sh           # submit bash script with defaults
-  $(basename "$0") submit -e MyEnv -g 1 -m 32G -c 16 -t 24:00:00 -p long MyScript.py arg1 arg2
+  nog_slurm submit MyScript.sh           # submit bash script with defaults
+  nog_slurm submit -e MyEnv -g 1 -m 32G -c 16 -t 24:00:00 -p long MyScript.py arg1 arg2
 
-  $(basename "$0") submit -w MyScript.py        # wait for last submitted job to finish before running
-  $(basename "$0") submit -w 12345 MyScript.py  # wait for job 12345 to finish before running
+  nog_slurm submit -w MyScript.py        # wait for last submitted job to finish before running
+  nog_slurm submit -w 12345 MyScript.py  # wait for job 12345 to finish before running
 
-  $(basename "$0") list                         # list current jobs on $CLUSTER
-  $(basename "$0") list -C arc -l               # list current jobs on arc, live update
+  nog_slurm list                         # list current jobs on $CLUSTER
+  nog_slurm list -C arc -l               # list current jobs on arc, live update
 
-  $(basename "$0") usage -j 12345               # report usage for job 12345
-  $(basename "$0") usage -j 12345 -l            # live update for job 12345
+  nog_slurm usage -j 12345               # report usage for job 12345
+  nog_slurm usage -j 12345 -l            # live update for job 12345
 
-  $(basename "$0") log -l                       # Show log file for last job, live update
-  $(basename "$0") log -j 12345                 # Show log file for job 12345
+  nog_slurm log -l                       # Show log file for last job, live update
+  nog_slurm log -j 12345                 # Show log file for job 12345
 
-  $(basename "$0") cancel                       # cancel last job on $CLUSTER
-  $(basename "$0") cancel -s                    # cancel selected jobs on $CLUSTER
+  nog_slurm cancel                       # cancel last job on $CLUSTER
+  nog_slurm cancel -s                    # cancel selected jobs on $CLUSTER
 
-  $(basename "$0") cancel -a -C arc             # cancel all jobs on arc
-  $(basename "$0") cancel -j 12345,12346        # cancel specific jobs on $CLUSTER
+  nog_slurm cancel -a -C arc             # cancel all jobs on arc
+  nog_slurm cancel -j 12345,12346        # cancel specific jobs on $CLUSTER
 
-  $(basename "$0") exec echo done"              # Print "done" after last submitted job finished
-  $(basename "$0") exec -r echo started         # Print "started" after last submitted job started
-  $(basename "$0") exec -s -r  bash notify.sh   # select job, run script on start
+  nog_slurm exec "echo done"             # Print "done" after last submitted job finished
+  nog_slurm exec -r "echo started"       # Print "started" after last submitted job started
+  nog_slurm exec -s -r "bash notify.sh"  # select job, run script on start
 ```
 
 ### submit
