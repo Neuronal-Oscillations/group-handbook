@@ -3,6 +3,12 @@ Functions for the neuronal oscillations group (nog). They are command line funct
 Once installed correctly (see [initialise](initialise.md)), they can be accessed from the ARC terminal.
 To make nog functions work properly, you MUST follow the setup procedure documented in [initialise](initialise.md)
 
+Available Functions:
+- [nog_jupyter_server](#nog_jupyter_server)
+- [nog_vscode_server](#nog_vscode_server)
+- [nog_rfs](#nog_rfs)
+- [nog_slurm](#nog_slurm)
+
 ## Prerequisite
 
 - you are on a login node (not gateway, use `ssh htc-login`)
