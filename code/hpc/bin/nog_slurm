@@ -101,7 +101,7 @@ Examples:
 
   $(basename "$0") exec "echo done"             # Print "done" after last submitted job finished
   $(basename "$0") exec -r "echo started"       # Print "started" after last submitted job started
-  $(basename "$0") exec -s -r  "bash notify.sh" # select job, run script on start
+  $(basename "$0") exec -s -r "bash notify.sh"  # select job, run script on start
 
 EOF
 }
