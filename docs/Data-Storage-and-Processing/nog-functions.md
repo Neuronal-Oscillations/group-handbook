@@ -78,6 +78,14 @@ A server will start in the background and shortly after, instructions on how to 
 
 This functions allows the user to interact with the RFS file storage. Requires that the RFS credentials file is set up (see [initialise](initialise.md)).
 
+The main function call is followed by one of those actions. See `help` and examples for every action below:
+
+- [ls](#list-rfs-files-and-folders)
+- [mkdir](#create-new-directory-on-rfs)
+- [push](#push-data-to-rfs)
+- [pull](#pull-data-from-rfs)
+- [rm](#remove-files-or-directories-from-rfs)
+
 ```bash
 nog_rfs (ls|mkdir|push|pull|rm) REMOTE_FILE [LOCAL_FILE]...
 
@@ -101,7 +109,7 @@ nog_rfs (ls|mkdir|push|pull|rm) REMOTE_FILE [LOCAL_FILE]...
      (e.g. nog_rfs rm -d "RFS_DIR/RFS_SUBDIR")
 ```
 
-### 1. List RFS files and folders
+### List RFS files and folders
 
 ```bash
 # list files in RFS root
@@ -111,7 +119,7 @@ nog_rfs ls
 nog_rfs ls SOME_DIR/SOME_SUBDIR/
 ```
 
-### 2. Create new directory on RFS
+### Create new directory on RFS
 
 ```bash
 # make new directory in root
@@ -127,7 +135,7 @@ nog_rfs mkdir NEW_DIR/NEW_SUBDIR
 nog_rfs mkdir NEW_SUBSUBDIR/NEW_SUBSUBSUBDIR NEW_DIR/NEW_SUBDIR
 ```
 
-### 3. Push data to RFS
+### Push data to RFS
 
 ```bash
 # Push files or directories to root
@@ -137,7 +145,7 @@ nog_rfs push file_or_dir
 nog_rfs push file_or_dir OTHER_DIR/
 ```
 
-### 4. Pull data from RFS
+### Pull data from RFS
 
 Note that here you have to indicate whether you want to push a file or directory. Use the `-d` flag to pull directories (no flag = file). Note that when pulling a directory, not the directory itself, but it's content gets pulled.
 
@@ -157,7 +165,7 @@ mkdir $DATA/rfs_data
 nog_rfs pull -d rfs_data $DATA/rfs_data/
 ```
 
-### 5. Remove files or directories from RFS
+### Remove files or directories from RFS
 
 Note that here you have to indicate whether you want to remove a file or directory. Use the `-d` flag to remove directories (no flag = file).
 
