@@ -148,7 +148,7 @@ $DEP_DIRECTIVE
 source $HOME/.bashrc
 $ENVACT
 
-$INTERPRETER "${SCRIPT_PATH}" "${@:2}"
+$INTERPRETER "${SCRIPT_PATH}" ${@:2}
 
 EOF
 )
