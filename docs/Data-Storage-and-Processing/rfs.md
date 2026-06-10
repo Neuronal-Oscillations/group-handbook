@@ -69,9 +69,10 @@ Enter the server address: `smb://connect.ox.ac.uk/RFS`
 
 <img width="560" height="263" alt="image" src="https://github.com/user-attachments/assets/5affccbb-3f29-462e-b559-72958dd3babf" />
 
-For username use the AD-OAK domain and your SSO name:
-`AD-OAK\psycXXXX`
-and your password.
+For username use the AD-OAK domain:
+
+<img width="554" height="364" alt="image" src="https://github.com/user-attachments/assets/18166313-ad99-4000-93ed-800d151b467a" />
+
 
 ###
 
