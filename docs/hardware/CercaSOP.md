@@ -33,7 +33,7 @@
  
 ### Informed consent
  
-1.Explain the experiment task, including the time frame (number of blocks, task per block, total expected duration) — *ensure that the participant is fully aware of the task demands and has enough time to ask questions*
+1. Explain the experiment task, including the time frame (number of blocks, task per block, total expected duration) — *ensure that the participant is fully aware of the task demands and has enough time to ask questions*
 2. Present the consent form and have the participant sign — *must be done before any procedure.*
 3. Explain to the participant that they have the right to withdraw their consent *at any time* without explation or repercussions 
 ### Before going to the MSR
