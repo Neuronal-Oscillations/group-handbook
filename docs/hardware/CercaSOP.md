@@ -66,11 +66,13 @@
 4. Run some practice trials before the official trials — *lets the participant get familiar with the task and reduces early-trial errors.*
 5. During each block break, check in with the participant and acknowledge their engagement — *maintains motivation and gives you a chance to catch any issues.*
 6. Make sure to field zero and calibrate before each block starts - *participants tend to move during breaks - these steps are vital for the system to re-set after any movement.*
+
 ---
  
 ## 5. During breaks
- 
-1. If the door is opened for any reason (drink, break outside), re-run degaussing and repeat the relevant setup steps before resuming — *opening the door disturbs the magnetic environment; degaussing restores it.*
+
+If the door is opened for any reason (drink, break outside), re-run degaussing and repeat the relevant setup steps before resuming — *opening the door disturbs the magnetic environment; degaussing restores it.*
+
 ---
  
 ## 6. Finishing the experiment
