@@ -41,7 +41,7 @@
 1. Ask whether they need the bathroom or water — *aim for ~1 hour comfortable inside the MSR without leaving, since leaving requires re-degaussing.*
 2. As the participant to remove any items containing metal (common things that are forgotten: underwired bra, belts, earrings) — *metal disturbs the OPM signal and degaussing.*
 3. If the participant is wearing mascara, provide them with a makeup remover wipe - *in the cabinet above the sink*
-4. Provide the participant with a hair net — * Do not stuff all the hair into the net, as this adds bulk. The net is mainly for hygiene.*
+4. Provide the participant with a hair net — *Do not stuff all the hair into the net, as this adds bulk. The net is mainly for hygiene.*
 5. Ask participant to remove shoes — *reduces metal/dirt brought into the MSR.*
 6. Move the screen back to make space for the participant to enter — *keeps the entry path clear.*
 ### Enter the MSR and prepare for recording
