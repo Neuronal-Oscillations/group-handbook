@@ -8,6 +8,7 @@ PARTITION="short"
 CLUSTER="htc"
 SCRIPT_PATH=$(realpath "$0")
 JUPYTERENV="${JUPYTERENV:-}"
+XVFB=""
 
 function help {
 cat <<EOF
@@ -61,7 +62,7 @@ echo "Note that it can take some seconds up to minutes until the server is avail
 echo "-------------------------------------------------------------------"
 
 # Execute Jupyter
-$JUPYTERENV/bin/jupyter notebook \
+$XVFB $JUPYTERENV/bin/jupyter notebook \
     --no-browser \
     --port=$PORT \
     --ip=$HOSTNAME \
@@ -102,9 +103,10 @@ EOF
 }
 
 function main {
-    while getopts "hg:m:c:t:p:C:e:" opts ; do
+    while getopts "hxg:m:c:t:p:C:e:" opts ; do
         case $opts in
             h) help; exit 0 ;;
+            x) XVFB="xvfb-run -a " ;;
             e) JUPYTERENV="$OPTARG" ;;
             g) GPU="$OPTARG";;
             m) MEM="$OPTARG";;
