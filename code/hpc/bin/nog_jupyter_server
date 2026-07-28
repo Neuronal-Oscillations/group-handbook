@@ -1,100 +1,47 @@
 #!/bin/bash
-
-GPU=""
-MEM=32G
+MEM=16G
 CPUs=8
 TIME="08:00:00"
 PARTITION="short"
 CLUSTER="htc"
-BATCH="false"
 SCRIPT_PATH=$(realpath "$0")
-JUPYTERENV="${JUPYTERENV:-}"
 
 function help {
-cat <<EOF
-Usage: $(basename "$0") [-h] [-e JUPYTERENV] [-b] [-g GPU] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]
+    cat <<EOF
+Usage: $(basename "$0") [-h] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]
   -h  help
-  -e  Path to conda / mamba environment to activate before running (required)
-  -b  run in batch mode via sbatch (default is interactive via srun)
-  -g  request GPU (default: no GPU)
   -m  memory (default: $MEM)
   -c  CPUs (default: $CPUs)
   -t  walltime (default: $TIME)
   -p  partition (default: $PARTITION)
   -C  cluster (default: $CLUSTER)
-
-Example: 
-  nog_jupyter_server -e /Path/to/MyEnv -m 16G -c 8 -t 24:00:00 -p medium -C htc
 EOF
 }
 
-function init_env_vars {
-    # Validate early on the login node so user isn't queued in Slurm with invalid inputs
-    if [[ -z "${JUPYTERENV}" ]]; then
-        echo -e "ERROR: No jupyter environment provided (-e is required)." >&2
-        help
-        exit 1
+function check_env {
+    local ok=true
+
+    # Check required environment variables
+    for var in MNE_ENV_PATH; do
+        if [[ -z "${!var}" ]]; then
+            echo "Error: \$$var is not set. Use bash setup_sysenv.sh" >&2
+            ok=false
+        fi
+    done
+
+    # Check required files/dirs (only if vars were set)
+    if [[ -n "$MNE_ENV_PATH" ]]; then
+        [[ ! -d "$MNE_ENV_PATH" ]] && \
+            echo "Error: MNE environment not found in $MNE_ENV_PATH. Use bash setup_mne.sh" >&2 && ok=false
     fi
 
-    # Export so srun/sbatch pass JUPYTERENV to the compute node
-    export JUPYTERENV
+    [[ "$ok" == false ]] && exit 1
 }
 
-function setup_jupyter {
 
-source activate $(realpath "${JUPYTERENV}")
-PORT=$(python -c "import socket; s=socket.socket(); s.bind(('',0)); print(s.getsockname()[1]); s.close()")
-HOSTNAME=$(hostname)
-
-echo ""
-echo "-------------------------------------------------------------------"
-echo "JUPYTER IS STARTING"
-echo "NODE: $HOSTNAME"
-echo "PORT: $PORT"
-echo ""
-echo "Requested resources: MEM=$MEM, CPUs=$CPUs, TIME=$TIME"
-echo ""
-echo "SSH TUNNEL COMMAND FROM WINDOWS OR MAC:"
-echo "ssh -L 8888:$HOSTNAME:$PORT $USER@gateway.arc.ox.ac.uk"
-echo ""
-echo "Link to be used in Windows or Mac browser:"
-echo "URL: http://localhost:8888/tree?token=$USER"
-echo ""
-echo "Note that it can take some seconds up to minutes until the server is available."
-echo "-------------------------------------------------------------------"
-
-# Execute Jupyter
-$JUPYTERENV/bin/jupyter notebook \
-    --no-browser \
-    --port=$PORT \
-    --ip=$HOSTNAME \
-    --notebook-dir=$DATA \
-    --NotebookApp.token=$USER \
-    --NotebookApp.password=''
-}
-
-function new_session {
-    local GPU_DIRECTIVE=""
-    [[ -n "$GPU" ]] && GPU_DIRECTIVE="--gres=gpu:${GPU}"
-    
-    # Note: Unquoted $GPU_DIRECTIVE is intentional so Bash drops it if it's empty
-    srun \
-      --partition="$PARTITION" \
-      $GPU_DIRECTIVE \
-      --cpus-per-task="$CPUs" \
-      --mem="$MEM" \
-      --time="$TIME" \
-      --job-name=jupyter \
-      --clusters="$CLUSTER" \
-      --pty bash -c "source $HOME/.bashrc && source $SCRIPT_PATH && setup_jupyter"
-}
-
-function new_batch {
-    local GPU_DIRECTIVE=""
-    [[ -n "$GPU" ]] && GPU_DIRECTIVE="#SBATCH --gres=gpu:${GPU}"
-
-    local JOBID
-    JOBID=$(sbatch --parsable <<EOF
+function bat_session {
+    mkdir -p "$DATA/logs"
+JOBID=$(sbatch --parsable <<EOF
 #!/bin/bash
 #SBATCH --partition=$PARTITION
 #SBATCH --job-name=jupyter
@@ -104,47 +51,64 @@ function new_batch {
 #SBATCH --clusters=$CLUSTER
 #SBATCH --output=$DATA/logs/jupyter-%j.log
 #SBATCH --error=$DATA/logs/jupyter-%j.log
-${GPU_DIRECTIVE:-}
 
-source "$HOME/.bashrc"
-source "$SCRIPT_PATH"
-setup_jupyter
+# MNE_ENV_PATH must be set in ~/.bashrc (e.g. via setup_mne.sh or manually)
+source \$HOME/.bashrc
+source activate \$MNE_ENV_PATH
+
+# Find port and hostname on the compute node
+PORT=\$(python -c "import socket; s=socket.socket(); s.bind(('',0)); print(s.getsockname()[1]); s.close()")
+HOSTNAME=\$(hostname)
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "JUPYTER IS STARTING"
+echo "NODE: \$HOSTNAME"
+echo "PORT: \$PORT"
+echo ""
+echo "Requested resources: MEM=$MEM, CPUs=$CPUs, TIME=$TIME"
+echo ""
+echo "SSH TUNNEL COMMAND FROM WINDOWS OR MAC:"
+echo "ssh -L 8888:\$HOSTNAME:\$PORT $USER@gateway.arc.ox.ac.uk"
+echo ""
+echo "Link to be used in Windows or Mac browser:"
+echo "URL: http://localhost:8888/tree?token=$USER"
+echo ""
+echo "Note that it can take some seconds up to minutes until the server is available."
+echo "-------------------------------------------------------------------"
+
+# Execute Jupyter
+\$MNE_ENV_PATH/bin/jupyter notebook \
+    --no-browser \
+    --port=\$PORT \
+    --ip=\$HOSTNAME \
+    --notebook-dir=$DATA \
+    --NotebookApp.token=$USER \
+    --NotebookApp.password=''
 EOF
 )
-    JOBID=$(echo "$JOBID" | cut -d';' -f1)
-    echo "Job ${JOBID} submitted! Waiting for Jupyter to start ..."
-    
-    until [[ -f "$DATA/logs/jupyter-${JOBID}.log" ]]; do 
-        sleep 2s
-    done 
-    tail -f "$DATA/logs/jupyter-${JOBID}.log"
+JOBID=$(echo "$JOBID" | cut -d';' -f1)
+
+echo "Submitted job $JOBID — waiting for jupyter..."
+LOGFILE=$DATA/logs/jupyter-${JOBID}.log
+until [[ -f $LOGFILE ]]; do sleep 2; done
+tail -f $LOGFILE
 }
 
 function main {
-    while getopts "hbg:m:c:t:p:C:e:" opts ; do
+    while getopts "hm:c:t:p:C:" opts; do
         case $opts in
             h) help; exit 0 ;;
-            e) JUPYTERENV="$OPTARG" ;;
-            b) BATCH="true" ;;
-            g) GPU="$OPTARG";;
-            m) MEM="$OPTARG";;
-            c) CPUs="$OPTARG";;
-            C) CLUSTER="$OPTARG";;
-            t) TIME="$OPTARG";;
-            p) PARTITION="$OPTARG";;
-            *) echo "illegal option" >&2; help; exit 64 ;;
+            m) MEM="$OPTARG" ;;
+            c) CPUs="$OPTARG" ;;
+            t) TIME="$OPTARG" ;;
+            p) PARTITION="$OPTARG" ;;
+            C) CLUSTER="$OPTARG" ;;
+            *) echo "Illegal option" >&2; help; exit 62 ;;
         esac
     done
-
-    init_env_vars
-
-    mkdir -p "$DATA/logs"
-    
-    if [[ "$BATCH" == "true" ]]; then
-        new_batch
-    else
-        new_session
-    fi
+    check_env
+    bat_session
 }
 
 [[ "${BASH_SOURCE[0]}" == "$0" ]] && main "$@"
