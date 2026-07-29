@@ -28,19 +28,21 @@ nog_jupyter_server
 Optional arguments and usage:
 
 ```bash
-nog_jupyter_server [-h] [-b] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]
+Usage: nog_jupyter_server [-h] [-e JUPYTERENV] [-b] [-g GPU] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]
   -h  help
-  -m  memory (default: 16G)
+  -e  Path to conda / mamba environment to activate before running (required)
+  -g  request GPU (default: no GPU)
+  -m  memory (default: 32G)
   -c  CPUs (default: 8)
   -t  walltime (default: 08:00:00)
-  -p  partition (default: medium)
-  -C cluster (default: htc)
+  -p  partition (default: short)
+  -C  cluster (default: htc)
 ```
 
 Example:
 
 ```bash
-nog_jupyter_server -m 16G -t 08:00:00
+nog_jupyter_server -e /Path/to/MyEnv -m 16G -c 8 -t 24:00:00 -p medium -C htc
 ```
 
 A server will start in the background and shortly after, instructions on how to connect will be printed to the Terminal. When connecting to the server, be patient, as this can take up to several minutes until everything is set up.
