@@ -31,7 +31,7 @@ ssh -X htc-login
 Launch a Jupyter server that submits a job to ARC's compute cluster:
 
 ```bash
-nog_jupyter_server
+nog_jupyter_server -e /Path/to/mne_env
 ```
 
 The command will take a few seconds to minutes to complete. It submits a job to run a Jupyter server and prints connection information including an SSH tunnel command.
