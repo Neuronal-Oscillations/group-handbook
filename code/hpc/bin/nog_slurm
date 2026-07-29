@@ -43,6 +43,7 @@ Options for submit:
                  last submitted (default). Otherwise specify [id]. 
                  Uses --dependency=afterany:[id]
   -C <cluster>   Start job on specified cluster (default: $CLUSTER)
+  -l             Live update of log every $UPDATE_TIME seconds
 
 Options for list:
   (none)         List all current jobs
@@ -155,6 +156,16 @@ EOF
 [[ $CLUSTER == "all" ]] && CLUSTER=$(echo "$JOBID" | cut -d';' -f2)
 JOBID=$(echo "$JOBID" | cut -d';' -f1)
 echo -e "${CYAN}Submitted job ${JOBID} to ${CLUSTER} ${NC}"
+
+if [[ "$LIVE" == "true" ]];then
+    JOBS="$JOBID"
+    echo -e "${CYAN}Waiting for job ${JOBID} to start...${NC}"
+    local log="${DATA}/logs/${SCRIPT_NAME}-${JOBID}.log"
+    while [[ ! -f "$log" ]]; do
+        sleep 5
+    done
+    log_view
+fi
 }
 
 function select_jobs {
@@ -440,7 +451,7 @@ elif [[ "$ACTION" == "cancel" ]]; then
         esac
     done
 elif [[ "$ACTION" == "submit" ]]; then
-    while getopts ":e:m:c:t:p:g:C:w" opts; do
+    while getopts ":e:m:c:t:p:g:C:wl" opts; do
         case $opts in
             e) ENV4SCRIPT="$OPTARG" ;;
             m) MEM="$OPTARG" ;;
@@ -449,6 +460,7 @@ elif [[ "$ACTION" == "submit" ]]; then
             p) PARTITION="$OPTARG" ;;
             g) GPU="$OPTARG" ;;
             C) CLUSTER="$OPTARG" ;;
+            l) LIVE="true" ;;
             w)  if [[ "${!OPTIND}" =~ ^[0-9]+$ ]]; then
                     JOBS="${!OPTIND}"
                     OPTIND=$((OPTIND + 1))
