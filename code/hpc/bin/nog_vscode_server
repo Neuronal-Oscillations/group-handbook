@@ -7,11 +7,12 @@ TIME="08:00:00"
 PARTITION="short"
 CLUSTER="htc"
 BATCH="false"
+QOS=""
 SCRIPT_PATH=$(realpath "$0")
 
 function help {
 cat <<EOF
-Usage: $(basename "$0") [-h] [-b] [-g GPU] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]
+Usage: $(basename "$0") [-h] [-b] [-g GPU] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER] [-q QOS]
   -h  help
   -b  run in batch mode via sbatch (default is interactive via srun)
   -g  request GPU (default: no GPU)
@@ -20,6 +21,7 @@ Usage: $(basename "$0") [-h] [-b] [-g GPU] [-m MEM] [-c CPUs] [-t TIME] [-p PART
   -t  walltime (default: $TIME)
   -p  partition (default: $PARTITION)
   -C  cluster (default: $CLUSTER)
+  -q <qos> Set QOS specification. Uses --qos=<qos> (default: account default)
 
 Example: 
   nog_vscode_server -m 16G -c 8 -t 24:00:00 -p medium -C htc
@@ -48,10 +50,6 @@ function init_env_vars {
 }
 
 function setup_tunnel {
-    for line in "${REQ_ENV_PATHS[@]}"; do
-      grep -qxF "$line" ~/.bashrc || echo "$line" >> ~/.bashrc
-    done
-
     mkdir -p "${VSCODE_BASE}"
 
     # Cache the download: Only fetch if the binary doesn't exist
@@ -68,11 +66,15 @@ function setup_tunnel {
 function new_session {
     local GPU_DIRECTIVE=""
     [[ -n "$GPU" ]] && GPU_DIRECTIVE="--gres=gpu:${GPU}"
+
+    local QOS_DIRECTIVE=""
+    [[ -n "$QOS" ]] && QOS_DIRECTIVE="--qos=${QOS}"
     
-    # Note: Unquoted $GPU_DIRECTIVE is intentional so Bash drops it if it's empty
+    # Note: Unquoted $GPU_DIRECTIVE / $QOS_DIRECTIVE is intentional so Bash drops it if it's empty
     srun \
       --partition="$PARTITION" \
       $GPU_DIRECTIVE \
+      $QOS_DIRECTIVE \
       --cpus-per-task="$CPUs" \
       --mem="$MEM" \
       --time="$TIME" \
@@ -84,6 +86,9 @@ function new_session {
 function new_batch {
     local GPU_DIRECTIVE=""
     [[ -n "$GPU" ]] && GPU_DIRECTIVE="#SBATCH --gres=gpu:${GPU}"
+
+    local QOS_DIRECTIVE=""
+    [[ -n "$QOS" ]] && QOS_DIRECTIVE="#SBATCH --qos=${QOS}"
 
     local JOBID
     JOBID=$(sbatch --parsable <<EOF
@@ -97,6 +102,7 @@ function new_batch {
 #SBATCH --output=$DATA/logs/vscode-%j.log
 #SBATCH --error=$DATA/logs/vscode-%j.log
 ${GPU_DIRECTIVE:-}
+${QOS_DIRECTIVE:-}
 
 source "$HOME/.bashrc"
 source "$SCRIPT_PATH"
@@ -113,7 +119,7 @@ EOF
 }
 
 function main {
-    while getopts "hbg:m:c:t:p:C:" opts ; do
+    while getopts "hbg:m:c:t:p:C:q:" opts ; do
         case $opts in
             h) help; exit 0 ;;
             b) BATCH="true" ;;
@@ -123,6 +129,7 @@ function main {
             C) CLUSTER="$OPTARG";;
             t) TIME="$OPTARG";;
             p) PARTITION="$OPTARG";;
+            q) QOS="$OPTARG" ;;
             *) echo "illegal option" >&2; help; exit 64 ;;
         esac
     done
