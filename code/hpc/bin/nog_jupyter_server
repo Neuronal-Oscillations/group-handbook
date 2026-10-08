@@ -8,11 +8,12 @@ PARTITION="short"
 CLUSTER="htc"
 SCRIPT_PATH=$(realpath "$0")
 JUPYTERENV="${JUPYTERENV:-}"
-XVFB=""
+USE_XVFB="${USE_XVFB:-false}"
+QOS=""
 
 function help {
 cat <<EOF
-Usage: $(basename "$0") [-h] [-e JUPYTERENV] [-b] [-g GPU] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER]
+Usage: $(basename "$0") [-h] [-e JUPYTERENV] [-x] [-g GPU] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER] [-q QOS]
   -h  help
   -e  Path to conda / mamba environment to activate before running (required)
   -g  request GPU (default: no GPU)
@@ -21,6 +22,8 @@ Usage: $(basename "$0") [-h] [-e JUPYTERENV] [-b] [-g GPU] [-m MEM] [-c CPUs] [-
   -t  walltime (default: $TIME)
   -p  partition (default: $PARTITION)
   -C  cluster (default: $CLUSTER)
+  -x  start a virtual X display (Xvfb) for plotting/GUI libraries
+  -q <qos> Set QOS specification. Uses --qos=<qos> (default: account default)
 
 Example: 
   nog_jupyter_server -e /Path/to/MyEnv -m 16G -c 8 -t 24:00:00 -p medium -C htc
@@ -35,7 +38,7 @@ function init_env_vars {
         exit 1
     fi
 
-    export JUPYTERENV
+    export JUPYTERENV USE_XVFB
 }
 
 function setup_jupyter {
@@ -50,8 +53,6 @@ echo "JUPYTER IS STARTING"
 echo "NODE: $HOSTNAME"
 echo "PORT: $PORT"
 echo ""
-echo "Requested resources: MEM=$MEM, CPUs=$CPUs, TIME=$TIME"
-echo ""
 echo "SSH TUNNEL COMMAND FROM WINDOWS OR MAC:"
 echo "ssh -X -L 8888:$HOSTNAME:$PORT $USER@gateway.arc.ox.ac.uk"
 echo ""
@@ -61,8 +62,13 @@ echo ""
 echo "Note that it can take some seconds up to minutes until the server is available."
 echo "-------------------------------------------------------------------"
 
+if [[ "$USE_XVFB" == "true" ]]; then
+    Xvfb :99 -screen 0 1600x1200x24 -nolisten tcp &
+    export DISPLAY=:99
+fi
+
 # Execute Jupyter
-$XVFB $JUPYTERENV/bin/jupyter notebook \
+$JUPYTERENV/bin/jupyter notebook \
     --no-browser \
     --port=$PORT \
     --ip=$HOSTNAME \
@@ -74,6 +80,9 @@ $XVFB $JUPYTERENV/bin/jupyter notebook \
 function new_batch {
     local GPU_DIRECTIVE=""
     [[ -n "$GPU" ]] && GPU_DIRECTIVE="#SBATCH --gres=gpu:${GPU}"
+
+    local QOS_DIRECTIVE=""
+    [[ -n "$QOS" ]] && QOS_DIRECTIVE="#SBATCH --qos=${QOS}"
 
     local JOBID
     JOBID=$(sbatch --parsable <<EOF
@@ -87,6 +96,7 @@ function new_batch {
 #SBATCH --output=$DATA/logs/jupyter-%j.log
 #SBATCH --error=$DATA/logs/jupyter-%j.log
 ${GPU_DIRECTIVE:-}
+${QOS_DIRECTIVE:-}
 
 source "$HOME/.bashrc"
 source "$SCRIPT_PATH"
@@ -103,10 +113,10 @@ EOF
 }
 
 function main {
-    while getopts "hxg:m:c:t:p:C:e:" opts ; do
+    while getopts "hxg:m:c:t:p:C:e:q:" opts ; do
         case $opts in
             h) help; exit 0 ;;
-            x) XVFB="Xvfb :99 -screen 0 1600x1200x24 -nolisten tcp & export DISPLAY=:99; exec " ;;
+            x) USE_XVFB="true" ;;
             e) JUPYTERENV="$OPTARG" ;;
             g) GPU="$OPTARG";;
             m) MEM="$OPTARG";;
@@ -114,6 +124,7 @@ function main {
             C) CLUSTER="$OPTARG";;
             t) TIME="$OPTARG";;
             p) PARTITION="$OPTARG";;
+            q) QOS="$OPTARG" ;;
             *) echo "illegal option" >&2; help; exit 64 ;;
         esac
     done
