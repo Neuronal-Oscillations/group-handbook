@@ -168,6 +168,7 @@ EOF
 )
 [[ $CLUSTER == "all" ]] && CLUSTER=$(echo "$JOBID" | cut -d';' -f2)
 JOBID=$(echo "$JOBID" | cut -d';' -f1)
+[[ -z "$JOBID" ]] && { echo -e "${RED}ERROR: Submission failed (see sbatch message above).${NC}" >&2; exit 1; }
 echo -e "${CYAN}Submitted job ${JOBID} to ${CLUSTER} ${NC}"
 
 if [[ "$LIVE" == "true" ]];then
