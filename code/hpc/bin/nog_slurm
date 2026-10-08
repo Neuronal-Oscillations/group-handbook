@@ -15,6 +15,7 @@ TIME="08:00:00"
 PARTITION="short"
 CLUSTER="htc"
 QOS=""
+DELAY=""
 
 # ── colours ──────────────────────────────────────────────────────────────────
 RED='\033[0;31m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'
@@ -46,6 +47,8 @@ Options for submit:
   -C <cluster>   Start job on specified cluster (default: $CLUSTER)
   -l             Live update of log every $UPDATE_TIME seconds
   -q <qos>       Set QOS specification. Uses --qos=<qos> (default: account default)
+  -d <time>      Delay job start. Uses --begin=<time>, e.g. now+8hours, 16:00,
+                 2026-10-09T07:00 (default: no delay)
 
 Options for list:
   (none)         List all current jobs
@@ -131,6 +134,9 @@ function submit {
     local QOS_DIRECTIVE=""
     [[ -n "$QOS" ]] && QOS_DIRECTIVE="#SBATCH --qos=${QOS}"
 
+    local DEL_DIRECTIVE=""
+    [[ -n "$DELAY" ]] && DEL_DIRECTIVE="#SBATCH --begin=${DELAY}"
+
     local DEP_DIRECTIVE=""
     if [[ -n "$JOBS" ]]; then
         DEP_DIRECTIVE="#SBATCH --dependency=afterany:${JOBS}"
@@ -150,6 +156,7 @@ JOBID=$(sbatch --parsable <<EOF
 $GPU_DIRECTIVE
 $DEP_DIRECTIVE
 $QOS_DIRECTIVE
+$DEL_DIRECTIVE
 
 # source bashrc and, if requested, activate environment
 source $HOME/.bashrc
@@ -457,7 +464,7 @@ elif [[ "$ACTION" == "cancel" ]]; then
         esac
     done
 elif [[ "$ACTION" == "submit" ]]; then
-    while getopts ":e:m:c:t:p:g:C:wlq:" opts; do
+    while getopts ":e:m:c:t:p:g:C:wlq:d:" opts; do
         case $opts in
             e) ENV4SCRIPT="$OPTARG" ;;
             m) MEM="$OPTARG" ;;
@@ -468,6 +475,7 @@ elif [[ "$ACTION" == "submit" ]]; then
             C) CLUSTER="$OPTARG" ;;
             l) LIVE="true" ;;
             q) QOS="$OPTARG" ;;
+            d) DELAY="$OPTARG" ;;
             w)  if [[ "${!OPTIND}" =~ ^[0-9]+$ ]]; then
                     JOBS="${!OPTIND}"
                     OPTIND=$((OPTIND + 1))
