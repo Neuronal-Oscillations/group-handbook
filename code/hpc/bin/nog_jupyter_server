@@ -10,10 +10,11 @@ SCRIPT_PATH=$(realpath "$0")
 JUPYTERENV="${JUPYTERENV:-}"
 USE_XVFB="${USE_XVFB:-false}"
 QOS=""
+DELAY=""
 
 function help {
 cat <<EOF
-Usage: $(basename "$0") [-h] [-e JUPYTERENV] [-x] [-g GPU] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER] [-q QOS]
+Usage: $(basename "$0") [-h] [-e JUPYTERENV] [-x] [-g GPU] [-m MEM] [-c CPUs] [-t TIME] [-p PARTITION] [-C CLUSTER] [-q QOS] [-d DELAY]
   -h  help
   -e  Path to conda / mamba environment to activate before running (required)
   -g  request GPU (default: no GPU)
@@ -24,6 +25,8 @@ Usage: $(basename "$0") [-h] [-e JUPYTERENV] [-x] [-g GPU] [-m MEM] [-c CPUs] [-
   -C  cluster (default: $CLUSTER)
   -x  start a virtual X display (Xvfb) for plotting/GUI libraries
   -q <qos> Set QOS specification. Uses --qos=<qos> (default: account default)
+  -d <time> Delay job start. Uses --begin=<time>, e.g. now+8hours, 16:00,
+            2026-10-09T07:00 (default: no delay)
 
 Example: 
   nog_jupyter_server -e /Path/to/MyEnv -m 16G -c 8 -t 24:00:00 -p medium -C htc
@@ -84,6 +87,9 @@ function new_batch {
     local QOS_DIRECTIVE=""
     [[ -n "$QOS" ]] && QOS_DIRECTIVE="#SBATCH --qos=${QOS}"
 
+    local DEL_DIRECTIVE=""
+    [[ -n "$DELAY" ]] && DEL_DIRECTIVE="#SBATCH --begin=${DELAY}"
+
     local JOBID
     JOBID=$(sbatch --parsable <<EOF
 #!/bin/bash
@@ -97,6 +103,7 @@ function new_batch {
 #SBATCH --error=$DATA/logs/jupyter-%j.log
 ${GPU_DIRECTIVE:-}
 ${QOS_DIRECTIVE:-}
+${DEL_DIRECTIVE:-}
 
 source "$HOME/.bashrc"
 source "$SCRIPT_PATH"
@@ -104,6 +111,7 @@ setup_jupyter
 EOF
 )
     JOBID=$(echo "$JOBID" | cut -d';' -f1)
+    [[ -z "$JOBID" ]] && { echo "ERROR: Submission failed (see sbatch message above)." >&2; exit 1; }
     echo "Job ${JOBID} submitted! Waiting for Jupyter to start ..."
     
     until [[ -f "$DATA/logs/jupyter-${JOBID}.log" ]]; do 
@@ -113,7 +121,7 @@ EOF
 }
 
 function main {
-    while getopts "hxg:m:c:t:p:C:e:q:" opts ; do
+    while getopts "hxg:m:c:t:p:C:e:q:d:" opts ; do
         case $opts in
             h) help; exit 0 ;;
             x) USE_XVFB="true" ;;
@@ -125,6 +133,7 @@ function main {
             t) TIME="$OPTARG";;
             p) PARTITION="$OPTARG";;
             q) QOS="$OPTARG" ;;
+            d) DELAY="$OPTARG" ;;
             *) echo "illegal option" >&2; help; exit 64 ;;
         esac
     done
