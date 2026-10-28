@@ -1,4 +1,17 @@
 
 nav:
-  - index.md
+  - Home: index.md
+  - Getting Started: 
+      - Department Structure: department-structure.md
+      - Group Meetings: group-activities.md
+      - HR: hr-related-issues.md 
+      - Printing: printers.md
+  - Setting up studies at OxCIN: howtorunstudy.md
+  - Publications: publish.md
+  - Travel: travel_and_conferences.md
+  - SOPs:
+      - OPM-MEG: CercaSOP.md
+      - OPM Triggers: CercaTriggers.md
+      - MEG: MEGIN.md
+      - Eyetracking: eyetracker.md
   - "*"
