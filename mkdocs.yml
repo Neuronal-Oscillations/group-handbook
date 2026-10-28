@@ -10,3 +10,7 @@ theme:
       - toc.integrate          # table of contents in sidebar
 hooks:
   - docs/hooks.py
+
+  plugins:
+  - search
+  - awesome-nav
