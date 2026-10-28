@@ -19,3 +19,5 @@ nav:
       - OPM Triggers: hardware/CercaTriggers.md
       - MEG: hardware/MEGIN.md
       - Eyetracking: hardware/eyetracker.md
+
+  - Data Storage and Processing: Data-Storage-and-Processing
