@@ -18,7 +18,7 @@ QOS=""
 DELAY=""
 
 # ── colours ──────────────────────────────────────────────────────────────────
-RED='\033[0;31m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'
+RED='\033[0;31m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; GREEN='\033[0;32m'; BOLD='\033[1m'; NC='\033[0m'
 
 # ── help ─────────────────────────────────────────────────────────────────────
 function help {
@@ -29,6 +29,7 @@ Actions:
   help           Show this help message
   submit         Submit a script as a SLURM batch job (must be .sh or .py)
   list           List your jobs (optional live view)
+  info           Show detailed information about a job (optional live view)
   usage          Show current and maximum memory (optional live view)
   log            View log file of running job (optional live view)
   cancel         Cancel jobs
@@ -52,6 +53,15 @@ Options for submit:
 
 Options for list:
   (none)         List all current jobs
+  -l             Live update every $UPDATE_TIME seconds
+  -C <cluster>   Show result for specified cluster (default: $CLUSTER)
+
+Options for info:
+  (none)         Show info for last submitted job
+  -j <id[,id]>   Show info for specified comma-separated job IDs
+                 (also works for finished jobs, via sacct)
+  -a             Show info for ALL your jobs on $CLUSTER
+  -s             Shows list of jobs. Select via comma seperated indices.
   -l             Live update every $UPDATE_TIME seconds
   -C <cluster>   Show result for specified cluster (default: $CLUSTER)
 
@@ -109,6 +119,10 @@ Examples:
   $(basename "$0") exec -r "echo started"       # Print "started" after last submitted job started
   $(basename "$0") exec -s -r "bash notify.sh"  # select job, run script on start
 
+  $(basename "$0") info                         # info for last submitted job
+  $(basename "$0") info -j 12345                # info for job 12345 (running, pending or finished)
+  $(basename "$0") info -a -C arc               # info for all your jobs on arc
+  $(basename "$0") info -s -l                   # select jobs, live update
 EOF
 }
 
@@ -206,6 +220,7 @@ function select_jobs {
         cancel) read -r -p "Enter comma-separated indices to cancel (e.g. 0,2,3): " selection ;;
         usage)  read -r -p "Enter index of job to display usage (e.g. 1): " selection ;;
         exec)   read -r -p "Enter index of job to watch (e.g. 1): " selection ;;
+        info)   read -r -p "Enter comma-separated indices to show info for (e.g. 0,2): " selection ;;
     esac
 
     local all_ids=()
@@ -369,6 +384,258 @@ function log_view {
     fi
 }
 
+function _row {
+    [[ -z "$2" ]] && return 0
+    printf "  ${CYAN}%-15s${NC} %b\n" "$1" "$2"
+}
+ 
+function _section {
+    printf "\n  ${BOLD}%s${NC}\n" "$1"
+}
+
+# 2026-10-28T11:25:00 -> 2026-10-28 11:25:00 (leaves Unknown/None/N/A untouched)
+function _fmt_date {
+    local t="$1"
+    [[ "$t" =~ ^[0-9]{4}- ]] && t="${t/T/ }"
+    echo "$t"
+}
+
+# [D-]HH:MM:SS | MM:SS -> seconds (empty if unparseable, e.g. UNLIMITED)
+function _to_sec {
+    local t="$1" d=0 h=0 m=0 s=0
+    [[ "$t" =~ ^([0-9]+-)?[0-9:]+$ ]] || return 0
+    if [[ "$t" == *-* ]]; then d="${t%%-*}"; t="${t#*-}"; fi
+    local p; IFS=':' read -ra p <<< "$t"
+    case ${#p[@]} in
+        3) h=${p[0]}; m=${p[1]}; s=${p[2]} ;;
+        2) m=${p[0]}; s=${p[1]} ;;
+        1) m=${p[0]} ;;   # SLURM treats a single number as minutes
+    esac
+    echo $(( 10#$d*86400 + 10#$h*3600 + 10#$m*60 + 10#$s ))
+}
+
+# seconds -> [D-]HH:MM:SS
+function _fmt_dur {
+    local s="$1" d h m
+    d=$(( s / 86400 )); h=$(( s % 86400 / 3600 )); m=$(( s % 3600 / 60 )); s=$(( s % 60 ))
+    if (( d > 0 )); then printf "%d-%02d:%02d:%02d" "$d" "$h" "$m" "$s"
+    else printf "%02d:%02d:%02d" "$h" "$m" "$s"; fi
+}
+
+function _state_colour {
+    case "$1" in
+        RUNNING|COMPLETED|COMPLETING)            echo -e "${GREEN}$1${NC}" ;;
+        PENDING|CONFIGURING|SUSPENDED|REQUEUED*) echo -e "${YELLOW}$1${NC}" ;;
+        *)                                       echo -e "${RED}$1${NC}" ;;
+    esac
+}
+
+# position of a pending job in its partition's queue, by priority
+function _queue_rank {
+    local job="$1" part="$2"
+    squeue --clusters "$CLUSTER" -p "$part" -t PD -h -o '%Q %i' 2>/dev/null \
+        | grep -v '^CLUSTER:' \
+        | sort -k1,1nr \
+        | awk -v id="$job" -v p="$part" \
+              '{a[NR]=$2} END {for (i=1;i<=NR;i++) if (a[i]==id) {printf "#%d of %d pending in %s", i, NR, p; exit}}'
+}
+
+# info for a job still known to slurmctld (pending / running / just finished)
+function _info_scontrol {
+    local JOB="$1" line="$2"
+    local -A F=()
+    local parts kv
+    read -ra parts <<< "$line"
+    for kv in "${parts[@]}"; do
+        [[ "$kv" == *=* ]] || continue
+        F["${kv%%=*}"]="${kv#*=}"
+    done
+
+    local state="${F[JobState]}"
+    local reason="${F[Reason]}"
+    local tres="${F[ReqTRES]:-${F[TRES]}}"
+
+    # memory: per node or per CPU, depending on how it was requested
+    local mem=""
+    if [[ -n "${F[MinMemoryNode]}" ]]; then
+        mem="${F[MinMemoryNode]} per node"
+    elif [[ -n "${F[MinMemoryCPU]}" ]]; then
+        mem="${F[MinMemoryCPU]} per CPU"
+    else
+        mem=$(grep -oP '(^|,)mem=\K[^,]+' <<< "$tres")
+    fi
+
+    # GPUs from TRES, e.g. gres/gpu=2 or gres/gpu:a100=2
+    local gpus
+    gpus=$(grep -oP 'gres/gpu(:[^=,]+)?=\K[0-9]+' <<< "$tres" | head -1)
+    local gpu_type
+    gpu_type=$(grep -oP 'gres/gpu:\K[^=,]+' <<< "$tres" | head -1)
+    [[ -n "$gpu_type" && -n "$gpus" ]] && gpus="$gpus ($gpu_type)"
+
+    # priority + queue position for pending jobs
+    local prio="${F[Priority]}"
+    if [[ "$state" == "PENDING" ]]; then
+        local rank; rank=$(_queue_rank "$JOB" "${F[Partition]}")
+        [[ -n "$rank" ]] && prio="$prio  ($rank)"
+    fi
+
+    # times
+    local start; start=$(_fmt_date "${F[StartTime]}")
+    local end;   end=$(_fmt_date "${F[EndTime]}")
+    if [[ "$state" == "PENDING" ]]; then
+        [[ "$start" == "Unknown" || -z "$start" ]] && start="Unknown (not yet scheduled)" || start="$start (estimated)"
+        end=""
+    elif [[ "$state" == "RUNNING" ]]; then
+        end="$end (at time limit)"
+    fi
+
+    local limit="${F[TimeLimit]}"
+    local runtime="${F[RunTime]}"
+    local timeleft=""
+    if [[ "$state" == "RUNNING" ]]; then
+        local lim_s run_s
+        lim_s=$(_to_sec "$limit"); run_s=$(_to_sec "$runtime")
+        if [[ -n "$lim_s" && -n "$run_s" && "$lim_s" -gt 0 ]]; then
+            timeleft="$(_fmt_dur $(( lim_s - run_s )))  ($(( run_s * 100 / lim_s ))% used)"
+        fi
+    fi
+
+    local dep="${F[Dependency]}"
+    [[ "$dep" == "(null)" ]] && dep=""
+    local nodes="${F[NodeList]}"
+    [[ "$nodes" == "(null)" ]] && nodes=""
+
+    local state_str; state_str=$(_state_colour "$state")
+    [[ -n "$reason" && "$reason" != "None" ]] && state_str="$state_str  (reason: $reason)"
+
+    local log="$DATA/logs/${F[JobName]}-${JOB}.log"
+    [[ -f "$log" ]] || log="${F[StdOut]}"
+
+    printf "${CYAN}── Job %s on '%s' ──${NC}\n" "$JOB" "$CLUSTER"
+
+    _section "General"
+    _row "Name"         "${F[JobName]}"
+    _row "State"        "$state_str"
+    _row "Partition"    "${F[Partition]}"
+    _row "QOS"          "${F[QOS]}"
+    _row "Account"      "${F[Account]}"
+    _row "Priority"     "$prio"
+    _row "Dependency"   "$dep"
+
+    _section "Resources"
+    _row "CPUs"         "${F[NumCPUs]}"
+    _row "Memory"       "$mem"
+    _row "GPUs"         "$gpus"
+    _row "Nodes"        "${F[NumNodes]}"
+    _row "Node list"    "$nodes"
+
+    _section "Time"
+    _row "Submitted"    "$(_fmt_date "${F[SubmitTime]}")"
+    _row "Eligible"     "$(_fmt_date "${F[EligibleTime]}")"
+    _row "Start Time"   "$start"
+    _row "End Time"     "$end"
+    _row "Req Runtime"  "$limit"
+    [[ "$state" != "PENDING" ]] && _row "Elapsed" "$runtime"
+    _row "Time left"    "$timeleft"
+
+    _section "Files"
+    _row "Log"          "$log"
+    _row "Work dir"     "${F[WorkDir]}"
+    echo ""
+}
+
+# fallback for jobs that have left the queue: use accounting (sacct)
+function _info_sacct {
+    local JOB="$1"
+    local line
+    line=$(sacct -j "$JOB" --clusters "$CLUSTER" -X -n -P \
+           --format=JobName,State,Partition,QOS,Account,AllocCPUS,ReqMem,AllocTRES,Timelimit,Elapsed,Submit,Eligible,Start,End,NodeList,ExitCode,WorkDir \
+           2>/dev/null | head -1)
+
+    if [[ -z "$line" ]]; then
+        echo -e "${RED}Job $JOB not found on cluster '$CLUSTER' (neither in queue nor in accounting).${NC}" >&2
+        return 1
+    fi
+
+    local name state part qos acct cpus reqmem tres limit elapsed submit eligible start end nodes exitcode workdir
+    IFS='|' read -r name state part qos acct cpus reqmem tres limit elapsed submit eligible start end nodes exitcode workdir <<< "$line"
+
+    local gpus
+    gpus=$(grep -oP 'gres/gpu(:[^=,]+)?=\K[0-9]+' <<< "$tres" | head -1)
+
+    # peak memory across all job steps
+    local peak
+    peak=$(sacct -j "$JOB" --clusters "$CLUSTER" -n -P --format=MaxRSS 2>/dev/null \
+           | grep -v '^$' | sort -h | tail -1 \
+           | awk '{v=$1; u=substr(v,length(v)); n=v+0;
+                   if (u=="K") n*=1024; else if (u=="M") n*=1048576; else if (u=="G") n*=1073741824;
+                   if (n>=1073741824) printf "%.1fG", n/1073741824; else printf "%.0fM", n/1048576}')
+
+    [[ "$nodes" == "None assigned" ]] && nodes=""
+
+    local log="$DATA/logs/${name}-${JOB}.log"
+    [[ -f "$log" ]] || log=""
+
+    printf "${CYAN}── Job %s on '%s' (finished, from accounting) ──${NC}\n" "$JOB" "$CLUSTER"
+
+    _section "General"
+    _row "Name"         "$name"
+    _row "State"        "$(_state_colour "${state%% *}")"
+    _row "Exit code"    "$exitcode"
+    _row "Partition"    "$part"
+    _row "QOS"          "$qos"
+    _row "Account"      "$acct"
+    _row "Priority"     "n/a (job no longer queued)"
+
+    _section "Resources"
+    _row "CPUs"         "$cpus"
+    _row "Memory"       "$reqmem requested${peak:+, peak $peak used}"
+    _row "GPUs"         "$gpus"
+    _row "Node list"    "$nodes"
+
+    _section "Time"
+    _row "Submitted"    "$(_fmt_date "$submit")"
+    _row "Eligible"     "$(_fmt_date "$eligible")"
+    _row "Start Time"   "$(_fmt_date "$start")"
+    _row "End Time"     "$(_fmt_date "$end")"
+    _row "Req Runtime"  "$limit"
+    _row "Elapsed"      "$elapsed"
+
+    _section "Files"
+    _row "Log"          "$log"
+    _row "Work dir"     "$workdir"
+    echo ""
+}
+
+function job_info {
+    # if requested promt for job selection
+    if [[ "$SELECT" == "true" ]]; then
+        select_jobs "info"
+        [[ -z "$JOBS" ]] && return 0
+    fi
+ 
+    get_jobs
+    [[ -z "$JOBS" ]] && { echo -e "${YELLOW}No jobs to report on.${NC}"; return 0; }
+ 
+    # live view: re-run this script for the resolved jobs under watch
+    if [[ "$LIVE" == "true" ]]; then
+        watch -c -n "$UPDATE_TIME" "$(realpath "$0")" info -j "$JOBS" -C "$CLUSTER"
+        return
+    fi
+
+    IFS=',' read -ra JOB_ARRAY <<< "$JOBS"
+    local JOB line
+    for JOB in "${JOB_ARRAY[@]}"; do
+        line=$(scontrol show job "$JOB" --clusters "$CLUSTER" -o 2>/dev/null \
+               | grep '^JobId=' | head -1)
+        if [[ -n "$line" ]]; then
+            _info_scontrol "$JOB" "$line"
+        else
+            _info_sacct "$JOB"
+        fi
+    done
+}
+
 function run_on_job {
     [[ $# -ne 1 ]] && { echo -e "${RED}ERROR: Command must be a single quoted string, e.g. \"echo hi\"${NC}" >&2; exit 1; }
 
@@ -412,6 +679,7 @@ function run_on_job {
 case "${1:-help}" in
     help)   help; exit 0 ;;
     list)   ACTION="list" ;;
+    info)   ACTION="info" ;;
     usage)  ACTION="usage" ;;
     cancel) ACTION="cancel" ;;
     submit) ACTION="submit" ;;
@@ -426,6 +694,18 @@ if [[ "$ACTION" == "list" ]]; then
     while getopts ":lC:" opts; do
         case $opts in
             l) LIVE="true" ;;
+            C) CLUSTER="$OPTARG" ;;
+            :) echo -e "${RED}Option -$OPTARG requires an argument.${NC}" >&2; help; exit 64 ;;
+            *) echo -e "${RED}Illegal option -$OPTARG for ${ACTION}.${NC}" >&2; help; exit 64 ;;
+        esac
+    done
+elif [[ "$ACTION" == "info" ]]; then
+    while getopts ":alsj:C:" opts; do
+        case $opts in
+            a) SCOPE="all" ;;
+            l) LIVE="true" ;;
+            s) SELECT="true" ;;
+            j) JOBS="$OPTARG" ;;
             C) CLUSTER="$OPTARG" ;;
             :) echo -e "${RED}Option -$OPTARG requires an argument.${NC}" >&2; help; exit 64 ;;
             *) echo -e "${RED}Illegal option -$OPTARG for ${ACTION}.${NC}" >&2; help; exit 64 ;;
@@ -509,6 +789,7 @@ fi
 case $ACTION in
     help)   help ;;
     list)   list_view ;;
+    info)   job_info ;;
     usage)  res_use ;;
     cancel) cancel_jobs ;;
     submit) submit "${@}" ;;
