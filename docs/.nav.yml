@@ -1,17 +1,21 @@
 
 nav:
   - Home: index.md
-  - Getting Started: 
-      - Department Structure: department-structure.md
-      - Group Meetings: group-activities.md
-      - HR: hr-related-issues.md 
-      - Printing: printers.md
-  - Setting up studies at OxCIN: howtorunstudy.md
-  - Publications: publish.md
-  - Travel: travel_and_conferences.md
+
+  - Getting Started:
+      - Department Structure: Welcome/department-structure.md
+      - Group Meetings: Welcome/group-activities.md
+      - HR: Welcome/hr-related-issues.md
+      - Printing: hardware/printers.md
+
+  - Setting up studies at OxCIN: admin/howtorunstudy.md
+
+  - Publications: admin/publish.md
+
+  - Travel: admin/travel_and_conferences.md
+
   - SOPs:
-      - OPM-MEG: CercaSOP.md
-      - OPM Triggers: CercaTriggers.md
-      - MEG: MEGIN.md
-      - Eyetracking: eyetracker.md
-  - "*"
+      - OPM-MEG: hardware/CercaSOP.md
+      - OPM Triggers: hardware/CercaTriggers.md
+      - MEG: hardware/MEGIN.md
+      - Eyetracking: hardware/eyetracker.md
