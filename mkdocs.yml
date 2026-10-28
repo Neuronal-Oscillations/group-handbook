@@ -4,13 +4,14 @@ site_name: Neuronal Oscillations
 theme:
     name: material
     features:
-      - navigation.tabs        # top-level sections as tabs
-      - navigation.sections    # grouped sidebar
-      - navigation.top         # back to top button
-      - toc.integrate          # table of contents in sidebar
+      - navigation.tabs
+      - navigation.sections
+      - navigation.top
+      - toc.integrate
+
 hooks:
   - docs/hooks.py
 
-  plugins:
+plugins:
   - search
   - awesome-nav
