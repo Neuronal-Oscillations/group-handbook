@@ -125,7 +125,7 @@ OxCIN also provides [its own guidelines on participant payments](https://unioxfo
 
 ### Research-Specific Ethical Considerations
 
-If you are working with children, ensure that all the researchers involved have an enhanced DBS check in place. Make sure (and state in the application) that all researchers who interact with families will have completed the OSCP Introduction to Safeguarding online course (see [New Starters](https://www.neuosc.com/internal) page). In the case of any concerns over a child’s wellbeing or safety, contact the research group’s Designated Safety Lead (Evgeniya Anisimova) and the PI.
+If you are working with children, ensure that all the researchers involved have an enhanced DBS check in place. Make sure (and state in the application) that all researchers who interact with families will have completed the OSCP Introduction to Safeguarding online course (see [New Starters](https://www.neuosc.com/internal) page). In the case of any concerns over a child’s wellbeing or safety, contact the research group’s Designated Safeguarding Lead (Evgeniya Anisimova) and the PI.
  
 If you are working with MRI, consult the [SOP OHBA_014_V1](https://unioxfordnexus.sharepoint.com/:w:/r/sites/OXIN-HUB/_layouts/15/Doc.aspx?sourcedoc=%7B081B0D6C-B198-403F-96D3-6F9E90B8C8D1%7D&file=SOP_Neuro_Incidental_Findings.docx&action=default&mobileredirect=true) for guidance on incidental findings and documentation.
 ​
@@ -135,7 +135,7 @@ The SOP for MEG incidental findings is outdated and not applicable. State that i
 
 ### Risk Assessment
 
-Consult and cite all relevant risk assessment documents (e.g., OPM-MEG risk assessment).
+Consult and cite all relevant risk assessment documents.
 
 ---
 
@@ -252,9 +252,13 @@ If you are not MRI trained, please complete both parts of the magnet safety trai
 ### MEG/OPM-MEG 
 Follow the [OxCIN protocol](https://unioxfordnexus.sharepoint.com/:w:/r/sites/OXIN-HUB/_layouts/15/Doc.aspx?sourcedoc=%7B8A5BA7CB-667B-4319-8D4D-D6D5FEAF9A27%7D&file=Starting_MEG_projects.docx&action=default&mobileredirect=true) for setting up a MEG study. Contact [oxcin-meg-help@psych.ox.ac.uk](mailto:oxcin-meg-help@psych.ox.ac.uk) to arrange some (OPM-)MEG pilot sessions, including an initial paradigm testing session.
 
-For MEG, you do not need to be trained as an operator to conduct a study: only short researcher training in necessary. 
+For MEG, you do not need to be trained as an operator to conduct a study: only short researcher training is necessary. 
 
 Currently, [Rob Seymour](mailto:rob.seymour@psych.ox.ac.uk) trains everyone looking to use OPM-MEG as an operator. Please contact him for training. 
+
+Any MEG/OPM-MEG operator has to undergo Basic Life Support (BLS) training. Look out for opportunities to get trained in OxCIN. 
+
+OxCIN has a [minimum attendance policy](https://unioxfordnexus.sharepoint.com/:w:/r/sites/OXIN-HUB/_layouts/15/Doc.aspx?sourcedoc=%7BC655A5A7-BDB3-4394-9EBD-5B02489880C3%7D&file=OHBA_MEG_Minimum_Attendance_Policy.docx&action=default&mobileredirect=true) for MEG and OPM-MEG. Look through the policy to see whether you need advanced operator training or other training considerations for your study. Contact the Experimental Support Team for additional training. 
 ​​
 ### EEG 
 OHBA does not have EEG facilities anymore, except if EEG is to be used in conjunction with MEG or MRI. If the latter is your case, contact Patricia on [oxcin-meg-help@psych.ox.ac.uk](mailto:oxcin-meg-help@psych.ox.ac.uk). If you are planning a standalone EEG study, contact Experimental Psychology. 
@@ -268,7 +272,7 @@ For all non-invasive brain stimulation projects (TMS, TCS), contact [Melanie Fle
 Now, follow the [procedure](https://unioxfordnexus.sharepoint.com/:w:/r/sites/OXIN-HUB/_layouts/15/Doc.aspx?sourcedoc=%7B8A5BA7CB-667B-4319-8D4D-D6D5FEAF9A27%7D&file=Starting_MEG_projects.docx&action=default&mobileredirect=true) to obtain a project code for booking the labs. Please note that this is not the procedure for MRI projects: your project code will be given to you by the radiographers after your scanner induction. Do not attempt to request it on Calpendo by yourself. 
 
 ## Piloting 
-At this point, your project code on Calpendo will most likely be set to "restricted" (unless this is a structural MRI scan). This is due to the need to pilot the project with the experimental support officer before recruiting participants. Speak to the experimental support team to arrange piloting. 
+At this point, your project code on Calpendo will most likely be set to "restricted" (unless this is a structural MRI scan). This is due to the need to pilot the project with the experimental support officer before recruiting participants. Speak to the experimental support team to arrange piloting. OxCIN offers up to two free pilot sessions - additional pilots (required in case that the first two were not successful) have to be paid for at the standard hourly rate for the equipment used. 
 
 Once that is done and the experiment runs smoothly, you can recruit participants and collect data! 
 
