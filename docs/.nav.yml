@@ -3,7 +3,6 @@ nav:
   - Home: index.md
 
   - Getting Started:
-      - Overview: Welcome/department-structure.md
       - Group Meetings: Welcome/group-activities.md
       - HR: Welcome/hr-related-issues.md
       - Printing: hardware/printers.md
