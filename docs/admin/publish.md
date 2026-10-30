@@ -42,7 +42,7 @@ Before submitting a manuscript for publication ensure that
 
 ## Publication database
 
-Publications are maintained in the [Symplectic](https://researchsupport.admin.ox.ac.uk/reporting/symplectic) database. This is being used for the REF as well as the publications listed on your university profile are from Symplectic.
+Publications are maintained in the [Symplectic](https://libguides.bodleian.ox.ac.uk/ora/Symplectic) database. This is being used for the REF as well as the publications listed on your university profile are from Symplectic.
 
 ---
 
