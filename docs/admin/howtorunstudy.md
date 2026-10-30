@@ -69,7 +69,7 @@ New projects should be associated with a proposal to document the core of a give
 #### Funding Opportunities
 
 - [Central site for funding opportunities](https://unioxfordnexus.sharepoint.com/sites/OxIntranet-research-innovation/SitePages/finding-funding.aspx)  
-- [The John Fell Fund](https://www.medsci.ox.ac.uk/research/internal-research-funding/funding-directory/managed-by-msd/john-fell-fund)
+- [The John Fell Fund]([https://www.medsci.ox.ac.uk/research/internal-research-funding/funding-directory/managed-by-msd/john-fell-fund](https://www.medsci.ox.ac.uk/research/internal-research-funding/internal-research-funding-directory/john-fell-fund))
 - [**Click here for more funding opportunities**](https://unioxfordnexus-my.sharepoint.com/:x:/g/personal/psyc0293_ox_ac_uk/EcoLJo6Xx8NOtucnNnfrMdMBSoRztV3FRjrYrmrJabu6zw?e=lX26CS)  
 
 ---
@@ -269,13 +269,19 @@ For all non-invasive brain stimulation projects (TMS, TCS), contact [Melanie Fle
 ---
 
 ## Obtain Calpendo project code and book labs 
-Now, follow the [procedure](https://unioxfordnexus.sharepoint.com/:w:/r/sites/OXIN-HUB/_layouts/15/Doc.aspx?sourcedoc=%7B8A5BA7CB-667B-4319-8D4D-D6D5FEAF9A27%7D&file=Starting_MEG_projects.docx&action=default&mobileredirect=true) to obtain a project code for booking the labs. Please note that this is not the procedure for MRI projects: your project code will be given to you by the radiographers after your scanner induction. Do not attempt to request it on Calpendo by yourself. 
+Now, follow the [procedure](https://unioxfordnexus.sharepoint.com/sites/OXIN-HUB/Policies%20and%20Guidelines/Forms/AllItems.aspx?id=%2Fsites%2FOXIN%2DHUB%2FPolicies%20and%20Guidelines%2FMEG%5FUser%5FGuides%2FCalpendo%5FNew%5FProject%5FTutorial%2Epdf&parent=%2Fsites%2FOXIN%2DHUB%2FPolicies%20and%20Guidelines%2FMEG%5FUser%5FGuides) to obtain a project code for booking the labs. Please note that this is not the procedure for MRI projects: your project code will be given to you by the radiographers after your scanner induction. Do not attempt to request it on Calpendo by yourself. 
 
 ## Piloting 
 At this point, your project code on Calpendo will most likely be set to "restricted" (unless this is a structural MRI scan). This is due to the need to pilot the project with the experimental support officer before recruiting participants. Speak to the experimental support team to arrange piloting. OxCIN offers up to two free pilot sessions - additional pilots (required in case that the first two were not successful) have to be paid for at the standard hourly rate for the equipment used. 
 
 Once that is done and the experiment runs smoothly, you can recruit participants and collect data! 
 
+## Using SONA Systems for recruitment 
+SONA is a great way to recruit participants for both online and standard studies. Oxford has two SONA sites: 
+​
+**RPS (Research Participation Scheme)** has a participant pool consisting of Oxford's Psychology Undergraduates, who receive credits for study participation. 1 hour = 4 credits. To sign up, email rps@psy.ox.ac.uk with the following information: 1) Name of researcher, 2) Name of PI, 3) Department, 4) Ethics code, 5) Ethics duration. 
+​
+​**OPR (Oxford Psychology Research)** is a participant pool local to Oxfordshire, but not necessarily affiliated with the university. Study participation has to be paid for using a bank transfer. To sign up for a researcher account, email opradmin@psy.ox.ac.uk with the following information: 1) Name of researcher, 2) Name of PI, 3) Department, 4) Ethics code, 5) Ethics duration.
 
 <!--
 ## Verification
