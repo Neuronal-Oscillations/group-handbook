@@ -70,12 +70,7 @@ Every group member should subscribe to the relevant mailing lists below. To subs
 
 ## Seminars
 
-Neuroscience seminars can be found [here](https://talks.ox.ac.uk/user/lists/id/72ca89b2-0c27-4faf-b491-6c4ba80746ed/). You are encouraged to add talks to your calendar — see [instructions](https://talksox.readthedocs.io/en/latest/user/talk-users/feed-in-your-calendar.html).
+Public seminar series can be found on [Oxford Events](https://events.ox.ac.uk/events). Look out for seminars from the BEACON series (cognitive neuroscience). 
+​
+Experimental Psychology's termly Departmenal Seminar sessions run every Monday at 13:00. 
 
-> **Note:** From 28th November, OxTalks will be replaced with **Oxford Events**. Details TBC.
-
----
-
-## Group GitHub
-
-We are currently working on organising a GitHub for the group to share code and SOPs. Watch this space!
