@@ -18,14 +18,14 @@ Complete both of the following well before the submission deadline:
 - **Funding confirmation** — verify with PI that funding is available to cover the associated travel costs (see below)
 
 ## Preparation and funding
-Our travel budgets are limited — please try to limit costs (in particular for air travel and hotels). For cost for food etc see also [university guidelines](https://finance.admin.ox.ac.uk/accommodation-and-subsistence-expenses-claimants-guide). The more we spend per trip, the less we can travel.
+Our travel budgets are limited — please try to limit costs (in particular for air travel and hotels). For cost for food etc see also [university guidelines](https://unioxfordnexus.sharepoint.com/sites/OXINTRANET-finance/SitePages/Travel-Accommodation-and-Subsistence.aspx). The more we spend per trip, the less we can travel.
  
 Try to supplement travel budget by applying for support from the departments and colleges.
  
 ### Before Travel
  
 - Estimate **full costs** and seek approval from PI
-- Read the [departmental](https://unioxfordnexus.sharepoint.com/sites/PSYC-AdminTeam/SitePages/Travel.aspx) and [university guidelines](https://finance.admin.ox.ac.uk/accommodation-and-subsistence-expenses-claimants-guide)
+- Read the [departmental](https://unioxfordnexus.sharepoint.com/sites/PSYC-AdminTeam/SitePages/Travel.aspx) and [university guidelines](https://unioxfordnexus.sharepoint.com/sites/OXINTRANET-finance/SitePages/Travel-Accommodation-and-Subsistence.aspx)
 - For international travel, apply for the following **at least 6 weeks before travel**:
    - [Travel insurance](https://travelinsurance.admin.ox.ac.uk/)
    - [Submit risk assessment](https://unioxfordnexus.sharepoint.com/:w:/r/sites/PSYC-KnowledgeBase/Admin%20KB%20Documents/Finance/Travel%20and%20fieldwork%20risk%20assessment%20template%20%20March%2022.doc?d=w03e678faba9940d1b4d76dc0a80d20af&csf=1&web=1&e=qpSP1Q)
@@ -39,5 +39,5 @@ Report expenses on [SAP Concur](https://sts.fed.ox.ac.uk/adfs/ls/idpinitiatedsig
 - PI will review and approve expenses after submission (this happens via SAP system)
 - Make a separate entry with receipt for each item — entries must be done carefully, otherwise this will cost significant time to correct
 - SAP Concur can be installed as a phone app, allowing you to photograph meal receipts and other expenses directly
-> **Note:** Expenses exceeding the limits set in the [university guidelines](https://finance.admin.ox.ac.uk/accommodation-and-subsistence-expenses-claimants-guide) will not be covered.
+> **Note:** Expenses exceeding the limits set in the [university guidelines](https://unioxfordnexus.sharepoint.com/sites/OXINTRANET-finance/SitePages/Travel-Accommodation-and-Subsistence.aspx) will not be covered.
  
